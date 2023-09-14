@@ -5,7 +5,7 @@ import { green } from '@mui/material/colors'
 const primary = green[500]
 
 type Page404Props = {
-  description: string
+  description?: string | null
 }
 
 export const Page404: FC<Page404Props> = ({ description }) => (
