@@ -5,7 +5,7 @@ import { green } from '@mui/material/colors'
 const primary = green[500]
 
 type Page500Props = {
-  description: string
+  description?: string | null
 }
 
 export const Page500: FC<Page500Props> = ({ description }) => (
