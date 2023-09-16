@@ -11,7 +11,7 @@ import {
 import { Typography } from '@mui/material'
 import TurnRightIcon from '@mui/icons-material/TurnRight'
 import TurnLeftIcon from '@mui/icons-material/TurnLeft'
-export const MainPage: React.FC = () => {
+export const AboutGame: React.FC = () => {
   const changeScrollBar = {
     '&::-webkit-scrollbar': {
       width: 5,
