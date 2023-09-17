@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { AboutGame } from '../pages/aboutGame/AboutGame'
 
 export const Router = () => {
   return (
@@ -8,6 +9,7 @@ export const Router = () => {
       <Route path={'/sign-up'} element={<>Страница регистрации</>} />
       <Route path={'/profile'} element={<>Страница профиля</>} />
       <Route path={'/'} element={<>Страница игры</>} />
+      <Route path={'/about'} element={<AboutGame />} />
       <Route path={'/leaderboard'} element={<>Страница лидерборда</>} />
       <Route path={'/forum'} element={<>Страница форума</>}>
         <Route path={':topicId'} element={<>Страница топика</>} />
