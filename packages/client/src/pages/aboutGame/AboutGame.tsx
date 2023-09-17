@@ -11,15 +11,14 @@ import {
 import { Typography } from '@mui/material'
 import TurnRightIcon from '@mui/icons-material/TurnRight'
 import TurnLeftIcon from '@mui/icons-material/TurnLeft'
+import {
+  changeScrollBarWidth,
+  changeScrollBarThumb,
+} from '../../style/variables'
 export const AboutGame: React.FC = () => {
   const changeScrollBar = {
-    '&::-webkit-scrollbar': {
-      width: 5,
-    },
-    '&::-webkit-scrollbar-thumb': {
-      backgroundColor: '#d3d3d3',
-      borderRadius: 5,
-    },
+    ...changeScrollBarWidth,
+    ...changeScrollBarThumb,
   }
   return (
     <main>
