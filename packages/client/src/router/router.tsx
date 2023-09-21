@@ -2,11 +2,12 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { AboutGame } from '../pages/aboutGame/AboutGame'
 import { SingUp } from '../pages/singUp/SingUp'
+import { SingIn } from '../pages/singIn/SingIn'
 
 export const Router = () => {
   return (
     <Routes>
-      <Route path={'/sign-in'} element={<>Страница логина</>} />
+      <Route path={'/sign-in'} element={<SingIn />} />
       <Route path={'/sign-up'} element={<SingUp />} />
       <Route path={'/profile'} element={<>Страница профиля</>} />
       <Route path={'/'} element={<>Страница игры</>} />

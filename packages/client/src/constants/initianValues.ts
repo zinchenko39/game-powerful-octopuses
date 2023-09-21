@@ -7,3 +7,8 @@ export const singUpInitialValues = {
   confirmPassword: '',
   phone: '',
 }
+
+export const singInInitialValues = {
+  login: '',
+  password: '',
+}
