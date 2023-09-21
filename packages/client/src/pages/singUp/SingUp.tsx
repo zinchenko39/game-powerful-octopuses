@@ -1,41 +1,17 @@
 import React from 'react'
 import { Formik } from 'formik'
-import * as Yup from 'yup'
 import { Button, Typography, Container } from '@mui/material'
 import { CustomTextField } from '../../components/CustomTextField/CustomTextField'
+import { Link } from 'react-router-dom'
+import { singUpInitialValues } from '../../constants/initianValues'
+import { singUpvalidationSchema } from '../../constants/validationSchema'
 import styles from './SingUp.module.css'
 
-const validationSchema = Yup.object({
-  first_name: Yup.string().required('Обязательное поле'),
-  second_name: Yup.string().required('Обязательное поле'),
-  login: Yup.string().required('Обязательное поле'),
-  email: Yup.string()
-    .email('Неверный формат email')
-    .required('Обязательное поле'),
-  password: Yup.string()
-    .min(6, 'Пароль должен содержать минимум 6 символов')
-    .required('Обязательное поле'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password')], 'Пароли должны совпадать')
-    .required('Обязательное поле'),
-  phone: Yup.string().required('Обязательное поле'),
-})
-
 export const SingUp = () => {
-  const initialValues = {
-    first_name: '',
-    second_name: '',
-    login: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    phone: '',
-  }
-
   return (
     <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
+      initialValues={singUpInitialValues}
+      validationSchema={singUpvalidationSchema}
       onSubmit={values => {
         console.log(values)
       }}>
@@ -75,6 +51,7 @@ export const SingUp = () => {
                     className={styles.submitButton}>
                     Зарегистрироваться
                   </Button>
+                  <Link to="/login">Уже есть аккаунт?</Link>
                 </div>
               </form>
             </div>
