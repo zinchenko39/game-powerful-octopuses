@@ -1,9 +1,10 @@
+interface UserComment {
+  username: string
+  text: string
+}
 export interface Comment {
   id: number
-  user: {
-    username: string
-    text: string
-  }
+  user: UserComment
 }
 
 export interface TopicCommentSectionProps {
