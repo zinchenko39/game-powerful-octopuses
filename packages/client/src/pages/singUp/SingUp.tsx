@@ -51,7 +51,7 @@ export const SingUp = () => {
                     className={styles.submitButton}>
                     Зарегистрироваться
                   </Button>
-                  <Link to="/login">Уже есть аккаунт?</Link>
+                  <Link to="/sign-in">Уже есть аккаунт?</Link>
                 </div>
               </form>
             </div>

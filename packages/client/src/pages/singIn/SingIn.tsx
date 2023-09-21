@@ -38,7 +38,7 @@ export const SingIn = () => {
                     className={styles.submitButton}>
                     Войти
                   </Button>
-                  <Link to="/login">Еще нет аккаунта?</Link>
+                  <Link to="/sign-up">Еще нет аккаунта?</Link>
                 </div>
               </form>
             </div>
