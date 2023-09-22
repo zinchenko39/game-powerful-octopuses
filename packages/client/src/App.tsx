@@ -6,7 +6,6 @@ import { Router } from './router'
 import { IUser, UserService } from './services/user-service'
 import ErrorBoundary from './service/ErrorBoundary'
 
-
 function App() {
   const [user, setUser] = useState<IUser>()
 

@@ -15,3 +15,8 @@ export const singUpvalidationSchema = Yup.object({
     .required('Обязательное поле'),
   phone: Yup.string().required('Обязательное поле'),
 })
+
+export const singInValidationSchema = Yup.object({
+  login: Yup.string().required('Обязательное поле'),
+  password: Yup.string().required('Обязательное поле'),
+})

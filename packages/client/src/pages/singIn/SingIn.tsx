@@ -1,57 +1,44 @@
 import React from 'react'
 import { Formik } from 'formik'
+import { Link } from 'react-router-dom'
 import { Button, Typography, Container } from '@mui/material'
 import { CustomTextField } from '../../components/CustomTextField/CustomTextField'
-import { Link } from 'react-router-dom'
-import { singUpInitialValues } from '../../constants/initianValues'
-import { singUpvalidationSchema } from '../../constants/validationSchema'
-import styles from './SingUp.module.css'
+import { singInInitialValues } from '../../constants/initianValues'
+import { singInValidationSchema } from '../../constants/validationSchema'
+import styles from './SingIn.module.css'
 
-export const SingUp = () => {
+export const SingIn = () => {
   return (
     <Formik
-      initialValues={singUpInitialValues}
-      validationSchema={singUpvalidationSchema}
+      initialValues={singInInitialValues}
+      validationSchema={singInValidationSchema}
       onSubmit={values => {
         console.log(values)
       }}>
       {formik => (
-        <div className={styles.registrationContainer}>
+        <div className={styles.loginContainer}>
           <Container maxWidth="sm">
             <div className={styles.paper}>
               <Typography variant="h4" className={styles.header}>
-                Регистрация
+                Авторизация
               </Typography>
               <form onSubmit={formik.handleSubmit}>
                 <div className={styles.fieldsWrapper}>
-                  <CustomTextField id="first_name" label="Имя" type="text" />
-                  <CustomTextField
-                    id="second_name"
-                    label="Фамилия"
-                    type="text"
-                  />
                   <CustomTextField id="login" label="Логин" type="text" />
-                  <CustomTextField id="email" label="Email" type="text" />
                   <CustomTextField
                     id="password"
                     label="Пароль"
                     type="password"
                   />
-                  <CustomTextField
-                    id="confirmPassword"
-                    label="Подтвердите пароль"
-                    type="password"
-                  />
-                  <CustomTextField id="phone" label="Телефон" type="tel" />
                   <Button
                     fullWidth
                     color="primary"
                     variant="contained"
                     type="submit"
                     className={styles.submitButton}>
-                    Зарегистрироваться
+                    Войти
                   </Button>
-                  <Link to="/sign-in">Уже есть аккаунт?</Link>
+                  <Link to="/sign-up">Еще нет аккаунта?</Link>
                 </div>
               </form>
             </div>
