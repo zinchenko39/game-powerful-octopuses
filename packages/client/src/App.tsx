@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { BrowserRouter, useNavigate } from 'react-router-dom'
 import { Router } from './router'
+
 import { IUser, UserService } from './services/user-service'
+import ErrorBoundary from './service/ErrorBoundary'
+
 
 function App() {
   const [user, setUser] = useState<IUser>()
@@ -28,7 +31,9 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Router isAuthorized={!!user} />
+        <ErrorBoundary>
+          <Router isAuthorized={!!user} />
+        </ErrorBoundary>
       </BrowserRouter>
     </div>
   )

@@ -2,6 +2,7 @@ import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AboutGame } from '../pages/aboutGame/AboutGame'
 import { IRouter } from './interfaces'
+import { SingUp } from '../pages/singUp/SingUp'
 
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
@@ -19,7 +20,6 @@ export const Router = ({ isAuthorized }: IRouter) => {
       )}
       <Route path={'/sign-in'} element={<>Страница логина</>} />
       <Route path={'/sign-up'} element={<>Страница регистрации</>} />
-
       <Route
         path="*"
         element={
