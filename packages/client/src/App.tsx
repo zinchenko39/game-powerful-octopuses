@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import './App.css'
 import { BrowserRouter } from 'react-router-dom'
 import { Router } from './router'
+import ErrorBoundary from './services/ErrorBoundary'
 
 function App() {
   useEffect(() => {
@@ -17,7 +18,9 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Router />
+        <ErrorBoundary>
+          <Router />
+        </ErrorBoundary>
       </BrowserRouter>
     </div>
   )

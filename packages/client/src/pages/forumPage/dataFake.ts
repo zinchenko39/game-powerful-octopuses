@@ -1,4 +1,4 @@
-import { Comment } from '../../interfaces/IForum'
+import { Comment } from '../../constants/forumInterface'
 export const topics: Record<string, string | number>[] = [
   {
     id: 1,

@@ -42,7 +42,7 @@ export const TopicScreen: React.FC = () => {
         <Typography color="text.primary">Форум</Typography>
       </Breadcrumbs>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography variant="h1" component="h4" align="center">
+        <Typography variant="h4" align="center">
           форум
         </Typography>
         <TopicsList />

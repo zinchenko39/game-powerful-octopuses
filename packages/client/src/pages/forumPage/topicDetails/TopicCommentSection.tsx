@@ -9,7 +9,7 @@ import {
   Box,
 } from '@mui/material'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
-import { TopicCommentSectionProps } from '../../../interfaces/IForum'
+import { TopicCommentSectionProps } from '../../../constants/forumInterface'
 export const TopicCommentSection: React.FC<TopicCommentSectionProps> = ({
   comments,
 }) => {
@@ -17,7 +17,7 @@ export const TopicCommentSection: React.FC<TopicCommentSectionProps> = ({
     <Box>
       {comments.length === 0 ? (
         <Box sx={{ textAlign: 'center' }}>
-          Комментариев нет, напишите первый:
+          Комментариев нет, напишите первый!
         </Box>
       ) : (
         <List>

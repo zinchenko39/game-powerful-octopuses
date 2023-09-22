@@ -3,12 +3,13 @@ import { Route, Routes } from 'react-router-dom'
 import { AboutGame } from '../pages/aboutGame/AboutGame'
 import { TopicScreen } from '../pages/forumPage/TopicScreen'
 import { TopicDetails } from '../pages/forumPage/topicDetails/TopicDetails'
+import { SingUp } from '../pages/singUp/SingUp'
 
 export const Router = () => {
   return (
     <Routes>
       <Route path={'/sign-in'} element={<>Страница логина</>} />
-      <Route path={'/sign-up'} element={<>Страница регистрации</>} />
+      <Route path={'/sign-up'} element={<SingUp />} />
       <Route path={'/profile'} element={<>Страница профиля</>} />
       <Route path={'/'} element={<>Страница игры</>} />
       <Route path={'/about'} element={<AboutGame />} />
