@@ -7,6 +7,10 @@ export const singUpInitialValues = {
   confirmPassword: '',
   phone: '',
 }
+export const singInInitialValues = {
+  login: '',
+  password: '',
+}
 
 export const newTopicInitialValues = {
   topicId: 0,
