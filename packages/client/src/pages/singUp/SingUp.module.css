@@ -1,0 +1,109 @@
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%, 100% 50%, 50% 100%;
+  }
+  33% {
+    background-position: 50% 100%, 0% 50%, 100% 50%;
+  }
+  66% {
+    background-position: 100% 50%, 50% 100%, 0% 50%;
+  }
+  100% {
+    background-position: 0% 50%, 100% 50%, 50% 100%;
+  }
+}
+
+@keyframes blurAndTransform {
+  0% {
+    filter: blur(0px);
+    transform: scale(1) skew(0deg);
+  }
+  25% {
+    filter: blur(0.3px);
+    transform: scale(0.95) skew(-5deg);
+  }
+  50% {
+    filter: blur(0px);
+    transform: scale(1) skew(5deg);
+  }
+  75% {
+    filter: blur(0.3px);
+    transform: scale(0.95) skew(-5deg);
+  }
+  100% {
+    filter: blur(0px);
+    transform: scale(1) skew(0deg);
+  }
+}
+
+@keyframes buttonGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.registrationContainer {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+      45deg,
+      rgba(254, 107, 139, 0.5),
+      rgba(255, 142, 83, 0.5),
+      rgba(156, 39, 176, 0.5)
+    ),
+    linear-gradient(
+      135deg,
+      rgba(33, 150, 243, 0.5),
+      rgba(0, 230, 118, 0.5),
+      rgba(255, 23, 68, 0.5)
+    ),
+    linear-gradient(
+      225deg,
+      rgba(0, 230, 118, 0.5),
+      rgba(255, 23, 68, 0.5),
+      rgba(33, 150, 243, 0.5)
+    );
+  background-size: 300% 300%, 300% 300%, 300% 300%;
+  animation: gradient 10s ease infinite;
+}
+
+.paper {
+  padding: 1rem;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 3px 5px 2px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  animation: blurAndTransform 15s ease infinite;
+}
+
+.header {
+  color: #f35822;
+  font-weight: 500;
+}
+
+.fieldsWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.submitButton {
+  background: linear-gradient(45deg, #c64570 30%, #d16841 90%);
+  background-size: 300% 300%;
+  animation: buttonGradient 3s ease infinite;
+  transition: all 1s ease;
+}
+
+.submitButton:hover {
+  background: linear-gradient(45deg, #9c3555 30%, #a55635 90%);
+  transition: all 1s ease;
+}
