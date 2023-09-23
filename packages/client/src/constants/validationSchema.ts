@@ -24,3 +24,8 @@ export const newTopicValidationSchema = Yup.object({
 export const newCommentValidationSchema = Yup.object({
   newComment: Yup.string().trim().required('Введите текст комментария'),
 })
+
+export const singInValidationSchema = Yup.object({
+  login: Yup.string().required('Обязательное поле'),
+  password: Yup.string().required('Обязательное поле'),
+})

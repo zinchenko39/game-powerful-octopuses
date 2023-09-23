@@ -5,6 +5,7 @@ import { TopicScreen } from '../pages/forumPage/TopicScreen'
 import { TopicDetails } from '../pages/forumPage/topicDetails/TopicDetails'
 import { IRouter } from './interfaces'
 import { SingUp } from '../pages/singUp/SingUp'
+import { SingIn } from '../pages/singIn/SingIn'
 
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
@@ -21,8 +22,8 @@ export const Router = ({ isAuthorized }: IRouter) => {
           </Route>
         </>
       )}
-      <Route path={'/sign-in'} element={<>Страница логина</>} />
-      <Route path={'/sign-up'} element={<>Страница регистрации</>} />
+      <Route path={'/sign-in'} element={<SingIn />} />
+      <Route path={'/sign-up'} element={<SingUp />} />
       <Route
         path="*"
         element={
