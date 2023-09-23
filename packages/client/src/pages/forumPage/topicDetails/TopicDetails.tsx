@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { Formik, Form, FormikHelpers } from 'formik'
-import { TopicCommentSection } from './TopicCommentSection'
+import { TopicCommentSection } from './components/TopicCommentSection'
 import {
   Typography,
   Box,
@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import { topics, comments } from '../dataFake'
-import { newCommentInitialValues } from '../../../constants/initianValues'
+import { newCommentInitialValues } from '../../../constants/initialValues'
 import { newCommentValidationSchema } from '../../../constants/validationSchema'
 import { NewCommentProps } from '../../../constants/forumInterface'
 import { CustomTextField } from '../../../components/CustomTextField/CustomTextField'

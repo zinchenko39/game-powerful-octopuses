@@ -19,22 +19,15 @@ export const TopicScreen: React.FC = () => {
     { icon: <CreateOutlinedIcon />, name: 'Создать тему' },
   ]
 
-  const handleSpeedDialOpen = () => {
-    setIsSpeedDialOpen(true)
+  const toggleSpeedDial = () => {
+    setIsSpeedDialOpen(!isSpeedDialOpen)
+  }
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen)
   }
 
-  const handleSpeedDialClose = () => {
-    setIsSpeedDialOpen(false)
-  }
-  const handleOpenModal = () => {
-    setIsModalOpen(true)
-  }
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
-  }
   return (
-    <main>
+    <Box>
       <Breadcrumbs aria-label="breadcrumb">
         <Box component={Link} to="/about">
           Главная
@@ -49,8 +42,8 @@ export const TopicScreen: React.FC = () => {
         <SpeedDial
           ariaLabel="SpeedDial"
           icon={<SpeedDialIcon />}
-          onClose={handleSpeedDialClose}
-          onOpen={handleSpeedDialOpen}
+          onClose={toggleSpeedDial}
+          onOpen={toggleSpeedDial}
           open={isSpeedDialOpen}
           direction="up"
           sx={{ position: 'sticky', bottom: 16 }}>
@@ -60,14 +53,14 @@ export const TopicScreen: React.FC = () => {
               icon={action.icon}
               tooltipTitle={action.name}
               onClick={() => {
-                handleSpeedDialClose()
-                handleOpenModal()
+                toggleSpeedDial()
+                toggleModal()
               }}
             />
           ))}
         </SpeedDial>
       </Box>
-      <NewTopicModal isOpen={isModalOpen} onClose={handleCloseModal} />
-    </main>
+      <NewTopicModal isOpen={isModalOpen} onClose={toggleModal} />
+    </Box>
   )
 }
