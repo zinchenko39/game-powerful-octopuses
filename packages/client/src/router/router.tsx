@@ -4,6 +4,7 @@ import { AboutGame } from '../pages/aboutGame/AboutGame'
 import { IRouter } from './interfaces'
 import { SingUp } from '../pages/singUp/SingUp'
 import { SingIn } from '../pages/singIn/SingIn'
+import { Page404 } from '../pages/Page404'
 
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
@@ -24,11 +25,7 @@ export const Router = ({ isAuthorized }: IRouter) => {
       <Route
         path="*"
         element={
-          <>
-            {(!isAuthorized && <Navigate to={'/sign-in'} />) || (
-              <>Страница не найдена</>
-            )}
-          </>
+          <>{(!isAuthorized && <Navigate to={'/sign-in'} />) || <Page404 />}</>
         }
       />
     </Routes>
