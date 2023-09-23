@@ -16,6 +16,15 @@ export const singUpvalidationSchema = Yup.object({
   phone: Yup.string().required('Обязательное поле'),
 })
 
+export const newTopicValidationSchema = Yup.object({
+  title: Yup.string().trim().required('Введите название темы'),
+  description: Yup.string().trim().required('Введите название темы'),
+})
+
+export const newCommentValidationSchema = Yup.object({
+  newComment: Yup.string().trim().required('Введите текст комментария'),
+})
+
 export const singInValidationSchema = Yup.object({
   login: Yup.string().required('Обязательное поле'),
   password: Yup.string().required('Обязательное поле'),

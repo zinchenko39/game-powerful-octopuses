@@ -3,7 +3,7 @@ import { Formik } from 'formik'
 import { Link } from 'react-router-dom'
 import { Button, Typography, Container } from '@mui/material'
 import { CustomTextField } from '../../components/CustomTextField/CustomTextField'
-import { singInInitialValues } from '../../constants/initianValues'
+import { singInInitialValues } from '../../constants/initialValues'
 import { singInValidationSchema } from '../../constants/validationSchema'
 import styles from './SingIn.module.css'
 

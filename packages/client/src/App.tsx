@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { BrowserRouter, useNavigate } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { Router } from './router'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import { IUser, UserService } from './services/user-service'
-import ErrorBoundary from './service/ErrorBoundary'
+import ErrorBoundary from './services/ErrorBoundary'
 
 const theme = createTheme({
   typography: {
