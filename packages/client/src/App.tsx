@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { BrowserRouter, useNavigate } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { Router } from './router'
 import { IUser, UserService } from './services/user-service'
 import ErrorBoundary from './services/ErrorBoundary'
