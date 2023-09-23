@@ -101,3 +101,14 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+@font-face {
+  font-family: 'Comic-Sans-MS-Pixel';
+  src: url('./assets/fonts/Comic-Sans-MS-Pixel.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Comic-Sans-MS-Pixel', sans-serif;
+}

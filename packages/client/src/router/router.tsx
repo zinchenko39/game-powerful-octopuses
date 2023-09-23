@@ -4,14 +4,15 @@ import { AboutGame } from '../pages/aboutGame/AboutGame'
 import { IRouter } from './interfaces'
 import { SingUp } from '../pages/singUp/SingUp'
 import { SingIn } from '../pages/singIn/SingIn'
+import { Game } from '../pages/game/Game'
 
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
     <Routes>
-      {isAuthorized && (
+      {!isAuthorized && (
         <>
           <Route path={'/profile'} element={<>Страница профиля</>} />
-          <Route path={'/'} element={<>Страница игры</>} />
+          <Route path={'/'} element={<Game />} />
           <Route path={'/about'} element={<AboutGame />} />
           <Route path={'/leaderboard'} element={<>Страница лидерборда</>} />
           <Route path={'/forum'} element={<>Страница форума</>}>
