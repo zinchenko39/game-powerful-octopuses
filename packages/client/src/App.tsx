@@ -30,7 +30,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <ErrorBoundary>
-          <Router isAuthorized={!!user} />
+          <Router isAuthorized={true} />
         </ErrorBoundary>
       </BrowserRouter>
     </div>

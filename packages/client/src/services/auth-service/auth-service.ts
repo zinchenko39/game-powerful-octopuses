@@ -1,12 +1,12 @@
 import type { SignInProps } from './interfaces'
 import { network } from '../../api'
-import { SignInResponse } from './interfaces'
+import { RequestError } from '../common-interfaces'
 
 export class AuthService {
   static url = '/auth'
 
-  static async signIn(args: SignInProps): Promise<SignInResponse | string> {
-    const { data } = await network.post<SignInResponse | string>(
+  static async signIn(args: SignInProps): Promise<RequestError | string> {
+    const { data } = await network.post<RequestError | string>(
       `${this.url}/signin`,
       { ...args }
     )

@@ -29,3 +29,8 @@ export const singInValidationSchema = Yup.object({
   login: Yup.string().required('Обязательное поле'),
   password: Yup.string().required('Обязательное поле'),
 })
+
+export const changePasswordValidationSchema = Yup.object({
+  oldPassword: Yup.string().required('Обязательное поле'),
+  newPassword: Yup.string().required('Обязательное поле'),
+})
