@@ -1,3 +1,5 @@
+import { Barrier, Car, EntityTypes, GameMap } from '../actions/types'
+
 export const singUpInitialValues = {
   first_name: '',
   second_name: '',
@@ -23,3 +25,16 @@ export const newCommentInitialValues = {
   newComment: '',
   author: '',
 }
+
+export const CAR_ENTITY: Car = { type: EntityTypes.car }
+
+export const BARRIER_ENTITY: Barrier = { type: EntityTypes.barrier }
+
+export const initialMap: GameMap = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+  [null, CAR_ENTITY, null],
+  [null, null, null],
+]
