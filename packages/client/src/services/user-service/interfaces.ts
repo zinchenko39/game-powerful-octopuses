@@ -8,3 +8,8 @@ export interface IUser {
   avatar: string
   email: string
 }
+
+export interface ChangePasswordProps {
+  oldPassword: string
+  newPassword: string
+}

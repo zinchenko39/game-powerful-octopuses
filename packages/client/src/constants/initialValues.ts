@@ -23,3 +23,8 @@ export const newCommentInitialValues = {
   newComment: '',
   author: '',
 }
+
+export const changePasswordInitialValues = {
+  oldPassword: '',
+  newPassword: '',
+}
