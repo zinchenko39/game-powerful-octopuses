@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { TopicScreen } from '../pages/forumPage/TopicScreen'
 import { TopicDetails } from '../pages/forumPage/topicDetails/TopicDetails'
 import { IRouter } from './interfaces'
+
 import {
   LeaderBoard,
   UserProfile,
@@ -12,14 +13,15 @@ import {
   SettingsPage,
 } from '../pages'
 
+
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
     <Routes>
-      {isAuthorized && (
+      {!isAuthorized && (
         <>
           <Route path={'/profile'} element={<UserProfile />} />
           <Route path={'/settings'} element={<SettingsPage />} />
-          <Route path={'/'} element={<>Страница игры</>} />
+          <Route path={'/'} element={<Game />} />
           <Route path={'/about'} element={<AboutGame />} />
           <Route path={'/leaderboard'} element={<LeaderBoard />} />
           <Route path={'/forum'}>
