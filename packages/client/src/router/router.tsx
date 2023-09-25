@@ -1,4 +1,3 @@
-import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { TopicScreen } from '../pages/forumPage/TopicScreen'
 import { TopicDetails } from '../pages/forumPage/topicDetails/TopicDetails'
