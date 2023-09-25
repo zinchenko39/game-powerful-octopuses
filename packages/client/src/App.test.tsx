@@ -9,7 +9,7 @@ global.fetch = jest.fn(() =>
 )
 
 test('Example test', async () => {
-  render(<App />)
+  render(<>{appContent}</>)
 
   expect(screen.getByText(appContent)).toBeDefined()
 })
