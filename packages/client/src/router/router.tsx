@@ -12,6 +12,7 @@ import {
   SettingsPage,
   Page404,
   Game,
+  Page500,
 } from '../pages'
 
 export const Router = ({ isAuthorized }: IRouter) => {
@@ -36,6 +37,7 @@ export const Router = ({ isAuthorized }: IRouter) => {
           <Route path={'/sign-up'} element={<SingUp />} />
         </>
       )}
+      <Route path="/error" element={<Page500 />} />
       <Route
         path="*"
         element={
