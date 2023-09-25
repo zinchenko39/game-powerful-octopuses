@@ -11,14 +11,14 @@ import {
   AboutGame,
   SettingsPage,
   Page404,
-  Game,
+  GameMenu,
   Page500,
 } from '../pages'
 
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
     <Routes>
-      <Route path={'/'} element={<Game />} />
+      <Route path={'/'} element={<GameMenu />} />
       {isAuthorized && (
         <>
           <Route path={'/profile'} element={<UserProfile />} />

@@ -4,7 +4,6 @@ import { GameMap } from '../../actions/types'
 import { drawGameMap } from '../../actions/draw-game-map'
 import { initialMap } from '../../constants/initialValues'
 import { moveMap } from '../../actions/move-map'
-import { Button, Table, TableRow } from '@mui/material'
 
 export const Game = () => {
   const [gameContext, setGameContext] =
@@ -23,7 +22,7 @@ export const Game = () => {
 
     currentGameMap = newMap
 
-    drawGameMap({ context, gameMap: newMap, isMistake })
+    drawGameMap({ context, gameMap: newMap, isMistake, points: step })
 
     return !isMistake
   }
@@ -35,28 +34,24 @@ export const Game = () => {
 
     const context = canvas.getContext('2d')
 
+    if (!context) return
+
     setGameContext(context)
   }, [])
 
-  const handleClick = () => {
+  useEffect(() => {
     if (!gameContext) return
 
     runAnimation((animationTime: number, step: number) =>
       render(animationTime, step, gameContext)
     )
-  }
+  }, [gameContext])
 
   return (
-    <Table>
-      <TableRow>
-        <Button onClick={handleClick}>Начать</Button>
-      </TableRow>
-      <TableRow>
-        <canvas
-          id="board"
-          width={initialMap[0].length * 200}
-          height={initialMap.length * 200}></canvas>
-      </TableRow>
-    </Table>
+    <canvas
+      id="board"
+      width={initialMap[0].length * 200}
+      height={initialMap.length * 200}
+    />
   )
 }

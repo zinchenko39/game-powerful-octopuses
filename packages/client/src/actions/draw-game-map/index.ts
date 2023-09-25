@@ -4,6 +4,7 @@ type RunDrawGameMapProps = {
   context: CanvasRenderingContext2D
   gameMap: GameMap
   isMistake: boolean
+  points: number
 }
 
 // наша карта = [
@@ -19,6 +20,7 @@ export const drawGameMap = ({
   context,
   gameMap,
   isMistake,
+  points,
 }: RunDrawGameMapProps) => {
   gameMap.forEach((row, coordinateY) => {
     row.forEach((cell, coordinateX) => {
@@ -40,10 +42,10 @@ export const drawGameMap = ({
   if (isMistake) {
     context.font = '30px Arial'
     context.fillStyle = 'White'
-    context.fillText('Вы проиграли', 235, 48)
+    context.fillText('Вы проиграли. Вы набрали - ' + points + 'очков', 10, 48)
   } else {
     context.font = '30px Arial'
     context.fillStyle = 'White'
-    context.fillText('Гонки', 235, 48)
+    context.fillText('Гонки. Очков - ' + points, 235, 48)
   }
 }

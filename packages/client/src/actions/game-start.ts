@@ -3,20 +3,22 @@ export const runAnimation = (
 ) => {
   let lastTime = 0
   let gameStep = 0
+  let freezeCount = 0
 
   function renderContent(time: number) {
-    setTimeout(() => {
+    if (lastTime != null && (!freezeCount || !(freezeCount % 160))) {
       gameStep += 1
 
-      if (lastTime != null) {
-        const timeStep = Math.min(time - lastTime, 100) / 1000
+      const timeStep = Math.min(time - lastTime, 100) / 1000
 
-        if (render(timeStep, gameStep) === false) return
-      }
-      lastTime = time
+      if (render(timeStep, gameStep) === false) return
+    }
 
-      requestAnimationFrame(renderContent)
-    }, 1500)
+    freezeCount += 1
+
+    lastTime = time
+
+    requestAnimationFrame(renderContent)
   }
 
   requestAnimationFrame(renderContent)

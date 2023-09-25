@@ -1,20 +1,17 @@
 import React, { useState } from 'react'
 import { Countdown } from '../../components/Countdown/Countdown'
+import { Game } from '../game'
 
-export function Game() {
+export function GameMenu() {
   const [showCountdown, setShowCountdown] = useState(true)
 
   const handleEndCountdown = () => {
     setShowCountdown(false)
   }
 
-  return (
-    <div>
-      {showCountdown ? (
-        <Countdown onEnd={handleEndCountdown} />
-      ) : (
-        <div>Здесь начинается игра</div>
-      )}
-    </div>
-  )
+  if (showCountdown) {
+    return <Countdown onEnd={handleEndCountdown} />
+  }
+
+  return <Game key="test" />
 }
