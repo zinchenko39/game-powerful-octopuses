@@ -1,8 +1,8 @@
 import axios from 'axios'
+import { BASE_URL } from '../globals'
 
-//TODO Вынести Base url
 export const network = axios.create({
-  baseURL: 'https://ya-praktikum.tech/api/v2',
+  baseURL: BASE_URL,
   headers: {
     'Content-type': 'application/json',
   },
