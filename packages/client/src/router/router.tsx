@@ -17,7 +17,6 @@ import { Game } from '../pages/game/Game'
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
     <Routes>
-      Гонки
       {!isAuthorized && (
         <>
           <Route path={'/profile'} element={<UserProfile />} />
