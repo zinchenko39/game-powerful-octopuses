@@ -11,16 +11,17 @@ import {
   AboutGame,
   SettingsPage,
   Page404,
+  Game,
 } from '../pages'
 
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
     <Routes>
-      {!isAuthorized && (
+      <Route path={'/'} element={<Game />} />
+      {isAuthorized && (
         <>
           <Route path={'/profile'} element={<UserProfile />} />
           <Route path={'/settings'} element={<SettingsPage />} />
-          <Route path={'/'} element={<>Game</>} />
           <Route path={'/about'} element={<AboutGame />} />
           <Route path={'/leaderboard'} element={<LeaderBoard />} />
           <Route path={'/forum'}>
