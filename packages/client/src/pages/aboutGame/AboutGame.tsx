@@ -1,9 +1,7 @@
-import { Link } from 'react-router-dom'
 import {
-  Box,
+  Container,
   List,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
   Paper,
@@ -15,6 +13,7 @@ import {
   changeScrollBarWidth,
   changeScrollBarThumb,
 } from '../../style/variables'
+import { Navigation } from '../../components/navigation'
 export const AboutGame: React.FC = () => {
   const changeScrollBar = {
     ...changeScrollBarWidth,
@@ -25,34 +24,13 @@ export const AboutGame: React.FC = () => {
       <Typography variant="h1" component="h3" align="center">
         Powerful Octopuses
       </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <List
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '50%',
-            height: '50vh',
-            margin: 0,
-          }}>
-          <ListItemButton component={Link} to="/">
-            <ListItemText primary="ИГРАТЬ" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/leaderboard">
-            <ListItemText primary="рекорды" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/forum">
-            <ListItemText primary="форум" />
-          </ListItemButton>
-          <ListItemButton component={Link} to="/profile">
-            <ListItemText primary="профиль" />
-          </ListItemButton>
-        </List>
+      <Container
+        sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <Navigation />
         <Paper
           elevation={0}
           sx={{
-            width: '40%',
+            width: '50%',
             height: '50vh',
             overflowY: 'scroll',
             ...changeScrollBar,
@@ -95,7 +73,7 @@ export const AboutGame: React.FC = () => {
             скорости! Удачи на трассе!
           </Typography>
         </Paper>
-      </Box>
+      </Container>
     </main>
   )
 }

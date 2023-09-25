@@ -1,26 +1,41 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { AboutGame } from '../pages/aboutGame/AboutGame'
+import { TopicScreen } from '../pages/forumPage/TopicScreen'
+import { TopicDetails } from '../pages/forumPage/topicDetails/TopicDetails'
 import { IRouter } from './interfaces'
-import { SingUp } from '../pages/singUp/SingUp'
-import { SingIn } from '../pages/singIn/SingIn'
+
+import {
+  LeaderBoard,
+  UserProfile,
+  SingIn,
+  SingUp,
+  AboutGame,
+  SettingsPage,
+} from '../pages'
+
 
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
     <Routes>
-      {isAuthorized && (
+      {!isAuthorized && (
         <>
-          <Route path={'/profile'} element={<>Страница профиля</>} />
-          <Route path={'/'} element={<>Страница игры</>} />
+          <Route path={'/profile'} element={<UserProfile />} />
+          <Route path={'/settings'} element={<SettingsPage />} />
+          <Route path={'/'} element={<Game />} />
           <Route path={'/about'} element={<AboutGame />} />
-          <Route path={'/leaderboard'} element={<>Страница лидерборда</>} />
-          <Route path={'/forum'} element={<>Страница форума</>}>
-            <Route path={':topicId'} element={<>Страница топика</>} />
+          <Route path={'/leaderboard'} element={<LeaderBoard />} />
+          <Route path={'/forum'}>
+            <Route index element={<TopicScreen />} />
+            <Route path={':topicId'} element={<TopicDetails />} />
           </Route>
         </>
       )}
-      <Route path={'/sign-in'} element={<SingIn />} />
-      <Route path={'/sign-up'} element={<SingUp />} />
+      {!isAuthorized && (
+        <>
+          <Route path={'/sign-in'} element={<SingIn />} />
+          <Route path={'/sign-up'} element={<SingUp />} />
+        </>
+      )}
       <Route
         path="*"
         element={
