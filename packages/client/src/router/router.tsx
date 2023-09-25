@@ -11,8 +11,8 @@ import {
   SingUp,
   AboutGame,
   SettingsPage,
+  Page404,
 } from '../pages'
-import { Game } from '../pages/game/Game'
 
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
@@ -21,7 +21,7 @@ export const Router = ({ isAuthorized }: IRouter) => {
         <>
           <Route path={'/profile'} element={<UserProfile />} />
           <Route path={'/settings'} element={<SettingsPage />} />
-          <Route path={'/'} element={<Game />} />
+          <Route path={'/'} element={<>Game</>} />
           <Route path={'/about'} element={<AboutGame />} />
           <Route path={'/leaderboard'} element={<LeaderBoard />} />
           <Route path={'/forum'}>
@@ -39,11 +39,7 @@ export const Router = ({ isAuthorized }: IRouter) => {
       <Route
         path="*"
         element={
-          <>
-            {(!isAuthorized && <Navigate to={'/sign-in'} />) || (
-              <>Страница не найдена</>
-            )}
-          </>
+          <>{(!isAuthorized && <Navigate to={'/sign-in'} />) || <Page404 />}</>
         }
       />
     </Routes>
