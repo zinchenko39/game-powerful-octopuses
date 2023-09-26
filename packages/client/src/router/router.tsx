@@ -1,4 +1,3 @@
-import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { TopicScreen } from '../pages/forumPage/TopicScreen'
 import { TopicDetails } from '../pages/forumPage/topicDetails/TopicDetails'
@@ -11,17 +10,19 @@ import {
   SingUp,
   AboutGame,
   SettingsPage,
+  Page404,
+  GameMenu,
+  Page500,
 } from '../pages'
-
 
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
     <Routes>
-      {!isAuthorized && (
+      <Route path={'/'} element={<GameMenu />} />
+      {isAuthorized && (
         <>
           <Route path={'/profile'} element={<UserProfile />} />
           <Route path={'/settings'} element={<SettingsPage />} />
-          <Route path={'/'} element={<Game />} />
           <Route path={'/about'} element={<AboutGame />} />
           <Route path={'/leaderboard'} element={<LeaderBoard />} />
           <Route path={'/forum'}>
@@ -36,14 +37,11 @@ export const Router = ({ isAuthorized }: IRouter) => {
           <Route path={'/sign-up'} element={<SingUp />} />
         </>
       )}
+      <Route path="/error" element={<Page500 />} />
       <Route
         path="*"
         element={
-          <>
-            {(!isAuthorized && <Navigate to={'/sign-in'} />) || (
-              <>Страница не найдена</>
-            )}
-          </>
+          <>{(!isAuthorized && <Navigate to={'/sign-in'} />) || <Page404 />}</>
         }
       />
     </Routes>
