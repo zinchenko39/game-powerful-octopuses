@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { TopicScreen } from '../pages/forumPage/TopicScreen'
 import { TopicDetails } from '../pages/forumPage/topicDetails/TopicDetails'
 import { IRouter } from './interfaces'
+import { Game } from '../pages/game/Game'
 
 import {
   LeaderBoard,
@@ -12,7 +13,6 @@ import {
   AboutGame,
   SettingsPage,
 } from '../pages'
-
 
 export const Router = ({ isAuthorized }: IRouter) => {
   return (
