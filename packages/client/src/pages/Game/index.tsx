@@ -5,7 +5,12 @@ import { drawGameMap } from '../../actions/draw-game-map'
 import { initialMap } from '../../constants/initialValues'
 import { moveMap } from '../../actions/move-map'
 
-export const Game = () => {
+type GameProps = {
+  callbackEndGame: () => void
+  id: string
+}
+
+export const Game = ({ id, callbackEndGame }: GameProps) => {
   const [gameContext, setGameContext] =
     useState<CanvasRenderingContext2D | null>(null)
   let currentGameMap: GameMap = initialMap
@@ -21,6 +26,8 @@ export const Game = () => {
     })
 
     currentGameMap = newMap
+
+    if (isMistake) callbackEndGame()
 
     drawGameMap({ context, gameMap: newMap, isMistake, points: step })
 
@@ -49,7 +56,7 @@ export const Game = () => {
 
   return (
     <canvas
-      id="board"
+      id={id}
       width={initialMap[0].length * 200}
       height={initialMap.length * 200}
     />

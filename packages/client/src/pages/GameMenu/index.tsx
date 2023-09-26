@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Countdown } from '../../components/Countdown/Countdown'
 import { GameEnd } from '../../components/gameEnd/GameEnd'
-import { Game } from '../game'
+import { Container } from '@mui/material'
+import { Game } from '../Game'
 
 export function GameMenu() {
   const [showCountdown, setShowCountdown] = useState(true)
@@ -23,18 +24,19 @@ export function GameMenu() {
     console.log('Go to main')
   }
 
+  if (showCountdown) {
+    return <Countdown onEnd={handleEndCountdown} />
+  }
+
   return (
-    <div>
-      {showCountdown ? (
-        <Countdown onEnd={handleEndCountdown} />
-      ) : isGameOver ? (
+    <Container style={{ display: 'flex', justifyContent: 'center' }}>
+      <Game id="board" callbackEndGame={handleEndGame} />
+      {isGameOver ? (
         <GameEnd
           onRestart={handleRestartGame}
           onGoToMainMenu={handleGoToMainMenu}
         />
-      ) : (
-        <Game key="test" />
-      )}
-    </div>
+      ) : null}
+    </Container>
   )
 }
