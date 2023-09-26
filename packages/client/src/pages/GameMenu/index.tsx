@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { Countdown } from '../../components/Countdown/Countdown'
 import { GameEnd } from '../../components/gameEnd/GameEnd'
+import { Game } from '../game'
 
-export function Game() {
-  const [showCountdown, setShowCountdown] = useState(false)
-  const [isGameOver, setIsGameOver] = useState(true)
+export function GameMenu() {
+  const [showCountdown, setShowCountdown] = useState(true)
+  const [isGameOver, setIsGameOver] = useState(false)
 
   const handleEndCountdown = () => {
     setShowCountdown(false)
@@ -32,10 +33,7 @@ export function Game() {
           onGoToMainMenu={handleGoToMainMenu}
         />
       ) : (
-        <div>
-          Здесь начинается игра
-          <button onClick={handleEndGame}>Завершить игру</button>
-        </div>
+        <Game key="test" />
       )}
     </div>
   )
