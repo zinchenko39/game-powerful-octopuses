@@ -1,6 +1,6 @@
-import type { SignInProps } from './interfaces'
+import type { SignInProps, SignUpProps } from './interfaces'
 import { network } from '../../api'
-import { RequestError } from '../common-interfaces'
+import { RequestError, SignUpAnswear } from '../common-interfaces'
 
 export class AuthService {
   static url = '/auth'
@@ -11,6 +11,29 @@ export class AuthService {
       { ...args }
     )
 
+    if (typeof data !== 'string') {
+      throw new Error(data.reason)
+    }
+
+    return data
+  }
+  static async signUp(
+    args: SignUpProps
+  ): Promise<RequestError | SignUpAnswear> {
+    const { data } = await network.post<RequestError | SignUpAnswear>(
+      `${this.url}/signup`,
+      { ...args }
+    )
+    console.log(data)
+    if ('id' in data) {
+      return data
+    } else {
+      throw new Error(data.reason)
+    }
+  }
+
+  static async logout(): Promise<RequestError | string> {
+    const { data } = await network.post(`${this.url}/logout`)
     if (typeof data !== 'string') {
       throw new Error(data.reason)
     }
