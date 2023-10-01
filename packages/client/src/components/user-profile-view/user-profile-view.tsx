@@ -4,10 +4,18 @@ import { Avatar, Button, Container, Typography } from '@mui/material'
 import { BASE_URL } from '../../globals'
 import { useNavigate } from 'react-router-dom'
 import { LeaderList } from '../leader-list'
+import { AuthService } from '../../services'
 
 export const UserProfileView: React.FC<IUserProfileView> = ({ user }) => {
   const navigate = useNavigate()
-
+  const logout = async () => {
+    try {
+      await AuthService.logout()
+      navigate('/sign-in')
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
     <Container
       sx={{
@@ -31,6 +39,9 @@ export const UserProfileView: React.FC<IUserProfileView> = ({ user }) => {
       </Typography>
       <Button variant="text" onClick={() => navigate('/settings')}>
         Настройки
+      </Button>
+      <Button variant="text" color="error" onClick={logout}>
+        Выйти
       </Button>
       <Container
         sx={{
