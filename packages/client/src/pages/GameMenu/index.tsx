@@ -25,7 +25,7 @@ export function GameMenu() {
     setShowCountdown(true)
   }
   const handleGoToMainMenu = () => {
-    navigate(RouterName.main)
+    navigate(RouterName.about)
   }
 
   if (showCountdown) {
