@@ -3,10 +3,14 @@ import { Countdown } from '../../components/Countdown/Countdown'
 import { GameEnd } from '../../components/gameEnd/GameEnd'
 import { Container } from '@mui/material'
 import { Game } from '../Game'
+import { useNavigate } from 'react-router-dom'
+import { RouterName } from '../../router/types'
 
 export function GameMenu() {
   const [showCountdown, setShowCountdown] = useState(true)
   const [isGameOver, setIsGameOver] = useState(false)
+
+  const navigate = useNavigate()
 
   const handleEndCountdown = () => {
     setShowCountdown(false)
@@ -21,7 +25,7 @@ export function GameMenu() {
     setShowCountdown(true)
   }
   const handleGoToMainMenu = () => {
-    console.log('Go to main')
+    navigate(RouterName.main)
   }
 
   if (showCountdown) {

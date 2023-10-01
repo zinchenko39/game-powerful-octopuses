@@ -1,49 +1,25 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
-import { TopicScreen } from '../pages/forumPage/TopicScreen'
-import { TopicDetails } from '../pages/forumPage/topicDetails/TopicDetails'
-import { IRouter } from './interfaces'
+import { useRoutes } from 'react-router-dom'
 
-import {
-  LeaderBoard,
-  UserProfile,
-  SingIn,
-  SingUp,
-  AboutGame,
-  SettingsPage,
-  Page404,
-  GameMenu,
-  Page500,
-} from '../pages'
+import { AUTHORIZED_ROUTES, UNAUTHORIZED_ROUTES } from './constants'
+import { Page404, Page500 } from '../pages'
+import { RouterName } from './types'
 
-export const Router = ({ isAuthorized }: IRouter) => {
-  return (
-    <Routes>
-      <Route path={'/'} element={<GameMenu />} />
-      {isAuthorized && (
-        <>
-          <Route path={'/profile'} element={<UserProfile />} />
-          <Route path={'/settings'} element={<SettingsPage />} />
-          <Route path={'/about'} element={<AboutGame />} />
-          <Route path={'/leaderboard'} element={<LeaderBoard />} />
-          <Route path={'/forum'}>
-            <Route index element={<TopicScreen />} />
-            <Route path={':topicId'} element={<TopicDetails />} />
-          </Route>
-        </>
-      )}
-      {!isAuthorized && (
-        <>
-          <Route path={'/sign-in'} element={<SingIn />} />
-          <Route path={'/sign-up'} element={<SingUp />} />
-        </>
-      )}
-      <Route path="/error" element={<Page500 />} />
-      <Route
-        path="*"
-        element={
-          <>{(!isAuthorized && <Navigate to={'/sign-in'} />) || <Page404 />}</>
-        }
-      />
-    </Routes>
-  )
+export const Router = () => {
+  const user = localStorage.getItem('UserYandex')
+
+  const routes = user ? AUTHORIZED_ROUTES : UNAUTHORIZED_ROUTES
+
+  const element = useRoutes([
+    ...routes,
+    {
+      path: RouterName.error500,
+      element: <Page500 />,
+    },
+    {
+      path: RouterName.others,
+      element: <Page404 />,
+    },
+  ])
+
+  return element
 }

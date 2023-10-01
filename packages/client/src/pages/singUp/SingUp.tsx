@@ -8,15 +8,19 @@ import { singUpvalidationSchema } from '../../constants/validationSchema'
 import { AuthService } from '../../services/auth-service'
 import { SignUpProps } from '../../services'
 import styles from './SingUp.module.css'
+import { RouterName } from '../../router/types'
 
 export const SingUp = () => {
   const navigate = useNavigate()
+
   const handleSignUp = async (values: SignUpProps) => {
     try {
-      const responce = await AuthService.signUp(values)
-      console.log('Авторизация ', responce)
-      navigate('/about')
+      await AuthService.signUp(values)
+
+      navigate(RouterName.about)
     } catch (error) {
+      navigate(RouterName.error500)
+
       console.error('Авторизация ошибка ', error)
     }
   }
