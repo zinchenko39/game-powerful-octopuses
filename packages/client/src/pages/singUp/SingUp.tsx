@@ -2,7 +2,7 @@ import React from 'react'
 import { Formik } from 'formik'
 import { Button, Typography, Container } from '@mui/material'
 import { CustomTextField } from '../../components/CustomTextField/CustomTextField'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { singUpInitialValues } from '../../constants/initialValues'
 import { singUpvalidationSchema } from '../../constants/validationSchema'
 import { AuthService } from '../../services/auth-service'
@@ -10,12 +10,11 @@ import { SignUpProps } from '../../services'
 import styles from './SingUp.module.css'
 
 export const SingUp = () => {
-  const navigate = useNavigate()
   const handleSignUp = async (values: SignUpProps) => {
     try {
       const responce = await AuthService.signUp(values)
       console.log('Авторизация ', responce)
-      navigate('/about')
+      window.location.href = '/about'
     } catch (error) {
       console.error('Авторизация ошибка ', error)
     }

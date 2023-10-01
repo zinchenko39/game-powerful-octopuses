@@ -15,6 +15,7 @@ const theme = createTheme({
 
 function App() {
   const [user, setUser] = useState<IUser>()
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchServerData = async () => {
@@ -25,9 +26,16 @@ function App() {
     }
 
     const fetchUserData = async () => {
-      if (!user) {
-        const user = await UserService.getUserInfo()
-        setUser(user)
+      try {
+        setIsLoading(true)
+        if (!user) {
+          const user = await UserService.getUserInfo()
+          setUser(user)
+        }
+      } catch (e) {
+        console.error(e)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -37,11 +45,13 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <BrowserRouter>
-          <ErrorBoundary>
-            <Router isAuthorized={!!user} />
-          </ErrorBoundary>
-        </BrowserRouter>
+        {!isLoading && (
+          <BrowserRouter>
+            <ErrorBoundary>
+              <Router isAuthorized={!!user} />
+            </ErrorBoundary>
+          </BrowserRouter>
+        )}
       </div>
     </ThemeProvider>
   )
