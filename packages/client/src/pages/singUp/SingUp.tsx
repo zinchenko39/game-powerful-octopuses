@@ -1,4 +1,3 @@
-import React from 'react'
 import { Formik } from 'formik'
 import { Button, Typography, Container } from '@mui/material'
 import { CustomTextField } from '../../components/CustomTextField/CustomTextField'
