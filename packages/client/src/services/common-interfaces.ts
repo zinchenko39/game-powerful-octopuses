@@ -1,6 +1,6 @@
 export interface RequestError {
   reason: string
 }
-export interface SignUpAnswear {
+export interface SignUpAnswer {
   id: number
 }

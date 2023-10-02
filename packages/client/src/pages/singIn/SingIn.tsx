@@ -17,18 +17,15 @@ export const SingIn = () => {
     try {
       await AuthService.signIn(values)
 
-      const user = await UserService.getUserInfo()
+      await UserService.getUserInfo()
 
-      if (user) {
-        localStorage.setItem('UserYandex', JSON.stringify(user))
-        navigation('/about')
-      }
+      navigation('/about')
     } catch (error) {
       console.error('Вход ошибка ', error)
     }
   }
 
-  const handleClick = () => setAnimation(false)
+  const handleFocus = () => setAnimation(false)
 
   const handleBlur = () => setAnimation(true)
 
@@ -40,14 +37,16 @@ export const SingIn = () => {
       {formik => (
         <div className={styles.loginContainer}>
           <Container maxWidth="sm">
-            <div className={isAnimation ? styles.paper : styles.paper2}>
+            <div
+              className={styles.paper}
+              style={isAnimation ? {} : { animation: 'unset' }}>
               <Typography variant="h4" className={styles.header}>
                 Авторизация
               </Typography>
               <form
                 onSubmit={formik.handleSubmit}
                 onBlur={handleBlur}
-                onClick={handleClick}>
+                onFocus={handleFocus}>
                 <div className={styles.fieldsWrapper}>
                   <CustomTextField id="login" label="Логин" type="text" />
                   <CustomTextField
