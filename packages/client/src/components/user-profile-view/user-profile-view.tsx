@@ -5,13 +5,17 @@ import { BASE_URL } from '../../globals'
 import { useNavigate } from 'react-router-dom'
 import { LeaderList } from '../leader-list'
 import { AuthService } from '../../services'
+import { RouterName } from '../../router/types'
 
 export const UserProfileView: React.FC<IUserProfileView> = ({ user }) => {
   const navigate = useNavigate()
   const logout = async () => {
     try {
       await AuthService.logout()
-      navigate('/sign-in')
+
+      localStorage.setItem('UserYandex', '')
+
+      navigate(RouterName.main)
     } catch (error) {
       console.error(error)
     }
@@ -37,7 +41,7 @@ export const UserProfileView: React.FC<IUserProfileView> = ({ user }) => {
       <Typography variant="subtitle2" component="p" align="center">
         @{user.login}
       </Typography>
-      <Button variant="text" onClick={() => navigate('/settings')}>
+      <Button variant="text" onClick={() => navigate(RouterName.settings)}>
         Настройки
       </Button>
       <Button variant="text" color="error" onClick={logout}>

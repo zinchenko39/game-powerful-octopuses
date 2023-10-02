@@ -1,6 +1,6 @@
 import * as Yup from 'yup'
 
-export const singUpvalidationSchema = Yup.object({
+export const singUpValidationSchema = Yup.object({
   first_name: Yup.string()
     .matches(
       /^[A-ZА-Я][a-zA-Zа-яА-Я-]*$/,

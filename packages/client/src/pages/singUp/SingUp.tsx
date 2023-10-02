@@ -1,40 +1,67 @@
-import React from 'react'
-import { Formik } from 'formik'
+import { Formik, FormikValues } from 'formik'
 import { Button, Typography, Container } from '@mui/material'
 import { CustomTextField } from '../../components/CustomTextField/CustomTextField'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { singUpInitialValues } from '../../constants/initialValues'
-import { singUpvalidationSchema } from '../../constants/validationSchema'
+import { singUpValidationSchema } from '../../constants/validationSchema'
 import { AuthService } from '../../services/auth-service'
-import { SignUpProps } from '../../services'
+import { SignUpProps, UserService } from '../../services'
 import styles from './SingUp.module.css'
+import { RouterName } from '../../router/types'
+import { useState } from 'react'
+
+type SignUpFormProps = SignUpProps & { confirmPassword: string }
 
 export const SingUp = () => {
+  const navigate = useNavigate()
+  const [isAnimation, setAnimation] = useState<boolean>(true)
+
   const handleSignUp = async (values: SignUpProps) => {
     try {
-      const responce = await AuthService.signUp(values)
-      console.log('Авторизация ', responce)
-      window.location.href = '/about'
+      await AuthService.signUp(values)
+
+      await UserService.getUserInfo()
+
+      navigate(RouterName.about)
     } catch (error) {
+      navigate(RouterName.error500)
+
       console.error('Авторизация ошибка ', error)
     }
   }
+
+  const handleBlur = () => {
+    setAnimation(true)
+  }
+
+  const handleFocus = () => {
+    setAnimation(false)
+  }
+
+  const handleSubmit = (values: SignUpFormProps) => {
+    const { confirmPassword, ...signUpData } = { ...values }
+
+    handleSignUp(signUpData)
+  }
+
   return (
-    <Formik
+    <Formik<SignUpFormProps>
       initialValues={singUpInitialValues}
-      validationSchema={singUpvalidationSchema}
-      onSubmit={values => {
-        const { confirmPassword, ...signUpData } = { ...values }
-        handleSignUp(signUpData)
-      }}>
+      validationSchema={singUpValidationSchema}
+      onSubmit={handleSubmit}>
       {formik => (
         <div className={styles.registrationContainer}>
           <Container maxWidth="sm">
-            <div className={styles.paper}>
+            <div
+              className={styles.paper}
+              style={isAnimation ? {} : { animation: 'unset' }}>
               <Typography variant="h4" className={styles.header}>
                 Регистрация
               </Typography>
-              <form onSubmit={formik.handleSubmit}>
+              <form
+                onSubmit={formik.handleSubmit}
+                onBlur={handleBlur}
+                onFocus={handleFocus}>
                 <div className={styles.fieldsWrapper}>
                   <CustomTextField id="first_name" label="Имя" type="text" />
                   <CustomTextField

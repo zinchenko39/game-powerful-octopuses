@@ -1,24 +1,34 @@
-import React from 'react'
 import { Formik } from 'formik'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button, Typography, Container } from '@mui/material'
 import { CustomTextField } from '../../components/CustomTextField/CustomTextField'
 import { singInInitialValues } from '../../constants/initialValues'
 import { singInValidationSchema } from '../../constants/validationSchema'
 import { AuthService } from '../../services/auth-service'
-import { SignInProps } from '../../services'
+import { SignInProps, UserService } from '../../services'
 import styles from './SingIn.module.css'
+import { useState } from 'react'
 
 export const SingIn = () => {
+  const navigation = useNavigate()
+  const [isAnimation, setAnimation] = useState<boolean>(true)
+
   const handleSignIn = async (values: SignInProps) => {
     try {
-      const responce = await AuthService.signIn(values)
-      console.log('Зашли ', responce)
-      window.location.href = '/about'
+      await AuthService.signIn(values)
+
+      await UserService.getUserInfo()
+
+      navigation('/about')
     } catch (error) {
       console.error('Вход ошибка ', error)
     }
   }
+
+  const handleFocus = () => setAnimation(false)
+
+  const handleBlur = () => setAnimation(true)
+
   return (
     <Formik
       initialValues={singInInitialValues}
@@ -27,15 +37,16 @@ export const SingIn = () => {
       {formik => (
         <div className={styles.loginContainer}>
           <Container maxWidth="sm">
-            <div className={styles.paper}>
+            <div
+              className={styles.paper}
+              style={isAnimation ? {} : { animation: 'unset' }}>
               <Typography variant="h4" className={styles.header}>
                 Авторизация
               </Typography>
               <form
-                onSubmit={e => {
-                  e.preventDefault()
-                  formik.handleSubmit(e)
-                }}>
+                onSubmit={formik.handleSubmit}
+                onBlur={handleBlur}
+                onFocus={handleFocus}>
                 <div className={styles.fieldsWrapper}>
                   <CustomTextField id="login" label="Логин" type="text" />
                   <CustomTextField
