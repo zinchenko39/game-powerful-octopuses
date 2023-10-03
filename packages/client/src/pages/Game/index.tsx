@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { runAnimation } from '../../actions/game-start'
 import { GameMap } from '../../actions/types'
 import { drawGameMap } from '../../actions/draw-game-map'
@@ -11,9 +11,9 @@ type GameProps = {
 }
 
 export const Game = ({ id, callbackEndGame }: GameProps) => {
-  const [gameContext, setGameContext] =
-    useState<CanvasRenderingContext2D | null>(null)
   let currentGameMap: GameMap = initialMap
+
+  const gameContext = useRef<HTMLCanvasElement | null>(null)
 
   const render = (
     animationTime: number,
@@ -35,28 +35,23 @@ export const Game = ({ id, callbackEndGame }: GameProps) => {
   }
 
   useEffect(() => {
-    const canvas = document.getElementById('board') as HTMLCanvasElement
+    const { current } = gameContext
 
-    if (!canvas) return
+    if (!current) return
 
-    const context = canvas.getContext('2d')
+    const contextGame = current.getContext('2d')
 
-    if (!context) return
-
-    setGameContext(context)
-  }, [])
-
-  useEffect(() => {
-    if (!gameContext) return
+    if (!contextGame) return
 
     runAnimation((animationTime: number, step: number) =>
-      render(animationTime, step, gameContext)
+      render(animationTime, step, contextGame)
     )
   }, [gameContext])
 
   return (
     <canvas
       id={id}
+      ref={gameContext}
       width={initialMap[0].length * 200}
       height={initialMap.length * 200}
     />
