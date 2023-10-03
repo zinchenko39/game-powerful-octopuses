@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { runAnimation } from '../../actions/game-start'
 import { GameMap } from '../../actions/types'
 import { drawGameMap } from '../../actions/draw-game-map'
