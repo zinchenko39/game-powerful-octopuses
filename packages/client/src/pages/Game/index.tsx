@@ -13,7 +13,7 @@ type GameProps = {
 export const Game = ({ id, callbackEndGame }: GameProps) => {
   let currentGameMap: GameMap = initialMap
 
-  const gameContext = useRef<HTMLCanvasElement | null>(null)
+  const refCanvas = useRef<HTMLCanvasElement | null>(null)
 
   const render = (
     animationTime: number,
@@ -35,23 +35,23 @@ export const Game = ({ id, callbackEndGame }: GameProps) => {
   }
 
   useEffect(() => {
-    const { current } = gameContext
+    const { current } = refCanvas
 
     if (!current) return
 
-    const contextGame = current.getContext('2d')
+    const gameContext = current.getContext('2d')
 
-    if (!contextGame) return
+    if (!gameContext) return
 
     runAnimation((animationTime: number, step: number) =>
-      render(animationTime, step, contextGame)
+      render(animationTime, step, gameContext)
     )
-  }, [gameContext])
+  }, [refCanvas])
 
   return (
     <canvas
       id={id}
-      ref={gameContext}
+      ref={refCanvas}
       width={initialMap[0].length * 200}
       height={initialMap.length * 200}
     />
