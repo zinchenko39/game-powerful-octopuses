@@ -10,9 +10,9 @@ type GameProps = {
   id: string
 }
 
-export const Game = ({ id, callbackEndGame }: GameProps) => {
-  let currentGameMap: GameMap = initialMap
+let currentGameMap: GameMap = initialMap
 
+export const Game = ({ id, callbackEndGame }: GameProps) => {
   const refCanvas = useRef<HTMLCanvasElement | null>(null)
 
   const render = (
