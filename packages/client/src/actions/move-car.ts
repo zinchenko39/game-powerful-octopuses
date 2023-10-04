@@ -10,7 +10,6 @@ export const moveCar = ({
   gameMap,
   coordinatesCar,
 }: MoveCarProps): [GameMap, boolean] => {
-  console.log(' смещение машины ', coordinatesCar)
   let currentMistake = false
 
   const newMap: GameMap = [...gameMap]

@@ -19,7 +19,6 @@ const NewTopicModal: React.FC<NewTopicModalProps> = ({
     values: TopicDetailsProps,
     { resetForm }: FormikHelpers<TopicDetailsProps>
   ) => {
-    console.log(values)
     resetForm()
     onClose()
     //будет добавлена логика создания новой темы

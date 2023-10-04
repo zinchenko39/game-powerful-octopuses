@@ -38,6 +38,7 @@ export const initialMap: GameMap = [
   [null, CAR_ENTITY, null],
   [null, null, null],
 ]
+
 export const changePasswordInitialValues = {
   oldPassword: '',
   newPassword: '',

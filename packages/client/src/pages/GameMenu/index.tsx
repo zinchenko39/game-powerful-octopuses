@@ -35,6 +35,10 @@ export function GameMenu() {
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>
       <Game id="board" callbackEndGame={handleEndGame} />
+      <>1</>
+      <Game id="board2" callbackEndGame={handleEndGame} />
+      <>1</>
+      <Game id="board3" callbackEndGame={handleEndGame} />
       {isGameOver ? (
         <GameEnd
           onRestart={handleRestartGame}

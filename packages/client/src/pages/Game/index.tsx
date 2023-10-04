@@ -1,40 +1,16 @@
 import { useEffect, useRef } from 'react'
-import { runAnimation } from '../../actions/game-start'
-import { GameMap } from '../../actions/types'
-import { drawGameMap } from '../../actions/draw-game-map'
+import { runGame } from '../../actions/game-runner'
 import { initialMap } from '../../constants/initialValues'
-import { moveMap } from '../../actions/move-map'
+import { gameRender } from '../../actions/render-game'
+import { GameMap } from '../../actions/types'
 
 type GameProps = {
-  callbackEndGame: () => void
   id: string
+  callbackEndGame?: () => void
 }
-
-let currentGameMap: GameMap
 
 export const Game = ({ id, callbackEndGame }: GameProps) => {
   const refCanvas = useRef<HTMLCanvasElement | null>(null)
-
-  currentGameMap = initialMap
-
-  const render = (
-    animationTime: number,
-    step: number,
-    context: CanvasRenderingContext2D
-  ) => {
-    const [newMap, isMistake] = moveMap({
-      gameMap: currentGameMap,
-      gameStep: step,
-    })
-
-    currentGameMap = newMap
-
-    if (isMistake) callbackEndGame()
-
-    drawGameMap({ context, gameMap: newMap, isMistake, points: step })
-
-    return !isMistake
-  }
 
   useEffect(() => {
     const { current } = refCanvas
@@ -45,9 +21,26 @@ export const Game = ({ id, callbackEndGame }: GameProps) => {
 
     if (!gameContext) return
 
-    runAnimation((animationTime: number, step: number) =>
-      render(animationTime, step, gameContext)
-    )
+    if (refCanvas && !(refCanvas as any)[id]) {
+      ;(refCanvas as any)[id] = {
+        map: [...initialMap.map(row => [...row])] as GameMap,
+        step: 0,
+      }
+
+      return
+    }
+    const info = (refCanvas as any)[id]
+
+    runGame({
+      info,
+      render: (animationTime: number, newInfo) =>
+        gameRender({
+          animationTime,
+          context: gameContext,
+          info: newInfo,
+        }),
+      callbackEndGame,
+    })
   }, [refCanvas])
 
   return (
