@@ -9,8 +9,13 @@ type GameProps = {
   callbackEndGame?: () => void
 }
 
-export const Game = ({ id, callbackEndGame }: GameProps) => {
+function cloneMap() {
+  return [...initialMap.map(row => [...row])]
+}
+
+export const Game = ({ callbackEndGame }: GameProps) => {
   const refCanvas = useRef<HTMLCanvasElement | null>(null)
+  const mapInfo = useRef(null);
 
   useEffect(() => {
     const { current } = refCanvas
@@ -21,18 +26,15 @@ export const Game = ({ id, callbackEndGame }: GameProps) => {
 
     if (!gameContext) return
 
-    if (refCanvas && !(refCanvas as any)[id]) {
-      ;(refCanvas as any)[id] = {
-        map: [...initialMap.map(row => [...row])] as GameMap,
+    if (mapInfo.current === null) {
+      mapInfo.current = {
         step: 0,
+        map: cloneMap()
       }
-
-      return
     }
-    const info = (refCanvas as any)[id]
 
     runGame({
-      info,
+      info: mapInfo.current,
       render: (animationTime: number, newInfo) =>
         gameRender({
           animationTime,
@@ -45,7 +47,6 @@ export const Game = ({ id, callbackEndGame }: GameProps) => {
 
   return (
     <canvas
-      id={id}
       ref={refCanvas}
       width={initialMap[0].length * 200}
       height={initialMap.length * 200}
