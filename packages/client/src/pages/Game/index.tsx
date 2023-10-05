@@ -7,10 +7,11 @@ import { moveMap } from '../../actions/move-map'
 
 type GameProps = {
   callbackEndGame: () => void
+  callbackUserScore: (score: number) => void
   id: string
 }
 
-export const Game = ({ id, callbackEndGame }: GameProps) => {
+export const Game = ({ id, callbackEndGame, callbackUserScore }: GameProps) => {
   const [gameContext, setGameContext] =
     useState<CanvasRenderingContext2D | null>(null)
   let currentGameMap: GameMap = initialMap
@@ -27,7 +28,10 @@ export const Game = ({ id, callbackEndGame }: GameProps) => {
 
     currentGameMap = newMap
 
-    if (isMistake) callbackEndGame()
+    if (isMistake) {
+      callbackEndGame()
+      callbackUserScore(step)
+    }
 
     drawGameMap({ context, gameMap: newMap, isMistake, points: step })
 

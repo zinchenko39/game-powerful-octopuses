@@ -9,7 +9,7 @@ import { RouterName } from '../../router/types'
 export function GameMenu() {
   const [showCountdown, setShowCountdown] = useState(true)
   const [isGameOver, setIsGameOver] = useState(false)
-
+  const [score, setScore] = useState<number>(0)
   const navigate = useNavigate()
 
   const handleEndCountdown = () => {
@@ -18,6 +18,9 @@ export function GameMenu() {
 
   const handleEndGame = () => {
     setIsGameOver(true)
+  }
+  const handleScoreUser = (scoreValue: number) => {
+    setScore(scoreValue)
   }
 
   const handleRestartGame = () => {
@@ -34,11 +37,16 @@ export function GameMenu() {
 
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>
-      <Game id="board" callbackEndGame={handleEndGame} />
+      <Game
+        id="board"
+        callbackEndGame={handleEndGame}
+        callbackUserScore={handleScoreUser}
+      />
       {isGameOver ? (
         <GameEnd
           onRestart={handleRestartGame}
           onGoToMainMenu={handleGoToMainMenu}
+          points={score}
         />
       ) : null}
     </Container>

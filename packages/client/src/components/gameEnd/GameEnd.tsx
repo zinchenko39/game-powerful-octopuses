@@ -9,10 +9,10 @@ import {
 import { GameEndProps } from './props'
 import styles from './GameEnd.module.css'
 
-export function GameEnd({ onRestart, onGoToMainMenu }: GameEndProps) {
+export function GameEnd({ onRestart, onGoToMainMenu, points }: GameEndProps) {
   return (
     <Dialog open={true} className={styles.dialogContainer}>
-      <DialogTitle>Игра завершена</DialogTitle>
+      <DialogTitle>Игра завершена, вы набрали {points} очков</DialogTitle>
       <DialogContent>
         Хотите сыграть еще раз или вернуться в главное меню?
       </DialogContent>
