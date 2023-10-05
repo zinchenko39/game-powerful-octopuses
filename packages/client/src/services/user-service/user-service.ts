@@ -9,10 +9,6 @@ export class UserService {
   static async getUserInfo(): Promise<IUser> {
     const { data } = await network.get<IUser>('/auth/user')
 
-    if (data) {
-      localStorage.setItem('UserYandex', JSON.stringify(data))
-    }
-
     return data
   }
 

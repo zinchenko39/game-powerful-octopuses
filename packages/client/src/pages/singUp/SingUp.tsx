@@ -1,26 +1,29 @@
-import { Formik, FormikValues } from 'formik'
+import { Formik } from 'formik'
 import { Button, Typography, Container } from '@mui/material'
 import { CustomTextField } from '../../components/CustomTextField/CustomTextField'
 import { Link, useNavigate } from 'react-router-dom'
 import { singUpInitialValues } from '../../constants/initialValues'
 import { singUpValidationSchema } from '../../constants/validationSchema'
 import { AuthService } from '../../services/auth-service'
-import { SignUpProps, UserService } from '../../services'
+import { SignUpProps } from '../../services'
 import styles from './SingUp.module.css'
 import { RouterName } from '../../router/types'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { apiSlice } from '../../store/api'
 
 type SignUpFormProps = SignUpProps & { confirmPassword: string }
 
 export const SingUp = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [isAnimation, setAnimation] = useState<boolean>(true)
 
   const handleSignUp = async (values: SignUpProps) => {
     try {
       await AuthService.signUp(values)
 
-      await UserService.getUserInfo()
+      dispatch(apiSlice.util.invalidateTags(['USER']))
 
       navigate(RouterName.about)
     } catch (error) {
