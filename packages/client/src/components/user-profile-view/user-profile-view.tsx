@@ -4,16 +4,15 @@ import { Avatar, Button, Container, Typography } from '@mui/material'
 import { BASE_URL } from '../../globals'
 import { useNavigate } from 'react-router-dom'
 import { LeaderList } from '../leader-list'
-import { AuthService } from '../../services'
 import { RouterName } from '../../router/types'
+import { useLogoutMutation } from '../../store/api'
 
 export const UserProfileView: React.FC<IUserProfileView> = ({ user }) => {
   const navigate = useNavigate()
+  const [userLogout] = useLogoutMutation()
   const logout = async () => {
     try {
-      await AuthService.logout()
-
-      localStorage.setItem('UserYandex', '')
+      await userLogout()
 
       navigate(RouterName.main)
     } catch (error) {
