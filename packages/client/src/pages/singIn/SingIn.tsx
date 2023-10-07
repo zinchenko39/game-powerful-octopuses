@@ -4,23 +4,19 @@ import { Button, Typography, Container } from '@mui/material'
 import { CustomTextField } from '../../components/CustomTextField/CustomTextField'
 import { singInInitialValues } from '../../constants/initialValues'
 import { singInValidationSchema } from '../../constants/validationSchema'
-import { AuthService } from '../../services/auth-service'
 import { SignInProps } from '../../services'
 import styles from './SingIn.module.css'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { apiSlice } from '../../store/api'
+import { useSignInMutation } from '../../store/api'
 
 export const SingIn = () => {
   const navigation = useNavigate()
-  const dispatch = useDispatch()
+  const [signIn] = useSignInMutation()
   const [isAnimation, setAnimation] = useState<boolean>(true)
 
   const handleSignIn = async (values: SignInProps) => {
     try {
-      await AuthService.signIn(values)
-
-      dispatch(apiSlice.util.invalidateTags(['USER']))
+      await signIn(values)
 
       navigation('/about')
     } catch (error) {

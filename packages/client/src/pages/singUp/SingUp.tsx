@@ -4,26 +4,22 @@ import { CustomTextField } from '../../components/CustomTextField/CustomTextFiel
 import { Link, useNavigate } from 'react-router-dom'
 import { singUpInitialValues } from '../../constants/initialValues'
 import { singUpValidationSchema } from '../../constants/validationSchema'
-import { AuthService } from '../../services/auth-service'
 import { SignUpProps } from '../../services'
 import styles from './SingUp.module.css'
 import { RouterName } from '../../router/types'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { apiSlice } from '../../store/api'
+import { useSignUpMutation } from '../../store/api'
 
 type SignUpFormProps = SignUpProps & { confirmPassword: string }
 
 export const SingUp = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const [signUp] = useSignUpMutation()
   const [isAnimation, setAnimation] = useState<boolean>(true)
 
   const handleSignUp = async (values: SignUpProps) => {
     try {
-      await AuthService.signUp(values)
-
-      dispatch(apiSlice.util.invalidateTags(['USER']))
+      await signUp(values)
 
       navigate(RouterName.about)
     } catch (error) {
