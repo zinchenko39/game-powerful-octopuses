@@ -13,7 +13,6 @@ export const UserProfileView: React.FC<IUserProfileView> = ({ user }) => {
   const logout = async () => {
     try {
       await userLogout()
-
       navigate(RouterName.main)
     } catch (error) {
       console.error(error)
