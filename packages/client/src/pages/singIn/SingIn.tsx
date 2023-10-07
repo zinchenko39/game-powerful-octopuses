@@ -5,19 +5,22 @@ import { CustomTextField } from '../../components/CustomTextField/CustomTextFiel
 import { singInInitialValues } from '../../constants/initialValues'
 import { singInValidationSchema } from '../../constants/validationSchema'
 import { AuthService } from '../../services/auth-service'
-import { SignInProps, UserService } from '../../services'
+import { SignInProps } from '../../services'
 import styles from './SingIn.module.css'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { apiSlice } from '../../store/api'
 
 export const SingIn = () => {
   const navigation = useNavigate()
+  const dispatch = useDispatch()
   const [isAnimation, setAnimation] = useState<boolean>(true)
 
   const handleSignIn = async (values: SignInProps) => {
     try {
       await AuthService.signIn(values)
 
-      await UserService.getUserInfo()
+      dispatch(apiSlice.util.invalidateTags(['USER']))
 
       navigation('/about')
     } catch (error) {

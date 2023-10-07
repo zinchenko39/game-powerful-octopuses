@@ -4,6 +4,7 @@ import { Router } from './router'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import ErrorBoundary from './services/ErrorBoundary'
+import { useGetUserQuery } from './store/api'
 
 const theme = createTheme({
   typography: {
@@ -12,6 +13,10 @@ const theme = createTheme({
 })
 
 function App() {
+  const { isLoading } = useGetUserQuery()
+
+  if (isLoading) return <>Загрузка</>
+
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
