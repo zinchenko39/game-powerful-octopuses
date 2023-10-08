@@ -5,12 +5,18 @@ import { Container } from '@mui/material'
 import { Game } from '../Game'
 import { useNavigate } from 'react-router-dom'
 import { RouterName } from '../../router/types'
+import { useDispatch } from 'react-redux'
+import { addGameBoard } from '../../store/game-boards'
+import { RootState } from '../../store'
+
+const boardId = 'boardId'
 
 export function GameMenu() {
   const [showCountdown, setShowCountdown] = useState(true)
   const [isGameOver, setIsGameOver] = useState(false)
   const [score, setScore] = useState<number>(0)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleEndCountdown = () => {
     setShowCountdown(false)
@@ -24,6 +30,10 @@ export function GameMenu() {
   }
 
   const handleRestartGame = () => {
+    dispatch(addGameBoard({ boardId }))
+
+    console.log(test, ' test?')
+
     setIsGameOver(false)
     setShowCountdown(true)
   }
@@ -37,11 +47,7 @@ export function GameMenu() {
 
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>
-      <Game
-        id="board"
-        callbackEndGame={handleEndGame}
-        callbackUserScore={handleScoreUser}
-      />
+      <Game boardId={boardId} callbackEndGame={handleEndGame} />
       {isGameOver ? (
         <GameEnd
           onRestart={handleRestartGame}

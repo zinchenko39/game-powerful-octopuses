@@ -1,19 +1,19 @@
 import { CAR_ENTITY } from '../constants/initialValues'
-import { Coordinate, EntityTypes, GameMap } from './types'
+import { Coordinate, EntityTypes, GameMapType } from './types'
 
 type MoveCarProps = {
-  gameMap: GameMap
+  gameMap: GameMapType
   coordinatesCar: Coordinate
 }
 
 export const moveCar = ({
   gameMap,
   coordinatesCar,
-}: MoveCarProps): [GameMap, boolean] => {
+}: MoveCarProps): [GameMapType, boolean] => {
   console.log(' смещение машины ', coordinatesCar)
   let currentMistake = false
 
-  const newMap: GameMap = [...gameMap]
+  const newMap: GameMapType = [...gameMap]
 
   const { x, y } = coordinatesCar
 

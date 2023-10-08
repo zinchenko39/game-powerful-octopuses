@@ -5,7 +5,7 @@ import { apiSlice } from '../api'
 export const userApi = apiSlice.injectEndpoints({
   endpoints: build => ({
     getUser: build.query<IUser, void>({
-      queryFn: () => apiSlicePromiseWrapper(() => UserService.getUserInfo()),
+      queryFn: () => apiSlicePromiseWrapper(UserService.getUserInfo),
       providesTags: ['USER'],
     }),
   }),

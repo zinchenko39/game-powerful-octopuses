@@ -1,17 +1,14 @@
-export const runAnimation = (
-  render: (animationTime: number, gameStep: number) => boolean
-) => {
+export const runAnimation = (render: (animationTime: number) => boolean) => {
   let lastTime = 0
-  let gameStep = 0
   let freezeCount = 0
+
+  console.log(freezeCount, ' freezeCount')
 
   function renderContent(time: number) {
     if (lastTime != null && (!freezeCount || !(freezeCount % 160))) {
-      gameStep += 1
-
       const timeStep = Math.min(time - lastTime, 100) / 1000
 
-      if (render(timeStep, gameStep) === false) return
+      if (render(timeStep) === false) return
     }
 
     freezeCount += 1
