@@ -12,13 +12,11 @@ import { gameSelector } from '../store/selectors'
 import { initialMap } from '../constants'
 
 type MoveMapProps = {
-  boardId: string
   gameMap: GameMapType
   gameStep: number
 }
 
 export const moveMap = ({
-  boardId,
   gameMap,
   gameStep,
 }: MoveMapProps): [
@@ -71,5 +69,5 @@ export const moveMap = ({
 
   const currentMistake = mistake
 
-  return [{ map: newMap as GameMapType, step: gameStep + 1 }, currentMistake]
+  return [{ map: newMap as GameMapType, step: gameStep }, currentMistake]
 }

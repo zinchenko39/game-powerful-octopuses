@@ -3,12 +3,10 @@ import { useRoutes } from 'react-router-dom'
 import { AUTHORIZED_ROUTES, UNAUTHORIZED_ROUTES } from './constants'
 import { Page404, Page500 } from '../pages'
 import { RouterName } from './types'
-import { useUser } from '../hooks/useUser'
+import { widthAuth } from '../HOC/width-auth'
 
-export const Router = () => {
-  const user = useUser()
-
-  const routes = user ? AUTHORIZED_ROUTES : UNAUTHORIZED_ROUTES
+export const Router = widthAuth(({ isAuth }) => {
+  const routes = isAuth ? AUTHORIZED_ROUTES : UNAUTHORIZED_ROUTES
 
   const element = useRoutes([
     ...routes,
@@ -23,4 +21,4 @@ export const Router = () => {
   ])
 
   return element
-}
+})

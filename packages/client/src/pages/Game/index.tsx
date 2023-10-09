@@ -1,66 +1,65 @@
-import { useEffect, useRef, useState } from 'react'
-import { runAnimation } from '../../actions/game-start'
-import { drawGameMap } from '../../actions/draw-game-map'
+import { useEffect, useRef } from 'react'
 import { initialMap } from '../../constants/initialValues'
-import { moveMap } from '../../actions/move-map'
-// import { useDispatch, useSelector } from 'react-redux'
-// import { updateGameBoard } from '../../store/game-boards'
-// import { gameSelector } from '../../store/selectors'
-// import { RootState } from '../../store'
+import { GameInfoType, GameMapType } from '../../actions/types'
+import { runGame } from '../../actions/game-runner'
+import { gameRender } from '../../actions/render-game'
 
 type GameProps = {
-  callbackEndGame: () => void
+  callbackEndGame: (points: number) => void
   boardId: string
 }
 
+function cloneMap() {
+  return [...initialMap.map(row => [...row])] as GameMapType
+}
+
 export const Game = ({ boardId, callbackEndGame }: GameProps) => {
-  // const dispatch = useDispatch();
-  // const { map: gameMap, step: gameStep } = useSelector((state: RootState) => gameSelector(state, boardId))
+  const refCanvas = useRef<HTMLCanvasElement | null>(null)
+  const refMapInfo = useRef<null | GameInfoType>(null)
 
-  // const ref = useRef(null)
+  useEffect(() => {
+    const { current } = refCanvas
 
-  // const render = (
-  //   animationTime: number,
-  //   context: CanvasRenderingContext2D
-  // ) => {
-  //   if (!gameMap) return false;
+    if (!current) return
 
-  //   console.log('00000000')
+    const gameContext = current.getContext('2d')
 
-  //   const [boardInfo, isMistake] = moveMap({ boardId, gameMap, gameStep })
+    if (!gameContext) return
 
-  //   console.log('00000111111')
+    if (refMapInfo.current === null) {
+      refMapInfo.current = {
+        map: cloneMap(),
+        step: 0,
+      }
 
-  //   drawGameMap({ context, boardId, isMistake, animationTime })
+      return
+    }
 
-  //   console.log(11111)
+    const render = (animationTime: number) => {
+      if (!refMapInfo.current)
+        return [true, 0] as [isGameOver: boolean, points: number]
 
-  //   dispatch(updateGameBoard({ boardId, ...boardInfo }))
+      refMapInfo.current = {
+        ...refMapInfo.current,
+        step: refMapInfo.current.step + 1,
+      }
 
-  //   console.log(22222)
+      return gameRender({
+        animationTime,
+        contextLink: gameContext,
+        infoLink: refMapInfo.current as GameInfoType,
+      })
+    }
 
-  //   if (isMistake) callbackEndGame()
-
-  //   return !isMistake
-  // }
-
-  // useEffect(() => {
-  //   console.log(ref, 'gameContext')
-
-  //   if (!ref) return
-
-  //   const { current } = ref;
-
-  //   if (!current) return
-
-  //   console.log(current, ' current')
-
-  //   runAnimation((animationTime: number) => render(animationTime, current as CanvasRenderingContext2D))
-  // }, [ref, boardId])
+    runGame({
+      render,
+      callbackEndGame,
+    })
+  }, [refCanvas])
 
   return (
     <canvas
-      ref={ref}
+      ref={refCanvas}
       id={boardId}
       width={initialMap[0].length * 200}
       height={initialMap.length * 200}
