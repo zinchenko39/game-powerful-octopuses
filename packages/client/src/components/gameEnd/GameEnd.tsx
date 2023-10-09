@@ -7,9 +7,12 @@ import {
   DialogTitle,
 } from '@mui/material'
 import { GameEndProps } from './props'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store'
 import styles from './GameEnd.module.css'
 
-export function GameEnd({ onRestart, onGoToMainMenu, points }: GameEndProps) {
+export function GameEnd({ onRestart, onGoToMainMenu }: GameEndProps) {
+  const points = useSelector((state: RootState) => state.resultScore.score)
   return (
     <Dialog open={true} className={styles.dialogContainer}>
       <DialogTitle>Игра завершена, вы набрали {points} очков</DialogTitle>
