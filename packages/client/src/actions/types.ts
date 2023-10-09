@@ -3,32 +3,41 @@ export enum EntityTypes {
   barrier = 'barrier',
 }
 
-export type Car = {
+export type CarType = {
   type: EntityTypes.car
 }
 
-export type Barrier = {
+export type BarrierType = {
   type: EntityTypes.barrier
 }
 
-export type GameCell = Barrier | null
+export type GameCellType = BarrierType | null
 
-export type GameCellForCar = Car | GameCell
+export type GameCellForCarType = CarType | GameCellType
 
-export type GameRowForCar = [GameCellForCar, GameCellForCar, GameCellForCar]
+export type GameRowForCarType = [
+  GameCellForCarType,
+  GameCellForCarType,
+  GameCellForCarType
+]
 
-export type GameRow = [GameCell, GameCell, GameCell]
+export type GameRowType = [GameCellType, GameCellType, GameCellType]
 
-export type GameMap = [
-  GameRow,
-  GameRowForCar,
-  GameRowForCar,
-  GameRowForCar,
-  GameRowForCar,
-  GameRowForCar
+export type GameMapType = [
+  GameRowType,
+  GameRowForCarType,
+  GameRowForCarType,
+  GameRowForCarType,
+  GameRowForCarType,
+  GameRowForCarType
 ]
 
 export type Coordinate = {
   x: number
   y: number
+}
+
+export type GameInfoType = {
+  map: GameMapType
+  step: number
 }

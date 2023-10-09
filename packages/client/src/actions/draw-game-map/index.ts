@@ -1,9 +1,13 @@
-import { EntityTypes, GameMap } from '../types'
+import { useSelector } from 'react-redux'
+import { EntityTypes, GameMapType } from '../types'
+import { gameSelector } from '../../store/selectors'
+import { RootState } from '../../store'
 
 type RunDrawGameMapProps = {
-  context: CanvasRenderingContext2D
-  gameMap: GameMap
+  map: GameMapType
+  contextLink: CanvasRenderingContext2D
   isMistake: boolean
+  animationTime: number
   points: number
 }
 
@@ -17,12 +21,15 @@ type RunDrawGameMapProps = {
 // ]
 
 export const drawGameMap = ({
-  context,
-  gameMap,
+  contextLink,
   isMistake,
+  animationTime,
+  map,
   points,
 }: RunDrawGameMapProps) => {
-  gameMap.forEach((row, coordinateY) => {
+  if (!map) return
+
+  map.forEach((row, coordinateY) => {
     row.forEach((cell, coordinateX) => {
       let color = 'Gray'
 
@@ -34,18 +41,22 @@ export const drawGameMap = ({
         color = 'Red'
       }
 
-      context.fillStyle = color
-      context.fillRect(coordinateX * 200, coordinateY * 200, 200, 200)
+      contextLink.fillStyle = color
+      contextLink.fillRect(coordinateX * 200, coordinateY * 200, 200, 200)
     })
   })
 
   if (isMistake) {
-    context.font = '30px Arial'
-    context.fillStyle = 'White'
-    context.fillText('Вы проиграли. Вы набрали - ' + points + 'очков', 10, 48)
+    contextLink.font = '30px Arial'
+    contextLink.fillStyle = 'White'
+    contextLink.fillText(
+      'Вы проиграли. Вы набрали - ' + points + 'очков',
+      10,
+      48
+    )
   } else {
-    context.font = '30px Arial'
-    context.fillStyle = 'White'
-    context.fillText('Гонки. Очков - ' + points, 235, 48)
+    contextLink.font = '30px Arial'
+    contextLink.fillStyle = 'White'
+    contextLink.fillText('Гонки. Очков - ' + points, 235, 48)
   }
 }

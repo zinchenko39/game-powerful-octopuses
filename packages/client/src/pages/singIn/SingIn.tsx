@@ -4,20 +4,23 @@ import { Button, Typography, Container } from '@mui/material'
 import { CustomTextField } from '../../components/CustomTextField/CustomTextField'
 import { singInInitialValues } from '../../constants/initialValues'
 import { singInValidationSchema } from '../../constants/validationSchema'
-import { AuthService } from '../../services/auth-service'
-import { SignInProps, UserService } from '../../services'
+import { SignInProps } from '../../services'
 import styles from './SingIn.module.css'
 import { useState } from 'react'
+import { useLazyGetUserQuery, useSignInMutation } from '../../store/api'
 
 export const SingIn = () => {
   const navigation = useNavigate()
+  const [signIn] = useSignInMutation()
   const [isAnimation, setAnimation] = useState<boolean>(true)
+
+  const [fetch] = useLazyGetUserQuery()
 
   const handleSignIn = async (values: SignInProps) => {
     try {
-      await AuthService.signIn(values)
+      await signIn(values)
 
-      await UserService.getUserInfo()
+      fetch()
 
       navigation('/about')
     } catch (error) {

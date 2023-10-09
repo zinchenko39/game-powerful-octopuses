@@ -1,6 +1,8 @@
 import type { SignInProps, SignUpProps } from './interfaces'
 import { network } from '../../api'
 import { RequestError, SignUpAnswer } from '../common-interfaces'
+import { store } from '../../store'
+import { apiSlice } from '../../store/api'
 
 export class AuthService {
   static url = '/auth'
@@ -35,6 +37,8 @@ export class AuthService {
     if (typeof data !== 'string') {
       throw new Error(data.reason)
     }
+
+    store.dispatch(apiSlice.util.resetApiState())
 
     return data
   }
