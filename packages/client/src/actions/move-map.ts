@@ -1,17 +1,31 @@
+import { useSelector } from 'react-redux'
 import { getRandomRow } from './helpers'
 import { moveCar } from './move-car'
-import { Coordinate, EntityTypes, GameMap, GameRowForCar } from './types'
+import {
+  Coordinate,
+  EntityTypes,
+  GameMapType,
+  GameRowForCarType,
+} from './types'
+import { RootState } from '../store'
+import { gameSelector } from '../store/selectors'
+import { initialMap } from '../constants'
 
 type MoveMapProps = {
-  gameMap: GameMap
+  gameMap: GameMapType
   gameStep: number
 }
 
 export const moveMap = ({
   gameMap,
   gameStep,
-}: MoveMapProps): [GameMap, boolean] => {
-  let newMap: GameRowForCar[] = []
+}: MoveMapProps): [
+  boardInfo: { map: GameMapType; step: number },
+  isMistake: boolean
+] => {
+  if (!gameMap) return [{ map: initialMap, step: 0 }, true]
+
+  let newMap: GameRowForCarType[] = []
 
   let mistake = false
 
@@ -25,7 +39,7 @@ export const moveMap = ({
     }
 
     if (coordinateY === lastIndexRow) {
-      const coordinateXCar = (row as GameRowForCar).findIndex(
+      const coordinateXCar = (row as GameRowForCarType).findIndex(
         cell => cell?.type === EntityTypes.car
       )
 
@@ -44,7 +58,7 @@ export const moveMap = ({
 
   if (newCoordinatesCar) {
     const [mapAfterMoveCar, mistakeAfterMoveCar] = moveCar({
-      gameMap: newMap as GameMap,
+      gameMap: newMap as GameMapType,
       coordinatesCar: newCoordinatesCar,
     })
 
@@ -55,5 +69,5 @@ export const moveMap = ({
 
   const currentMistake = mistake
 
-  return [newMap as GameMap, currentMistake]
+  return [{ map: newMap as GameMapType, step: gameStep }, currentMistake]
 }

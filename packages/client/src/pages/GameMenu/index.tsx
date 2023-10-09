@@ -6,6 +6,8 @@ import { Game } from '../Game'
 import { useNavigate } from 'react-router-dom'
 import { RouterName } from '../../router/types'
 
+const boardId = 'boardId'
+
 export function GameMenu() {
   const [showCountdown, setShowCountdown] = useState(true)
   const [isGameOver, setIsGameOver] = useState(false)
@@ -16,11 +18,10 @@ export function GameMenu() {
     setShowCountdown(false)
   }
 
-  const handleEndGame = () => {
-    setIsGameOver(true)
-  }
-  const handleScoreUser = (scoreValue: number) => {
+  const handleEndGame = (scoreValue: number) => {
+    // сохранять очки в state после завершения
     setScore(scoreValue)
+    setIsGameOver(true)
   }
 
   const handleRestartGame = () => {
@@ -37,11 +38,7 @@ export function GameMenu() {
 
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>
-      <Game
-        id="board"
-        callbackEndGame={handleEndGame}
-        callbackUserScore={handleScoreUser}
-      />
+      <Game boardId={boardId} callbackEndGame={handleEndGame} />
       {isGameOver ? (
         <GameEnd
           onRestart={handleRestartGame}

@@ -1,66 +1,66 @@
-import { useEffect, useState } from 'react'
-import { runAnimation } from '../../actions/game-start'
-import { GameMap } from '../../actions/types'
-import { drawGameMap } from '../../actions/draw-game-map'
+import { useEffect, useRef } from 'react'
 import { initialMap } from '../../constants/initialValues'
-import { moveMap } from '../../actions/move-map'
+import { GameInfoType, GameMapType } from '../../actions/types'
+import { runGame } from '../../actions/game-runner'
+import { gameRender } from '../../actions/render-game'
 
 type GameProps = {
-  callbackEndGame: () => void
-  callbackUserScore: (score: number) => void
-  id: string
+  callbackEndGame: (points: number) => void
+  boardId: string
 }
 
-export const Game = ({ id, callbackEndGame, callbackUserScore }: GameProps) => {
-  const [gameContext, setGameContext] =
-    useState<CanvasRenderingContext2D | null>(null)
-  let currentGameMap: GameMap = initialMap
+function cloneMap() {
+  return [...initialMap.map(row => [...row])] as GameMapType
+}
 
-  const render = (
-    animationTime: number,
-    step: number,
-    context: CanvasRenderingContext2D
-  ) => {
-    const [newMap, isMistake] = moveMap({
-      gameMap: currentGameMap,
-      gameStep: step,
-    })
-
-    currentGameMap = newMap
-
-    if (isMistake) {
-      callbackEndGame()
-      callbackUserScore(step)
-    }
-
-    drawGameMap({ context, gameMap: newMap, isMistake, points: step })
-
-    return !isMistake
-  }
+export const Game = ({ boardId, callbackEndGame }: GameProps) => {
+  const refCanvas = useRef<HTMLCanvasElement | null>(null)
+  const refMapInfo = useRef<null | GameInfoType>(null)
 
   useEffect(() => {
-    const canvas = document.getElementById('board') as HTMLCanvasElement
+    const { current } = refCanvas
 
-    if (!canvas) return
+    if (!current) return
 
-    const context = canvas.getContext('2d')
+    const gameContext = current.getContext('2d')
 
-    if (!context) return
-
-    setGameContext(context)
-  }, [])
-
-  useEffect(() => {
     if (!gameContext) return
 
-    runAnimation((animationTime: number, step: number) =>
-      render(animationTime, step, gameContext)
-    )
-  }, [gameContext])
+    if (refMapInfo.current === null) {
+      refMapInfo.current = {
+        map: cloneMap(),
+        step: 0,
+      }
+
+      return
+    }
+
+    const render = (animationTime: number) => {
+      if (!refMapInfo.current)
+        return [true, 0] as [isGameOver: boolean, points: number]
+
+      refMapInfo.current = {
+        ...refMapInfo.current,
+        step: refMapInfo.current.step + 1,
+      }
+
+      return gameRender({
+        animationTime,
+        contextLink: gameContext,
+        infoLink: refMapInfo.current as GameInfoType,
+      })
+    }
+
+    runGame({
+      render,
+      callbackEndGame,
+    })
+  }, [refCanvas])
 
   return (
     <canvas
-      id={id}
+      ref={refCanvas}
+      id={boardId}
       width={initialMap[0].length * 200}
       height={initialMap.length * 200}
     />
