@@ -8,13 +8,18 @@ import { RouterName } from '../../router/types'
 
 const boardId = 'boardId'
 
+enum FullScreenText {
+  full = 'на полный экран',
+  default = 'уменьшить экран',
+}
+
 export function GameMenu() {
   const [showCountdown, setShowCountdown] = useState(true)
   const [isGameOver, setIsGameOver] = useState(false)
   const [score, setScore] = useState<number>(0)
   const navigate = useNavigate()
   const [textFullScreenButton, setTextFullScreenButton] =
-    useState('на полный экран')
+    useState<FullScreenText>(FullScreenText.full)
 
   const handleEndCountdown = () => {
     setShowCountdown(false)
@@ -41,10 +46,10 @@ export function GameMenu() {
   const handleClickFullScreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen()
-      setTextFullScreenButton('уменьшить экран')
+      setTextFullScreenButton(FullScreenText.default)
     } else if (document.exitFullscreen) {
       document.exitFullscreen()
-      setTextFullScreenButton('на полный экран')
+      setTextFullScreenButton(FullScreenText.full)
     }
   }
 
