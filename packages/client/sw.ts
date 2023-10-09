@@ -17,57 +17,41 @@ const urlsToCache: string[] = [
 
 self.addEventListener('install', (event: any) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(urlsToCache)
-    })
+    (async () => {
+      try {
+        const cache = await caches.open(CACHE_NAME)
+        await cache.addAll(urlsToCache)
+      } catch (error) {
+        console.error('Error during installation:', error)
+      }
+    })()
   )
 })
 
 self.addEventListener('fetch', (event: any) => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      if (response) {
-        return response
-      }
+    (async () => {
+      try {
+        let response = await caches.match(event.request)
+        if (response) {
+          return response
+        }
 
-      return fetch(event.request).then(response => {
+        response = await fetch(event.request)
         if (!response || response.status !== 200 || response.type !== 'basic') {
           return response
         }
 
         const responseToCache = response.clone()
-
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseToCache)
-        })
+        const cache = await caches.open(CACHE_NAME)
+        cache.put(event.request, responseToCache)
 
         return response
-      })
-    })
-  )
-})
-
-self.addEventListener('fetch', (event: any) => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      if (response) {
-        return response
+      } catch (error) {
+        console.error('Error during fetch:', error)
+        throw error
       }
-
-      return fetch(event.request).then(response => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response
-        }
-
-        const responseToCache = response.clone()
-
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseToCache)
-        })
-
-        return response
-      })
-    })
+    })()
   )
 })
 
@@ -75,14 +59,19 @@ self.addEventListener('activate', (event: any) => {
   const cacheWhitelist = [CACHE_NAME]
 
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
-            return caches.delete(cacheName)
-          }
-        })
-      )
-    })
+    (async () => {
+      try {
+        const cacheNames = await caches.keys()
+        await Promise.all(
+          cacheNames.map(async cacheName => {
+            if (cacheWhitelist.indexOf(cacheName) === -1) {
+              await caches.delete(cacheName)
+            }
+          })
+        )
+      } catch (error) {
+        console.error('Error during activation:', error)
+      }
+    })()
   )
 })
