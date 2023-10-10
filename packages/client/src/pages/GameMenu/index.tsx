@@ -5,14 +5,17 @@ import { Container, Button } from '@mui/material'
 import { Game } from '../Game'
 import { useNavigate } from 'react-router-dom'
 import { RouterName } from '../../router/types'
+import { useDispatch } from 'react-redux'
+import { updateResultScore } from '../../store/result-score'
 import { useFullScreen } from '../../hooks/useFullScreen'
 
 const boardId = 'boardId'
 
 export function GameMenu() {
+  const dispatch = useDispatch()
   const [showCountdown, setShowCountdown] = useState(true)
   const [isGameOver, setIsGameOver] = useState(false)
-  const [score, setScore] = useState<number>(0)
+
   const navigate = useNavigate()
   const [changeFullScreen, textContent] = useFullScreen()
 
@@ -21,13 +24,14 @@ export function GameMenu() {
   }
 
   const handleEndGame = (scoreValue: number) => {
-    // сохранять очки в state после завершения
-    setScore(scoreValue)
+    dispatch(updateResultScore(scoreValue))
+
     setIsGameOver(true)
   }
 
   const handleRestartGame = () => {
     setIsGameOver(false)
+
     setShowCountdown(true)
   }
   const handleGoToMainMenu = () => {
@@ -46,7 +50,6 @@ export function GameMenu() {
         <GameEnd
           onRestart={handleRestartGame}
           onGoToMainMenu={handleGoToMainMenu}
-          points={score}
         />
       ) : null}
     </Container>
