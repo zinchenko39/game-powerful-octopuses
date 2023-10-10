@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { Countdown } from '../../components/Countdown/Countdown'
 import { GameEnd } from '../../components/gameEnd/GameEnd'
-import { Container } from '@mui/material'
+import { Container, Button } from '@mui/material'
 import { Game } from '../Game'
 import { useNavigate } from 'react-router-dom'
 import { RouterName } from '../../router/types'
 import { useDispatch } from 'react-redux'
 import { updateResultScore } from '../../store/result-score'
+import { useFullScreen } from '../../hooks/useFullScreen'
+
 const boardId = 'boardId'
 
 export function GameMenu() {
@@ -15,19 +17,21 @@ export function GameMenu() {
   const [isGameOver, setIsGameOver] = useState(false)
 
   const navigate = useNavigate()
+  const [changeFullScreen, textContent] = useFullScreen()
 
   const handleEndCountdown = () => {
     setShowCountdown(false)
   }
 
   const handleEndGame = (scoreValue: number) => {
-    // сохранять очки в state после завершения
     dispatch(updateResultScore(scoreValue))
+
     setIsGameOver(true)
   }
 
   const handleRestartGame = () => {
     setIsGameOver(false)
+
     setShowCountdown(true)
   }
   const handleGoToMainMenu = () => {
@@ -40,6 +44,7 @@ export function GameMenu() {
 
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>
+      <Button onClick={changeFullScreen}>{textContent}</Button>
       <Game boardId={boardId} callbackEndGame={handleEndGame} />
       {isGameOver ? (
         <GameEnd
