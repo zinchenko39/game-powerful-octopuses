@@ -1,17 +1,19 @@
 import { useEffect, useRef } from 'react'
 import { initialMap } from '../../constants/initial-values'
-import { GameInfoType, GameMapType } from '../../actions/types'
+import { GameInfoType } from '../../actions/types'
 import { runGame } from '../../actions/game-runner'
-import { gameRender } from '../../actions/render-game'
 import { runControlCar } from '../../actions/run-control-car'
 import { cloneMap } from '../../utils/clone-map'
+import { moveMap } from '../../actions/move-map'
+import { drawGameMap } from '../../actions/draw-game-map'
 
 type GameProps = {
   callbackEndGame: (points: number) => void
   boardId: string
+  controlButtons: 'first' | 'second'
 }
 
-export const Game = ({ boardId, callbackEndGame }: GameProps) => {
+export const Game = ({ boardId, callbackEndGame, controlButtons }: GameProps) => {
   const refCanvas = useRef<HTMLCanvasElement | null>(null)
   const refMapInfo = useRef<null | GameInfoType>(null)
 
@@ -28,6 +30,8 @@ export const Game = ({ boardId, callbackEndGame }: GameProps) => {
       refMapInfo.current = {
         map: cloneMap(initialMap),
         step: 0,
+        isMistake: false,
+        freezeSteps: 100,
       }
 
       return
@@ -35,26 +39,24 @@ export const Game = ({ boardId, callbackEndGame }: GameProps) => {
 
     const render = (
       animationTime: number,
-      renderStep: number
-    ): [isGameOver: boolean] => {
-      if (!refMapInfo.current) return [true]
+    ) => {
+      if (!refMapInfo.current) return true
 
-      refMapInfo.current = {
-        ...refMapInfo.current,
-        step: refMapInfo.current.step + 1,
-      }
-
-      gameRender({
-        animationTime,
+      moveMap(refMapInfo.current)
+    
+      drawGameMap({
         contextLink: gameContext,
         infoLink: refMapInfo.current,
-        isMistake: false,
+        animationTime,
       })
 
-      return [false]
+      if (refMapInfo.current.isMistake) callbackEndGame(refMapInfo.current.step)
+
+      return refMapInfo.current.isMistake
     }
 
-    runControlCar(refMapInfo.current.map)
+    runControlCar({ gameInfo: refMapInfo.current, controlButtons })
+
     runGame(render)
   }, [refCanvas])
 
@@ -62,6 +64,7 @@ export const Game = ({ boardId, callbackEndGame }: GameProps) => {
     <canvas
       ref={refCanvas}
       id={boardId}
+      key={boardId}
       width={initialMap[0].length * 200}
       height={initialMap.length * 200}
     />

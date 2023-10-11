@@ -17,7 +17,7 @@ const variation: GameRowType[] = [
 export const getRandomRow = (gameStep: number): GameRowType => {
   const index = Math.floor(Math.random() * (variation.length + 1))
 
-  if (variation[index] && !(gameStep % 200)) return variation[index]
+  if (variation[index] && !(gameStep % 2)) return variation[index]
 
   return defaultRow
 }

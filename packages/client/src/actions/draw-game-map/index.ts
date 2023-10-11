@@ -1,14 +1,12 @@
-import { EntityTypes, GameMapType } from '../types'
+import { EntityTypes, GameInfoType } from '../types'
 import car from '../../images/car.png'
 import barrier from '../../images/barrier.png'
 import bonus from '../../images/bonus.png'
 
 type RunDrawGameMapProps = {
-  map: GameMapType
   contextLink: CanvasRenderingContext2D
-  isMistake: boolean
   animationTime: number
-  points: number
+  infoLink: GameInfoType
 }
 
 // наша карта = [
@@ -37,11 +35,10 @@ imgBonus.src = bonus
 
 export const drawGameMap = ({
   contextLink,
-  isMistake,
   animationTime,
-  map,
-  points,
+  infoLink
 }: RunDrawGameMapProps) => {
+  const { map, step: points, isMistake } = infoLink;
   if (!map) return
 
   map.forEach((row, coordinateY) => {

@@ -45,4 +45,6 @@ export type Coordinate = {
 export type GameInfoType = {
   map: GameMapType
   step: number
+  isMistake: boolean
+  freezeSteps: number
 }

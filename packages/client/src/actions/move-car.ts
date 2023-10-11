@@ -1,6 +1,6 @@
 import { CAR_ENTITY } from '../constants'
 import { getCoordinateCar } from './helpers'
-import { GameMapType } from './types'
+import { EntityTypes, GameInfoType } from './types'
 
 const DirectionsMove = {
   вверх: { x: 0, y: -1 },
@@ -10,11 +10,13 @@ const DirectionsMove = {
 }
 
 type MoveCarProps = {
-  mapLink: GameMapType
+  gameInfo: GameInfoType
   move: keyof typeof DirectionsMove
 }
 
-export const moveCar = ({ mapLink, move }: MoveCarProps) => {
+export const moveCar = ({ gameInfo, move }: MoveCarProps) => {
+  const mapLink = gameInfo.map
+
   const { x, y } = DirectionsMove[move]
 
   const { x: currentX, y: currentY } = getCoordinateCar(mapLink)
@@ -29,8 +31,14 @@ export const moveCar = ({ mapLink, move }: MoveCarProps) => {
 
   const currentCell = mapLink[newCoordinateY][newCoordinateX]
 
-  if (currentCell) {
-    console.log('наехали на препятствие')
+  if (currentCell?.type === EntityTypes.barrier) {
+    gameInfo.isMistake = true;
+    // dispatch mistake
+  }
+
+  if (currentCell?.type === EntityTypes.bonus) {
+    gameInfo.freezeSteps = gameInfo.freezeSteps < 20 ? gameInfo.freezeSteps : gameInfo.freezeSteps - 10;
+    gameInfo.step += 100
     // dispatch mistake
   }
 

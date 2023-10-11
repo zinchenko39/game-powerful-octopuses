@@ -1,33 +1,37 @@
-import { getCoordinateCar, getRandomRow } from './helpers'
+import { getRandomRow } from './helpers'
 import { moveCar } from './move-car'
-import { GameMapType } from './types'
+import { GameInfoType } from './types'
 import { cloneMap } from '../utils/clone-map'
 
-type MoveMapProps = {
-  mapLink: GameMapType
-  gameStep: number
-}
+let currentFreezeSteps = 0;
 
-export const moveMap = ({ mapLink, gameStep }: MoveMapProps): GameMapType => {
-  if (!mapLink) return mapLink
+export const moveMap = (gameInfo: GameInfoType) => {
+  const mapLink = gameInfo.map
+  const freezeSteps = gameInfo.freezeSteps
 
-  moveCar({ mapLink, move: 'вверх' })
+  currentFreezeSteps += 1
 
-  const oldMap = cloneMap(mapLink)
+  if (currentFreezeSteps >= freezeSteps) {
+    currentFreezeSteps = 0;
 
-  mapLink.forEach((_, coordinateY) => {
-    if (coordinateY === 0) {
-      const newRow = getRandomRow(gameStep)
+    gameInfo.step += 1
 
-      console.log(newRow, gameStep, ' newRow')
+    if (!mapLink) return mapLink
 
-      mapLink[coordinateY] = newRow
+    moveCar({ gameInfo, move: 'вверх' })
 
-      return
-    }
+    const oldMap = cloneMap(mapLink)
 
-    mapLink[coordinateY] = oldMap[coordinateY - 1]
-  })
+    mapLink.forEach((_, coordinateY) => {
+      if (coordinateY === 0) {
+        const newRow = getRandomRow(gameInfo.step)
 
-  return mapLink
+        mapLink[coordinateY] = newRow
+
+        return
+      }
+
+      mapLink[coordinateY] = oldMap[coordinateY - 1]
+    })
+  }
 }
