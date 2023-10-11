@@ -8,7 +8,7 @@ type WrappedComponentProps<T> = {
   user?: IUser
 } & T
 
-export const widthAuth = <T,>(
+export const withAuth = <T,>(
   WrappedComponent: React.ComponentType<WrappedComponentProps<T>>
 ) => {
   const WrappedComponentContainer = (props: T) => {
