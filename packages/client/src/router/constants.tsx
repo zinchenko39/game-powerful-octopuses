@@ -7,9 +7,9 @@ import {
   UserProfile,
   SingUp,
   SingIn,
+  TopicScreen,
 } from '../pages'
-import { TopicScreen } from '../pages/forum-page/TopicScreen'
-import { TopicDetails } from '../components/topic-details/topic-details'
+import { TopicDetails } from '../components'
 import { RouterName } from './types'
 
 export const AUTHORIZED_ROUTES: { path: string; element?: ReactNode }[] = [

@@ -12,7 +12,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import CommentIcon from '@mui/icons-material/Comment'
 import { topics } from '../../pages/forum-page/dataFake'
 
-const TopicsList: React.FC = () => {
+export const TopicsList: React.FC = () => {
   // тут будет получение всех тем из api, пока тут dummy
   return (
     <List sx={{ m: 3, px: 3, py: 2 }}>
@@ -55,4 +55,3 @@ const TopicsList: React.FC = () => {
     </List>
   )
 }
-export default TopicsList

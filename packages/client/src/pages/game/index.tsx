@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { initialMap } from '../../constants/initialValues'
+import { initialMap } from '../../constants/initial-values'
 import { GameInfoType, GameMapType } from '../../actions/types'
 import { runGame } from '../../actions/game-runner'
 import { gameRender } from '../../actions/render-game'

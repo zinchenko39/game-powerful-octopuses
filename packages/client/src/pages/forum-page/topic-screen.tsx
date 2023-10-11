@@ -8,8 +8,8 @@ import {
   Box,
   Breadcrumbs,
 } from '@mui/material'
-import TopicsList from '../../components/topics-list/topics-list'
-import NewTopicModal from '../../components/modal-new-topic/new-topic-modal'
+import { TopicsList } from '../../components'
+import { NewTopicModal } from '../../components'
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined'
 
 export const TopicScreen: React.FC = () => {

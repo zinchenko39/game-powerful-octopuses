@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { Router } from './router'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import ErrorBoundary from './services/ErrorBoundary'
+import ErrorBoundary from './services/error-boundary'
 
 const theme = createTheme({
   typography: {
