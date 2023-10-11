@@ -16,7 +16,7 @@ export const gameRender = ({
   isMistake,
 }: GameRenderProps) => {
   let map = infoLink.map
-  if (!(infoLink.step % 160)) {
+  if (!(infoLink.step % 100)) {
     map = moveMap({
       mapLink: infoLink.map,
       gameStep: infoLink.step,

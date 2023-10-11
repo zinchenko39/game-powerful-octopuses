@@ -1,6 +1,7 @@
 import { EntityTypes, GameMapType } from '../types'
 import car from '../../images/car.png'
 import barrier from '../../images/barrier.png'
+import bonus from '../../images/bonus.png'
 
 type RunDrawGameMapProps = {
   map: GameMapType
@@ -29,6 +30,11 @@ imgBarrier.width = 200
 imgBarrier.height = 200
 imgBarrier.src = barrier
 
+const imgBonus = new Image()
+imgBonus.width = 200
+imgBonus.height = 200
+imgBonus.src = bonus
+
 export const drawGameMap = ({
   contextLink,
   isMistake,
@@ -49,12 +55,13 @@ export const drawGameMap = ({
         if (type === EntityTypes.barrier) {
           color = 'Green'
           currentImage = imgBarrier
-        } else {
+        } else if (type === EntityTypes.car) {
           color = 'Yellow'
           currentImage = imgCar
+        } else if (type === EntityTypes.bonus) {
+          color = 'Blue'
+          currentImage = imgBonus
         }
-
-        color = type === EntityTypes.barrier ? 'Green' : 'Yellow'
       } else if (isMistake) {
         color = 'Red'
       }

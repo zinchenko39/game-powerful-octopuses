@@ -1,5 +1,6 @@
 import {
   BarrierType,
+  BonusType,
   CarType,
   EntityTypes,
   GameMapType,
@@ -35,6 +36,8 @@ export const newCommentInitialValues = {
 export const CAR_ENTITY: CarType = { type: EntityTypes.car }
 
 export const BARRIER_ENTITY: BarrierType = { type: EntityTypes.barrier }
+
+export const BONUS_ENTITY: BonusType = { type: EntityTypes.bonus }
 
 export const initialMap: GameMapType = [
   [null, null, null],
