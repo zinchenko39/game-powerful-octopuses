@@ -1,3 +1,3 @@
-export * from './forumInterface'
-export * from './initialValues'
-export * from './validationSchema'
+export * from './forum-interface'
+export * from './initial-values'
+export * from './validation-schema'

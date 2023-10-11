@@ -1,4 +1,4 @@
-import { CAR_ENTITY } from '../constants/initialValues'
+import { CAR_ENTITY } from '../constants'
 import { getCoordinateCar } from './helpers'
 import { GameMapType } from './types'
 

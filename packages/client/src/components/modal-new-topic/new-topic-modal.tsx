@@ -1,17 +1,17 @@
 import React from 'react'
 import { Modal, Box, Button, Typography } from '@mui/material'
 import { Formik, Form, FormikHelpers } from 'formik'
-import { newTopicInitialValues } from '../../constants/initialValues'
-import { newTopicValidationSchema } from '../../constants/validationSchema'
+import { newTopicInitialValues } from '../../constants'
+import { newTopicValidationSchema } from '../../constants'
 import { CustomTextField } from '../custom-text-field'
-import { TopicDetailsProps } from '../../constants/forumInterface'
+import { TopicDetailsProps } from '../../constants'
 
 type NewTopicModalProps = {
   isOpen: boolean
   onClose: () => void
 }
 
-const NewTopicModal: React.FC<NewTopicModalProps> = ({
+export const NewTopicModal: React.FC<NewTopicModalProps> = ({
   isOpen,
   onClose,
 }: NewTopicModalProps) => {
@@ -76,4 +76,3 @@ const NewTopicModal: React.FC<NewTopicModalProps> = ({
     </Modal>
   )
 }
-export default NewTopicModal

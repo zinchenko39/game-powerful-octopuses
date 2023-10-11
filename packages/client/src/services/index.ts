@@ -1,4 +1,4 @@
 export * from './auth-service'
 export * from './user-service'
-export * from './ErrorBoundary'
+export * from './error-boundary'
 export * from './common-interfaces'
