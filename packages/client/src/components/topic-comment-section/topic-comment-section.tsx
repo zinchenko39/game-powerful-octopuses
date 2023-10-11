@@ -9,7 +9,7 @@ import {
   Box,
 } from '@mui/material'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
-import { TopicCommentSectionProps } from '../../../../constants/forumInterface'
+import { TopicCommentSectionProps } from '../../constants/forumInterface'
 export const TopicCommentSection: React.FC<TopicCommentSectionProps> = ({
   comments,
 }) => {

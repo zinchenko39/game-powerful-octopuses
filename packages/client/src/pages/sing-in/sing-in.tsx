@@ -5,7 +5,7 @@ import { CustomTextField } from '../../components/custom-text-field'
 import { singInInitialValues } from '../../constants/initialValues'
 import { singInValidationSchema } from '../../constants/validationSchema'
 import { SignInProps } from '../../services'
-import styles from './SingIn.module.css'
+import styles from './sing-in.module.css'
 import { useState } from 'react'
 import { useLazyGetUserQuery, useSignInMutation } from '../../store/api'
 

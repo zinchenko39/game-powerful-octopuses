@@ -9,7 +9,7 @@ import {
 import { GameEndProps } from './props'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
-import styles from './GameEnd.module.css'
+import styles from './game-end.module.css'
 
 export function GameEnd({ onRestart, onGoToMainMenu }: GameEndProps) {
   const points = useSelector((state: RootState) => state.resultScore.score)

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import styles from './countdown.module.css'
+import styles from './count-down.module.css'
 
 export type CountDownProps = {
   onEnd: () => void

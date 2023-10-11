@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import CommentIcon from '@mui/icons-material/Comment'
-import { topics } from '../dataFake'
+import { topics } from '../../pages/forum-page/dataFake'
 
 const TopicsList: React.FC = () => {
   // тут будет получение всех тем из api, пока тут dummy

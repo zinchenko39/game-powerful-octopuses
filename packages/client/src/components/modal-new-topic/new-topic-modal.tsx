@@ -1,10 +1,10 @@
 import React from 'react'
 import { Modal, Box, Button, Typography } from '@mui/material'
 import { Formik, Form, FormikHelpers } from 'formik'
-import { newTopicInitialValues } from '../../../constants/initialValues'
-import { newTopicValidationSchema } from '../../../constants/validationSchema'
-import { CustomTextField } from '../../../components/custom-text-field'
-import { TopicDetailsProps } from '../../../constants/forumInterface'
+import { newTopicInitialValues } from '../../constants/initialValues'
+import { newTopicValidationSchema } from '../../constants/validationSchema'
+import { CustomTextField } from '../custom-text-field'
+import { TopicDetailsProps } from '../../constants/forumInterface'
 
 type NewTopicModalProps = {
   isOpen: boolean

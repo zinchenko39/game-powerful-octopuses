@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import { Countdown } from '../../components/countdown'
-import { GameEnd } from '../../components/gameEnd/GameEnd'
+import { Countdown } from '../../components/count-down'
+import { GameEnd } from '../../components/game-end/game-end'
 import { Container, Button } from '@mui/material'
-import { Game } from '../Game'
+import { Game } from '../_game'
 import { useNavigate } from 'react-router-dom'
 import { RouterName } from '../../router/types'
 import { useDispatch } from 'react-redux'
 import { updateResultScore } from '../../store/result-score'
-import { useFullScreen } from '../../hooks/useFullScreen'
+import { useFullScreen } from '../../hooks/use-full-screen'
 
 const boardId = 'boardId'
 

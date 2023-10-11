@@ -1,15 +1,19 @@
 import React from 'react'
-import type { IUserProfileView } from './interfaces'
 import { Avatar, Button, Container, Typography } from '@mui/material'
 import { BASE_URL } from '../../globals'
 import { useNavigate } from 'react-router-dom'
 import { LeaderList } from '../leader-list'
 import { RouterName } from '../../router/types'
 import { useLogoutMutation } from '../../store/api'
+import { useUser } from '../../hooks/use-user'
 
-export const UserProfileView: React.FC<IUserProfileView> = ({ user }) => {
+export const UserProfileView: React.FC = () => {
+  const user = useUser()
+
   const navigate = useNavigate()
+
   const [userLogout] = useLogoutMutation()
+
   const logout = async () => {
     try {
       await userLogout()
@@ -18,6 +22,9 @@ export const UserProfileView: React.FC<IUserProfileView> = ({ user }) => {
       console.error(error)
     }
   }
+
+  if (!user) return null
+
   return (
     <Container
       sx={{

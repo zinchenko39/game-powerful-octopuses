@@ -8,8 +8,8 @@ import {
   SingUp,
   SingIn,
 } from '../pages'
-import { TopicScreen } from '../pages/forumPage/TopicScreen'
-import { TopicDetails } from '../pages/forumPage/topicDetails/TopicDetails'
+import { TopicScreen } from '../pages/forum-page/TopicScreen'
+import { TopicDetails } from '../components/topic-details/topic-details'
 import { RouterName } from './types'
 
 export const AUTHORIZED_ROUTES: { path: string; element?: ReactNode }[] = [
