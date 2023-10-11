@@ -3,7 +3,7 @@
 ## Установка 
 Скопируйте ссылку на наш репозиторий:
 ```
-https://github.com/zinchenko39/game_powerful_octopuses.git
+git clone https://github.com/zinchenko39/game_powerful_octopuses.git
 ```
 Выполните установку:
 ```
