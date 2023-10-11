@@ -1,39 +1,39 @@
 import { CAR_ENTITY } from '../constants/initialValues'
-import { Coordinate, EntityTypes, GameMapType } from './types'
+import { getCoordinateCar } from './helpers'
+import { GameMapType } from './types'
 
-type MoveCarProps = {
-  gameMap: GameMapType
-  coordinatesCar: Coordinate
+const DirectionsMove = {
+  вверх: { x: 0, y: -1 },
+  вниз: { x: 0, y: 1 },
+  влево: { x: -1, y: 0 },
+  вправо: { x: 1, y: 0 },
 }
 
-export const moveCar = ({
-  gameMap,
-  coordinatesCar,
-}: MoveCarProps): [GameMapType, boolean] => {
-  console.log(' смещение машины ', coordinatesCar)
-  let currentMistake = false
+type MoveCarProps = {
+  mapLink: GameMapType
+  move: keyof typeof DirectionsMove
+}
 
-  const newMap: GameMapType = [...gameMap]
+export const moveCar = ({ mapLink, move }: MoveCarProps) => {
+  const { x, y } = DirectionsMove[move]
 
-  const { x, y } = coordinatesCar
+  const { x: currentX, y: currentY } = getCoordinateCar(mapLink)
 
-  const currentCell = newMap[y][x]
+  const newCoordinateX =
+    x + currentX >= 0 && x + currentX < mapLink[0].length
+      ? x + currentX
+      : currentX
 
-  newMap.forEach(row => {
-    row.forEach(cell => {
-      if (!cell) return
+  const newCoordinateY =
+    y + currentY > 0 && y + currentY < mapLink.length ? y + currentY : currentY
 
-      const { type } = cell
+  const currentCell = mapLink[newCoordinateY][newCoordinateX]
 
-      if (type === EntityTypes.car) {
-        cell = null
-      }
-    })
-  })
+  if (currentCell) {
+    console.log('наехали на препятствие')
+    // dispatch mistake
+  }
 
-  if (currentCell) currentMistake = true
-
-  newMap[y][x] = CAR_ENTITY
-
-  return [newMap, currentMistake]
+  mapLink[currentY][currentX] = null
+  mapLink[newCoordinateY][newCoordinateX] = CAR_ENTITY
 }

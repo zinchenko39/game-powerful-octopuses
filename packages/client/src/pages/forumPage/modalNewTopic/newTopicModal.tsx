@@ -3,7 +3,7 @@ import { Modal, Box, Button, Typography } from '@mui/material'
 import { Formik, Form, FormikHelpers } from 'formik'
 import { newTopicInitialValues } from '../../../constants/initialValues'
 import { newTopicValidationSchema } from '../../../constants/validationSchema'
-import { CustomTextField } from '../../../components/CustomTextField/CustomTextField'
+import { CustomTextField } from '../../../components/custom-text-field'
 import { TopicDetailsProps } from '../../../constants/forumInterface'
 
 type NewTopicModalProps = {

@@ -6,23 +6,30 @@ type GameRenderProps = {
   animationTime: number
   contextLink: CanvasRenderingContext2D
   infoLink: GameInfoType
+  isMistake: boolean
 }
 
 export const gameRender = ({
   animationTime,
   contextLink,
   infoLink,
-}: GameRenderProps): [isGameOver: boolean, points: number] => {
-  const [boardInfo, isMistake] = moveMap({
-    gameMap: infoLink.map,
-    gameStep: infoLink.step,
+  isMistake,
+}: GameRenderProps) => {
+  let map = infoLink.map
+  if (!(infoLink.step % 160)) {
+    map = moveMap({
+      mapLink: infoLink.map,
+      gameStep: infoLink.step,
+    })
+
+    console.log(map, ' map')
+  }
+
+  drawGameMap({
+    contextLink,
+    map: map,
+    isMistake,
+    points: infoLink.step,
+    animationTime,
   })
-
-  const { map, step } = boardInfo
-
-  infoLink.map = map
-
-  drawGameMap({ contextLink, map, isMistake, points: step, animationTime })
-
-  return [isMistake, step]
 }

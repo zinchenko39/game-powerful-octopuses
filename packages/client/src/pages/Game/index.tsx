@@ -3,14 +3,12 @@ import { initialMap } from '../../constants/initialValues'
 import { GameInfoType, GameMapType } from '../../actions/types'
 import { runGame } from '../../actions/game-runner'
 import { gameRender } from '../../actions/render-game'
+import { runControlCar } from '../../actions/run-control-car'
+import { cloneMap } from '../../utils/clone-map'
 
 type GameProps = {
   callbackEndGame: (points: number) => void
   boardId: string
-}
-
-function cloneMap() {
-  return [...initialMap.map(row => [...row])] as GameMapType
 }
 
 export const Game = ({ boardId, callbackEndGame }: GameProps) => {
@@ -28,33 +26,36 @@ export const Game = ({ boardId, callbackEndGame }: GameProps) => {
 
     if (refMapInfo.current === null) {
       refMapInfo.current = {
-        map: cloneMap(),
+        map: cloneMap(initialMap),
         step: 0,
       }
 
       return
     }
 
-    const render = (animationTime: number) => {
-      if (!refMapInfo.current)
-        return [true, 0] as [isGameOver: boolean, points: number]
+    const render = (
+      animationTime: number,
+      renderStep: number
+    ): [isGameOver: boolean] => {
+      if (!refMapInfo.current) return [true]
 
       refMapInfo.current = {
         ...refMapInfo.current,
         step: refMapInfo.current.step + 1,
       }
 
-      return gameRender({
+      gameRender({
         animationTime,
         contextLink: gameContext,
-        infoLink: refMapInfo.current as GameInfoType,
+        infoLink: refMapInfo.current,
+        isMistake: false,
       })
+
+      return [false]
     }
 
-    runGame({
-      render,
-      callbackEndGame,
-    })
+    runControlCar(refMapInfo.current.map)
+    runGame(render)
   }, [refCanvas])
 
   return (
