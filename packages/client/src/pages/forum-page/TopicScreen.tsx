@@ -8,7 +8,7 @@ import {
   Box,
   Breadcrumbs,
 } from '@mui/material'
-import TopicsList from '../../components/topics-list/TopicsList'
+import TopicsList from '../../components/topics-list/topics-list'
 import NewTopicModal from '../../components/modal-new-topic/new-topic-modal'
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined'
 
