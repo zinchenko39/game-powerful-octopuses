@@ -1,4 +1,4 @@
-export * from './CustomTextField'
+export * from './custom-text-field'
 export * from './leader-item'
 export * from './leader-list'
 export * from './navigation'

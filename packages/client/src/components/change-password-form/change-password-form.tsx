@@ -6,7 +6,7 @@ import {
 } from '../../constants'
 import { IChangePasswordForm } from './interfaces'
 import { Button, Container, Typography } from '@mui/material'
-import { CustomTextField } from '../CustomTextField'
+import { CustomTextField } from '../custom-text-field'
 
 export const ChangePasswordForm: React.FC<IChangePasswordForm> = ({
   onSubmit,

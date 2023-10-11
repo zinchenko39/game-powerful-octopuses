@@ -1,6 +1,7 @@
 export enum EntityTypes {
   car = 'car',
   barrier = 'barrier',
+  bonus = 'bonus',
 }
 
 export type CarType = {
@@ -11,7 +12,11 @@ export type BarrierType = {
   type: EntityTypes.barrier
 }
 
-export type GameCellType = BarrierType | null
+export type BonusType = {
+  type: EntityTypes.bonus
+}
+
+export type GameCellType = BonusType | BarrierType | null
 
 export type GameCellForCarType = CarType | GameCellType
 

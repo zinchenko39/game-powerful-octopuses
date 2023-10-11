@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Countdown } from '../../components/Countdown/Countdown'
+import { Countdown } from '../../components/countdown'
 import { GameEnd } from '../../components/gameEnd/GameEnd'
 import { Container, Button } from '@mui/material'
 import { Game } from '../Game'

@@ -15,7 +15,7 @@ import { topics, comments } from '../dataFake'
 import { newCommentInitialValues } from '../../../constants/initialValues'
 import { newCommentValidationSchema } from '../../../constants/validationSchema'
 import { NewCommentProps } from '../../../constants/forumInterface'
-import { CustomTextField } from '../../../components/CustomTextField/CustomTextField'
+import { CustomTextField } from '../../../components/custom-text-field'
 
 export const TopicDetails: React.FC = () => {
   const { topicId } = useParams()

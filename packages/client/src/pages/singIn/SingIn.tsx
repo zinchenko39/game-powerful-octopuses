@@ -1,7 +1,7 @@
 import { Formik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Typography, Container } from '@mui/material'
-import { CustomTextField } from '../../components/CustomTextField/CustomTextField'
+import { CustomTextField } from '../../components/custom-text-field'
 import { singInInitialValues } from '../../constants/initialValues'
 import { singInValidationSchema } from '../../constants/validationSchema'
 import { SignInProps } from '../../services'

@@ -1,73 +1,33 @@
-import { useSelector } from 'react-redux'
-import { getRandomRow } from './helpers'
+import { getCoordinateCar, getRandomRow } from './helpers'
 import { moveCar } from './move-car'
-import {
-  Coordinate,
-  EntityTypes,
-  GameMapType,
-  GameRowForCarType,
-} from './types'
-import { RootState } from '../store'
-import { gameSelector } from '../store/selectors'
-import { initialMap } from '../constants'
+import { GameMapType } from './types'
+import { cloneMap } from '../utils/clone-map'
 
 type MoveMapProps = {
-  gameMap: GameMapType
+  mapLink: GameMapType
   gameStep: number
 }
 
-export const moveMap = ({
-  gameMap,
-  gameStep,
-}: MoveMapProps): [
-  boardInfo: { map: GameMapType; step: number },
-  isMistake: boolean
-] => {
-  if (!gameMap) return [{ map: initialMap, step: 0 }, true]
+export const moveMap = ({ mapLink, gameStep }: MoveMapProps): GameMapType => {
+  if (!mapLink) return mapLink
 
-  let newMap: GameRowForCarType[] = []
+  moveCar({ mapLink, move: 'вверх' })
 
-  let mistake = false
+  const oldMap = cloneMap(mapLink)
 
-  const lastIndexRow = gameMap.length - 1
-
-  let newCoordinatesCar: Coordinate | null = null
-
-  gameMap.forEach((row, coordinateY) => {
+  mapLink.forEach((_, coordinateY) => {
     if (coordinateY === 0) {
-      newMap.push(getRandomRow(gameStep))
-    }
+      const newRow = getRandomRow(gameStep)
 
-    if (coordinateY === lastIndexRow) {
-      const coordinateXCar = (row as GameRowForCarType).findIndex(
-        cell => cell?.type === EntityTypes.car
-      )
+      console.log(newRow, gameStep, ' newRow')
 
-      if (coordinateXCar === -1) return
-
-      newCoordinatesCar = {
-        y: lastIndexRow,
-        x: coordinateXCar,
-      }
+      mapLink[coordinateY] = newRow
 
       return
     }
 
-    newMap.push([...row])
+    mapLink[coordinateY] = oldMap[coordinateY - 1]
   })
 
-  if (newCoordinatesCar) {
-    const [mapAfterMoveCar, mistakeAfterMoveCar] = moveCar({
-      gameMap: newMap as GameMapType,
-      coordinatesCar: newCoordinatesCar,
-    })
-
-    newMap = mapAfterMoveCar
-
-    mistake = mistakeAfterMoveCar
-  }
-
-  const currentMistake = mistake
-
-  return [{ map: newMap as GameMapType, step: gameStep }, currentMistake]
+  return mapLink
 }
