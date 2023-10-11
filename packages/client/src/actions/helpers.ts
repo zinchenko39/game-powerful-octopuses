@@ -1,4 +1,4 @@
-import { BARRIER_ENTITY, BONUS_ENTITY } from '../constants/initialValues'
+import { BARRIER_ENTITY, BONUS_ENTITY } from '../constants'
 import { EntityTypes, GameMapType, GameRowType } from './types'
 
 const defaultRow: GameRowType = [null, null, null]
