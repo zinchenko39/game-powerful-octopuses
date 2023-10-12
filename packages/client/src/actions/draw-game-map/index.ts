@@ -24,13 +24,13 @@ imgCar.height = 200
 imgCar.src = car
 
 const imgBarrier = new Image()
-imgBarrier.width = 200
-imgBarrier.height = 200
+imgBarrier.width = 100
+imgBarrier.height = 100
 imgBarrier.src = barrier
 
 const imgBonus = new Image()
-imgBonus.width = 200
-imgBonus.height = 200
+imgBonus.width = 100
+imgBonus.height = 100
 imgBonus.src = bonus
 
 export const drawGameMap = ({
@@ -43,20 +43,17 @@ export const drawGameMap = ({
 
   map.forEach((row, coordinateY) => {
     row.forEach((cell, coordinateX) => {
-      let color = 'Gray'
+      let color = '#cdcf2d'
       let currentImage = null
 
       if (cell) {
         const { type } = cell
 
         if (type === EntityTypes.barrier) {
-          color = 'Green'
           currentImage = imgBarrier
         } else if (type === EntityTypes.car) {
-          color = 'Yellow'
           currentImage = imgCar
         } else if (type === EntityTypes.bonus) {
-          color = 'Blue'
           currentImage = imgBonus
         }
       } else if (isMistake) {
