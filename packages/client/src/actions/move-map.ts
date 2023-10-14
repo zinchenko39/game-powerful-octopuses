@@ -5,7 +5,7 @@ import { cloneMap } from '../utils/clone-map'
 
 let currentFreezeSteps = 0;
 
-export const moveMap = (gameInfo: GameInfoType) => {
+export const moveMap = (gameInfo: GameInfoType, playerIds: (1 | 2)[]) => {
   const mapLink = gameInfo.map
   const freezeSteps = gameInfo.freezeSteps
 
@@ -18,7 +18,9 @@ export const moveMap = (gameInfo: GameInfoType) => {
 
     if (!mapLink) return mapLink
 
-    moveCar({ gameInfo, move: 'вверх' })
+    playerIds.forEach(id => {
+      moveCar({ gameInfo, move: 'вверх', carId: id })
+    })
 
     const oldMap = cloneMap(mapLink)
 

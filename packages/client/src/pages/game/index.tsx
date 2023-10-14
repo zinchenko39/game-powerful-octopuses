@@ -6,14 +6,15 @@ import { runControlCar } from '../../actions/run-control-car'
 import { cloneMap } from '../../utils/clone-map'
 import { moveMap } from '../../actions/move-map'
 import { drawGameMap } from '../../actions/draw-game-map'
+import { addPlayers } from '../../actions/helpers'
 
 type GameProps = {
   callbackEndGame: (points: number) => void
   boardId: string
-  controlButtons: 'first' | 'second'
+  playerIds: [1, 2] | [1]
 }
 
-export const Game = ({ boardId, callbackEndGame, controlButtons }: GameProps) => {
+export const Game = ({ boardId, callbackEndGame, playerIds }: GameProps) => {
   const refCanvas = useRef<HTMLCanvasElement | null>(null)
   const refMapInfo = useRef<null | GameInfoType>(null)
 
@@ -28,7 +29,7 @@ export const Game = ({ boardId, callbackEndGame, controlButtons }: GameProps) =>
 
     if (refMapInfo.current === null) {
       refMapInfo.current = {
-        map: cloneMap(initialMap),
+        map: cloneMap(addPlayers(initialMap, playerIds)),
         step: 0,
         isMistake: false,
         freezeSteps: 100,
@@ -42,7 +43,7 @@ export const Game = ({ boardId, callbackEndGame, controlButtons }: GameProps) =>
     ) => {
       if (!refMapInfo.current) return true
 
-      moveMap(refMapInfo.current)
+      moveMap(refMapInfo.current, playerIds)
     
       drawGameMap({
         contextLink: gameContext,
@@ -55,7 +56,7 @@ export const Game = ({ boardId, callbackEndGame, controlButtons }: GameProps) =>
       return refMapInfo.current.isMistake
     }
 
-    runControlCar({ gameInfo: refMapInfo.current, controlButtons })
+    runControlCar({ gameInfo: refMapInfo.current, playerIds })
 
     runGame(render)
   }, [refCanvas])

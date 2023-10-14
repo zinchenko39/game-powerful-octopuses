@@ -33,7 +33,9 @@ export const newCommentInitialValues = {
   author: '',
 }
 
-export const CAR_ENTITY: CarType = { type: EntityTypes.car }
+export const CAR_1_ENTITY: CarType = { type: EntityTypes.car, playerIds: [1] }
+export const CAR_2_ENTITY: CarType = { type: EntityTypes.car, playerIds: [2] }
+export const CAR_1_AND_2_ENTITY: CarType = { type: EntityTypes.car, playerIds: [1, 2] }
 
 export const BARRIER_ENTITY: BarrierType = { type: EntityTypes.barrier }
 
@@ -44,7 +46,7 @@ export const initialMap: GameMapType = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
-  [null, CAR_ENTITY, null],
+  [null, null, null],
   [null, null, null],
 ]
 export const changePasswordInitialValues = {

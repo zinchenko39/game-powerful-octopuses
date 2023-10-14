@@ -1,5 +1,7 @@
 import { EntityTypes, GameInfoType } from '../types'
 import car from '../../images/car.png'
+import car1and2 from '../../images/car1and2.png'
+import car2 from '../../images/car2.png'
 import barrier from '../../images/barrier.png'
 import bonus from '../../images/bonus.png'
 
@@ -22,6 +24,16 @@ const imgCar = new Image()
 imgCar.width = 200
 imgCar.height = 200
 imgCar.src = car
+
+const imgCar2 = new Image()
+imgCar2.width = 200
+imgCar2.height = 200
+imgCar2.src = car2
+
+const imgCar1and2 = new Image()
+imgCar1and2.width = 200
+imgCar1and2.height = 200
+imgCar1and2.src = car1and2
 
 const imgBarrier = new Image()
 imgBarrier.width = 100
@@ -52,7 +64,13 @@ export const drawGameMap = ({
         if (type === EntityTypes.barrier) {
           currentImage = imgBarrier
         } else if (type === EntityTypes.car) {
-          currentImage = imgCar
+          const { playerIds } = cell
+
+          let currentImg = playerIds[0] === 1 ? imgCar : imgCar2;
+
+          if (playerIds.length === 2) currentImg = imgCar1and2
+          
+          currentImage = currentImg 
         } else if (type === EntityTypes.bonus) {
           currentImage = imgBonus
         }

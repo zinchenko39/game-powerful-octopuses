@@ -4,8 +4,11 @@ export enum EntityTypes {
   bonus = 'bonus',
 }
 
+export type PlayerIdTypes = (1 | 2)[]
+
 export type CarType = {
   type: EntityTypes.car
+  playerIds: PlayerIdTypes
 }
 
 export type BarrierType = {
