@@ -1,6 +1,6 @@
 import { Formik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button, Typography, Container } from '@mui/material'
+import { Button, Typography, Container, Divider } from '@mui/material'
 import { CustomTextField } from '../../components/custom-text-field'
 import { singInInitialValues } from '../../constants/initial-values'
 import { singInValidationSchema } from '../../constants/validation-schema'
@@ -8,6 +8,7 @@ import { SignInProps } from '../../services'
 import styles from './sing-in.module.css'
 import { useState } from 'react'
 import { useLazyGetUserQuery, useSignInMutation } from '../../store/api'
+import icon from './oauth.svg'
 
 export const SingIn = () => {
   const navigation = useNavigate()
@@ -65,7 +66,11 @@ export const SingIn = () => {
                     className={styles.submitButton}>
                     Войти
                   </Button>
+                  <Divider textAlign="center">или</Divider>
                   <Link to="/sign-up">Еще нет аккаунта?</Link>
+                  {/* <Button sx={{ ":hover": { bgcolor: 'transparent' }}}>
+                    <img src={icon} alt="oauth" />
+                  </Button> */}
                 </div>
               </form>
             </div>
