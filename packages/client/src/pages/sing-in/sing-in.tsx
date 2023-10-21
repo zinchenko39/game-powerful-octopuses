@@ -9,6 +9,8 @@ import styles from './sing-in.module.css'
 import { useState } from 'react'
 import { useLazyGetUserQuery, useSignInMutation } from '../../store/api'
 import icon from './oauth.svg'
+import { HOST_URL } from '../../globals'
+import { OAuthService } from '../../services'
 
 export const SingIn = () => {
   const navigation = useNavigate()
@@ -26,6 +28,15 @@ export const SingIn = () => {
       navigation('/about')
     } catch (error) {
       console.error('Вход ошибка ', error)
+    }
+  }
+
+  const handleOauth = async () => {
+    try {
+      const data = await OAuthService.getServiceId(HOST_URL)
+      console.log(data)
+    } catch (error) {
+      console.error('Авторизация ошибка ', error)
     }
   }
 
@@ -68,9 +79,11 @@ export const SingIn = () => {
                   </Button>
                   <Divider textAlign="center">или</Divider>
                   <Link to="/sign-up">Еще нет аккаунта?</Link>
-                  {/* <Button sx={{ ":hover": { bgcolor: 'transparent' }}}>
+                  <Button
+                    sx={{ ':hover': { bgcolor: 'transparent' } }}
+                    onClick={handleOauth}>
                     <img src={icon} alt="oauth" />
-                  </Button> */}
+                  </Button>
                 </div>
               </form>
             </div>
