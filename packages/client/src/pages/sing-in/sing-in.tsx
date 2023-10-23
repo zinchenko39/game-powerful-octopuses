@@ -9,7 +9,6 @@ import styles from './sing-in.module.css'
 import { useState } from 'react'
 import { useLazyGetUserQuery, useSignInMutation } from '../../store/api'
 import icon from './oauth.svg'
-import { HOST_URL } from '../../globals'
 import { OAuthService } from '../../services'
 
 export const SingIn = () => {
@@ -33,10 +32,15 @@ export const SingIn = () => {
 
   const handleOauth = async () => {
     try {
-      const data = await OAuthService.getServiceId(HOST_URL)
-      console.log(data)
+      await OAuthService.getServiceId()
+      const searchParams = new URLSearchParams(window.location.search)
+      const code = searchParams.get('code')
+
+      if (code) {
+        await OAuthService.signInOauth({ code })
+      }
     } catch (error) {
-      console.error('Авторизация ошибка ', error)
+      throw new Error((error as Error).message)
     }
   }
 
@@ -79,13 +83,13 @@ export const SingIn = () => {
                   </Button>
                   <Divider textAlign="center">или</Divider>
                   <Link to="/sign-up">Еще нет аккаунта?</Link>
-                  <Button
-                    sx={{ ':hover': { bgcolor: 'transparent' } }}
-                    onClick={handleOauth}>
-                    <img src={icon} alt="oauth" />
-                  </Button>
                 </div>
               </form>
+              <Button
+                sx={{ ':hover': { bgcolor: 'transparent' } }}
+                onClick={handleOauth}>
+                <img src={icon} alt="oauth" />
+              </Button>
             </div>
           </Container>
         </div>

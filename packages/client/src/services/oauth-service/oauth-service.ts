@@ -7,15 +7,18 @@ import type { OAuthServiceID, OauthSignInRequest } from './interface'
 export class OAuthService {
   static url = '/oauth/yandex'
 
-  static async getServiceId(
-    arg: string
-  ): Promise<OAuthServiceID | RequestError> {
+  static async getServiceId(): Promise<OAuthServiceID | RequestError> {
     const { data } = await network.get<OAuthServiceID | RequestError>(
-      `${this.url}/service-id?redirect_uri=${arg}`
+      `${this.url}/service-id`,
+      {
+        params: {
+          redirect_uri: HOST_URL,
+        },
+      }
     )
-
     if ('service_id' in data) {
-      this.signInOauth({ code: data.service_id, redirect_uri: HOST_URL })
+      const CLIENT_ID = data.service_id
+      window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${HOST_URL}`
       return data
     } else {
       throw new Error(data.reason)
@@ -26,11 +29,12 @@ export class OAuthService {
     args: OauthSignInRequest
   ): Promise<RequestError | string> {
     const { data } = await network.post<RequestError | string>(`${this.url}`, {
-      ...args,
+      code: args.code,
+      redirect_uri: HOST_URL,
     })
-    console.log(data)
+
     if (typeof data == 'string') {
-      // useGetUserQuery()
+      useGetUserQuery()
       return data
     } else {
       throw new Error(data.reason)
