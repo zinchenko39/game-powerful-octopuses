@@ -1,7 +1,6 @@
 import { network } from '../../api'
 import { HOST_URL } from '../../globals'
 import { RequestError } from '../common-interfaces'
-import { UserService } from '../user-service'
 import type { OAuthServiceID, OauthSignInRequest } from './interface'
 
 export class OAuthService {
@@ -32,7 +31,6 @@ export class OAuthService {
     })
 
     if (typeof data == 'string') {
-      await UserService.getUserInfo()
       console.log(data)
       return data
     } else {

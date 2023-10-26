@@ -1,5 +1,5 @@
 import styles from './sing-in.module.css'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Typography, Container, Divider } from '@mui/material'
@@ -35,13 +35,17 @@ export const SingIn = () => {
 
   const handleBlur = () => setAnimation(true)
 
-  useEffect(() => {
+  const trySignIn = useCallback(async () => {
     const code = searchParams.get('code')
-
     if (code) {
-      OAuthService.signInOauth({ code })
+      await OAuthService.signInOauth({ code })
+      fetch()
       console.log(`Code from URL: ${code}`)
     }
+  }, [])
+
+  useEffect(() => {
+    trySignIn()
   }, [])
 
   return (
