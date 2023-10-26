@@ -1,7 +1,7 @@
 import { network } from '../../api'
 import { HOST_URL } from '../../globals'
-import { useGetUserQuery } from '../../store/api'
 import { RequestError } from '../common-interfaces'
+import { UserService } from '../user-service'
 import type { OAuthServiceID, OauthSignInRequest } from './interface'
 
 export class OAuthService {
@@ -17,11 +17,9 @@ export class OAuthService {
       }
     )
     if ('service_id' in data) {
-      const CLIENT_ID = data.service_id
-      window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${HOST_URL}`
-      return data
+      return data as OAuthServiceID
     } else {
-      throw new Error(data.reason)
+      throw new Error('Ошибка получения id сервиса')
     }
   }
 
@@ -34,7 +32,8 @@ export class OAuthService {
     })
 
     if (typeof data == 'string') {
-      useGetUserQuery()
+      await UserService.getUserInfo()
+      console.log(data)
       return data
     } else {
       throw new Error(data.reason)

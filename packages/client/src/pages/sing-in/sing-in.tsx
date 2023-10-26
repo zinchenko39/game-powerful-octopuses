@@ -1,15 +1,14 @@
+import styles from './sing-in.module.css'
+import { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, Typography, Container, Divider } from '@mui/material'
 import { CustomTextField } from '../../components/custom-text-field'
 import { singInInitialValues } from '../../constants/initial-values'
 import { singInValidationSchema } from '../../constants/validation-schema'
-import { SignInProps } from '../../services'
-import styles from './sing-in.module.css'
-import { useState } from 'react'
+import { OAuthService, SignInProps } from '../../services'
 import { useLazyGetUserQuery, useSignInMutation } from '../../store/api'
-import icon from './oauth.svg'
-import { OAuthService } from '../../services'
+import { OAuth } from '../../components'
 
 export const SingIn = () => {
   const navigation = useNavigate()
@@ -17,6 +16,8 @@ export const SingIn = () => {
   const [isAnimation, setAnimation] = useState<boolean>(true)
 
   const [fetch] = useLazyGetUserQuery()
+
+  const searchParams = new URLSearchParams(window.location.search)
 
   const handleSignIn = async (values: SignInProps) => {
     try {
@@ -30,23 +31,18 @@ export const SingIn = () => {
     }
   }
 
-  const handleOauth = async () => {
-    try {
-      await OAuthService.getServiceId()
-      const searchParams = new URLSearchParams(window.location.search)
-      const code = searchParams.get('code')
-
-      if (code) {
-        await OAuthService.signInOauth({ code })
-      }
-    } catch (error) {
-      throw new Error((error as Error).message)
-    }
-  }
-
   const handleFocus = () => setAnimation(false)
 
   const handleBlur = () => setAnimation(true)
+
+  useEffect(() => {
+    const code = searchParams.get('code')
+
+    if (code) {
+      OAuthService.signInOauth({ code })
+      console.log(`Code from URL: ${code}`)
+    }
+  }, [])
 
   return (
     <Formik
@@ -85,11 +81,7 @@ export const SingIn = () => {
                   <Link to="/sign-up">Еще нет аккаунта?</Link>
                 </div>
               </form>
-              <Button
-                sx={{ ':hover': { bgcolor: 'transparent' } }}
-                onClick={handleOauth}>
-                <img src={icon} alt="oauth" />
-              </Button>
+              <OAuth />
             </div>
           </Container>
         </div>
