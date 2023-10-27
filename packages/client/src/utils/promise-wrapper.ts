@@ -13,9 +13,7 @@ export const apiSlicePromiseWrapper = async <F extends () => Promise<O>, O>(
       data,
     }
   } catch (e: unknown) {
-    return {
-      error: e,
-    }
+    throw new Error(`Ошибка при выполнении запроса: ${e}`)
   }
 }
 

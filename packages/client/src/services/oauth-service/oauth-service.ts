@@ -31,7 +31,6 @@ export class OAuthService {
     })
 
     if (typeof data == 'string') {
-      console.log(data)
       return data
     } else {
       throw new Error(data.reason)
