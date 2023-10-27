@@ -38,13 +38,11 @@ export const Game = ({ boardId, callbackEndGame, playerIds }: GameProps) => {
       return
     }
 
-    const render = (
-      animationTime: number,
-    ) => {
+    const render = (animationTime: number) => {
       if (!refMapInfo.current) return true
 
       moveMap(refMapInfo.current, playerIds)
-    
+
       drawGameMap({
         contextLink: gameContext,
         infoLink: refMapInfo.current,
