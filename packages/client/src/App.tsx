@@ -11,7 +11,7 @@ const theme = createTheme({
   },
 })
 
-function App() {
+export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
@@ -25,4 +25,4 @@ function App() {
   )
 }
 
-export default App
+//export default App
