@@ -1,12 +1,29 @@
 import React from 'react'
-import type { IUserProfileView } from './interfaces'
 import { Avatar, Button, Container, Typography } from '@mui/material'
 import { BASE_URL } from '../../globals'
 import { useNavigate } from 'react-router-dom'
 import { LeaderList } from '../leader-list'
+import { RouterName } from '../../router/types'
+import { useLogoutMutation } from '../../store/api'
+import { useUser } from '../../hooks/use-user'
 
-export const UserProfileView: React.FC<IUserProfileView> = ({ user }) => {
+export const UserProfileView: React.FC = () => {
+  const user = useUser()
+
   const navigate = useNavigate()
+
+  const [userLogout] = useLogoutMutation()
+
+  const logout = async () => {
+    try {
+      await userLogout()
+      navigate(RouterName.main)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  if (!user) return null
 
   return (
     <Container
@@ -29,8 +46,11 @@ export const UserProfileView: React.FC<IUserProfileView> = ({ user }) => {
       <Typography variant="subtitle2" component="p" align="center">
         @{user.login}
       </Typography>
-      <Button variant="text" onClick={() => navigate('/settings')}>
+      <Button variant="text" onClick={() => navigate(RouterName.settings)}>
         Настройки
+      </Button>
+      <Button variant="text" color="error" onClick={logout}>
+        Выйти
       </Button>
       <Container
         sx={{

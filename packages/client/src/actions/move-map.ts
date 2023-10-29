@@ -1,59 +1,39 @@
 import { getRandomRow } from './helpers'
 import { moveCar } from './move-car'
-import { Coordinate, EntityTypes, GameMap, GameRowForCar } from './types'
+import { GameInfoType } from './types'
+import { cloneMap } from '../utils/clone-map'
 
-type MoveMapProps = {
-  gameMap: GameMap
-  gameStep: number
-}
+let currentFreezeSteps = 0
 
-export const moveMap = ({
-  gameMap,
-  gameStep,
-}: MoveMapProps): [GameMap, boolean] => {
-  let newMap: GameRowForCar[] = []
+export const moveMap = (gameInfo: GameInfoType, playerIds: (1 | 2)[]) => {
+  const mapLink = gameInfo.map
+  const freezeSteps = gameInfo.freezeSteps
 
-  let mistake = false
+  currentFreezeSteps += 1
 
-  const lastIndexRow = gameMap.length - 1
+  if (currentFreezeSteps >= freezeSteps) {
+    currentFreezeSteps = 0
 
-  let newCoordinatesCar: Coordinate | null = null
+    gameInfo.step += 1
 
-  gameMap.forEach((row, coordinateY) => {
-    if (coordinateY === 0) {
-      newMap.push(getRandomRow(gameStep))
-    }
+    if (!mapLink) return mapLink
 
-    if (coordinateY === lastIndexRow) {
-      const coordinateXCar = (row as GameRowForCar).findIndex(
-        cell => cell?.type === EntityTypes.car
-      )
-
-      if (coordinateXCar === -1) return
-
-      newCoordinatesCar = {
-        y: lastIndexRow,
-        x: coordinateXCar,
-      }
-
-      return
-    }
-
-    newMap.push([...row])
-  })
-
-  if (newCoordinatesCar) {
-    const [mapAfterMoveCar, mistakeAfterMoveCar] = moveCar({
-      gameMap: newMap as GameMap,
-      coordinatesCar: newCoordinatesCar,
+    playerIds.forEach(id => {
+      moveCar({ gameInfo, move: 'вверх', carId: id })
     })
 
-    newMap = mapAfterMoveCar
+    const oldMap = cloneMap(mapLink)
 
-    mistake = mistakeAfterMoveCar
+    mapLink.forEach((_, coordinateY) => {
+      if (coordinateY === 0) {
+        const newRow = getRandomRow(gameInfo.step)
+
+        mapLink[coordinateY] = newRow
+
+        return
+      }
+
+      mapLink[coordinateY] = oldMap[coordinateY - 1]
+    })
   }
-
-  const currentMistake = mistake
-
-  return [newMap as GameMap, currentMistake]
 }
