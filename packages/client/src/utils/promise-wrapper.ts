@@ -3,6 +3,7 @@ import type {
   BaseQueryFn,
 } from '@reduxjs/toolkit/src/query/baseQueryTypes'
 import type { MaybePromise } from '@reduxjs/toolkit/src/query/tsHelpers'
+import { AxiosError } from 'axios'
 
 export const apiSlicePromiseWrapper = async <F extends () => Promise<O>, O>(
   fn: F
@@ -12,9 +13,21 @@ export const apiSlicePromiseWrapper = async <F extends () => Promise<O>, O>(
     return {
       data,
     }
-  } catch (e: unknown) {
+  } catch (e) {
+    const error = e as AxiosError
+
+    const errorMassage = `Ошибка: ${error?.message || 'неизвестная'}. `;
+
+    const errorInfo = error?.response?.data;
+
+    console.info(errorMassage)
+
+    if (errorInfo) {
+      console.info(`Подробности ошибки: `, errorInfo)
+    }
+
     return {
-      error: e,
+      error: errorMassage
     }
   }
 }
