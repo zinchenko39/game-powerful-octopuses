@@ -48,9 +48,9 @@ imgBonus.src = bonus
 export const drawGameMap = ({
   contextLink,
   animationTime,
-  infoLink
+  infoLink,
 }: RunDrawGameMapProps) => {
-  const { map, step: points, isMistake } = infoLink;
+  const { map, step: points, isMistake } = infoLink
   if (!map) return
 
   map.forEach((row, coordinateY) => {
@@ -66,11 +66,11 @@ export const drawGameMap = ({
         } else if (type === EntityTypes.car) {
           const { playerIds } = cell
 
-          let currentImg = playerIds[0] === 1 ? imgCar : imgCar2;
+          let currentImg = playerIds[0] === 1 ? imgCar : imgCar2
 
           if (playerIds.length === 2) currentImg = imgCar1and2
-          
-          currentImage = currentImg 
+
+          currentImage = currentImg
         } else if (type === EntityTypes.bonus) {
           currentImage = imgBonus
         }

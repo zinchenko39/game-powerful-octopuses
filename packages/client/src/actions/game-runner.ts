@@ -1,6 +1,4 @@
-type RunGameProps = (
-  animationTime: number
-) => boolean
+type RunGameProps = (animationTime: number) => boolean
 
 export const runGame = (render: RunGameProps) => {
   let lastTime = 0

@@ -1,4 +1,9 @@
-import { BARRIER_ENTITY, BONUS_ENTITY, CAR_1_ENTITY, CAR_2_ENTITY } from '../constants'
+import {
+  BARRIER_ENTITY,
+  BONUS_ENTITY,
+  CAR_1_ENTITY,
+  CAR_2_ENTITY,
+} from '../constants'
 import { Coordinate, EntityTypes, GameMapType, GameRowType } from './types'
 
 const defaultRow: GameRowType = [null, null, null]
@@ -22,16 +27,22 @@ export const getRandomRow = (gameStep: number): GameRowType => {
   return defaultRow
 }
 
-export const getCoordinateCar = (mapLink: GameMapType): [firstCoordinates: Coordinate, secondCoordinates: Coordinate, isTogether: boolean] => {
+export const getCoordinateCar = (
+  mapLink: GameMapType
+): [
+  firstCoordinates: Coordinate,
+  secondCoordinates: Coordinate,
+  isTogether: boolean
+] => {
   let firstCoordinates = { x: 0, y: 0 }
   let secondCoordinates = { x: 0, y: 0 }
-  let isTogether = false;
+  let isTogether = false
 
   mapLink.forEach((row, coordinateY) => {
     row.forEach((cell, coordinateX) => {
       if (cell?.type === EntityTypes.car) {
-        const isCar1 = cell.playerIds.includes(1);
-        const isCar2 = cell.playerIds.includes(2);
+        const isCar1 = cell.playerIds.includes(1)
+        const isCar2 = cell.playerIds.includes(2)
 
         if (isCar1) {
           firstCoordinates = { x: coordinateX, y: coordinateY }

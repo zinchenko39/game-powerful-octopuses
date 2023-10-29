@@ -45,7 +45,11 @@ export function GameMenu() {
   return (
     <Container style={{ display: 'flex', justifyContent: 'center' }}>
       <Button onClick={changeFullScreen}>{textContent}</Button>
-      <Game boardId={boardId} callbackEndGame={handleEndGame} playerIds={[1, 2]} />
+      <Game
+        boardId={boardId}
+        callbackEndGame={handleEndGame}
+        playerIds={[1, 2]}
+      />
       {isGameOver ? (
         <GameEnd
           onRestart={handleRestartGame}
