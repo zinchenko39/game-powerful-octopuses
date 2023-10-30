@@ -1,51 +1,107 @@
 import dotenv from 'dotenv'
 import cors from 'cors'
-import { renderToString } from 'react-dom/server'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React from 'react'
-import register from 'ignore-styles'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
-import { App } from '../client/src/App'
+import * as fs from 'fs'
+import * as path from 'path'
 
 dotenv.config()
 
 import express from 'express'
 import { createClientAndConnect } from './db'
+import { createServer as createViteServer } from 'vite'
+import type { ViteDevServer } from 'vite'
+
+const isDev = () => process.env.NODE_ENV === 'development'
+const CLIENT_PATH = path.resolve(__dirname + '/../client')
+const CLIENT_DIST_PATH = path.join(CLIENT_PATH, 'dist')
+const CLIENT_DIST_SSR_PATH = path.resolve(
+  __dirname + '/../client/dist-ssr/client.cjs'
+)
 
 createClientAndConnect()
-
-function makeHTMLPage(content: string) {
-  return `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>From SSR with Love</title>
-        </head>
-        <body>
-        <div id="root">${content}</div>
-        </body>
-        </html>
-`
-}
 
 async function startServer() {
   const app = express()
   app.use(cors())
-  register(['.css', '.scss'])
   const port = Number(process.env.SERVER_PORT) || 3001
 
-  app.get('/', (_, res) => {
-    const appContentHTML = renderToString(App())
-    res.send(makeHTMLPage(appContentHTML))
+  let viteServer: ViteDevServer
+
+  if (!isDev()) {
+    app.use('/assets', express.static(path.resolve(CLIENT_DIST_PATH, 'assets')))
+  } else {
+    viteServer = await createViteDevServer(CLIENT_PATH)
+    app.use(viteServer.middlewares)
+  }
+
+  app.use('*', async (req, res, next) => {
+    if (req.originalUrl.indexOf('.') !== -1) {
+      return
+    }
+
+    try {
+      const html = await getSSRIndexHTML(req, res, viteServer)
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
+    } catch (e) {
+      if (viteServer) viteServer.ssrFixStacktrace(e as Error)
+      next(e)
+    }
   })
+
+  if (!isDev()) {
+    app.use(
+      '/',
+      express.static(CLIENT_DIST_PATH, { fallthrough: true, index: false })
+    )
+  }
 
   app.listen(port, () => {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
   })
+}
+
+interface SSRModule {
+  render: (url: string) => Promise<[string]>
+}
+
+async function getSSRIndexHTML(
+  req: express.Request,
+  res: express.Response,
+  viteServer: ViteDevServer
+) {
+  const url = req.originalUrl
+  const rootPath = isDev() ? CLIENT_PATH : CLIENT_DIST_PATH
+
+  // CheckAuth запишет пользователя в res.locals.user
+  //const user = res.locals.user
+
+  let template = fs.readFileSync(path.resolve(rootPath, 'index.html'), 'utf-8')
+
+  let ssrModule: SSRModule
+
+  if (isDev()) {
+    template = await viteServer.transformIndexHtml(url, template)
+    ssrModule = (await viteServer.ssrLoadModule(
+      path.resolve(rootPath, 'ssr.tsx')
+    )) as SSRModule
+  } else {
+    ssrModule = await import(CLIENT_DIST_SSR_PATH)
+  }
+
+  const [appHtml] = await ssrModule.render(url)
+
+  const html = template.replace(`<!--ssr-outlet-->`, appHtml)
+
+  return html
+}
+
+async function createViteDevServer(srcPath: string) {
+  const viteServer = await createViteServer({
+    server: { middlewareMode: true },
+    root: srcPath,
+    appType: 'custom',
+  })
+
+  return viteServer
 }
 
 startServer()
