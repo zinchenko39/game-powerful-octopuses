@@ -15,7 +15,7 @@ async function render(url: string) {
       </Provider>
     </React.StrictMode>
   )
-  return [renderResult]
+  return [{}, renderResult]
 }
 
 export { render }
