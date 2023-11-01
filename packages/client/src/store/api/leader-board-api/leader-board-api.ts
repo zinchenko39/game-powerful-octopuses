@@ -23,8 +23,21 @@ const leaderBoardApi = apiSlice.injectEndpoints({
         apiSlicePromiseWrapper(() => LeaderboardService.postScore(args)),
       invalidatesTags: ['LEADERBOARD'],
     }),
+    getTeamLeaderboard: build.mutation<
+      LeaderboardServerResponse,
+      GetLeaderboardRequest
+    >({
+      queryFn: (args: GetLeaderboardRequest) =>
+        apiSlicePromiseWrapper(() =>
+          LeaderboardService.getTeamLeaderboard(args)
+        ),
+      invalidatesTags: ['LEADERBOARD'],
+    }),
   }),
 })
 
-export const { useGetLeaderboardMutation, usePostScoreMutation } =
-  leaderBoardApi
+export const {
+  useGetLeaderboardMutation,
+  usePostScoreMutation,
+  useGetTeamLeaderboardMutation,
+} = leaderBoardApi

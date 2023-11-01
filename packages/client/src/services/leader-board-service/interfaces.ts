@@ -1,11 +1,12 @@
 export interface PostGameData {
-  myField?: string
-  otherField: number
+  points: number
+  name: string
 }
 
 export interface PostLeaderboardData {
   data: PostGameData
   ratingFieldName: string
+  teamName: string
 }
 
 export interface GetLeaderboardRequest {
@@ -16,7 +17,7 @@ export interface GetLeaderboardRequest {
 
 export interface LeaderboardItem {
   name: string
-  otherField: number
+  powerfulOctopuses: number
 }
 
 export type LeaderboardServerResponse = LeaderboardServerResponseItem[]

@@ -8,6 +8,7 @@ import {
 
 export class LeaderboardService {
   static url = '/leaderboard'
+  static teamName = 'powerfulOctopuses'
 
   static async postScore(
     args: PostLeaderboardData
@@ -20,6 +21,13 @@ export class LeaderboardService {
     args: GetLeaderboardRequest
   ): Promise<LeaderboardServerResponse> {
     const response = await network.post(`${this.url}/all`, args)
+    return response.data
+  }
+
+  static async getTeamLeaderboard(
+    args: GetLeaderboardRequest
+  ): Promise<LeaderboardServerResponse> {
+    const response = await network.post(`${this.url}/${this.teamName}`, args)
     return response.data
   }
 }

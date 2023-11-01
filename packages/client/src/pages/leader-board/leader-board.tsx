@@ -6,16 +6,20 @@ import {
   Typography,
   CircularProgress,
 } from '@mui/material'
-import { useGetLeaderboardMutation } from '../../store/api/leader-board-api/leader-board-api'
+import { useGetTeamLeaderboardMutation } from '../../store/api/leader-board-api/leader-board-api'
 import { LeaderList, Navigation } from '../../components'
 
 export const LeaderBoard = () => {
-  const [getLeaderboard, { data: leaderboardData, isLoading }] =
-    useGetLeaderboardMutation()
+  const [getTeamLeaderboard, { data: leaderboardData, isLoading }] =
+    useGetTeamLeaderboardMutation()
 
   useEffect(() => {
-    getLeaderboard({ ratingFieldName: 'otherField', cursor: 0, limit: 10 })
-  }, [getLeaderboard])
+    getTeamLeaderboard({
+      ratingFieldName: 'points',
+      cursor: 0,
+      limit: 10,
+    })
+  }, [])
 
   return (
     <>
@@ -50,7 +54,7 @@ export const LeaderBoard = () => {
                 <LeaderList
                   list={leaderboardData.map(item => ({
                     name: item.data.name || 'Неизвестный игрок',
-                    points: item.data.otherField,
+                    points: item.data?.powerfulOctopuses,
                   }))}
                 />
               )}
