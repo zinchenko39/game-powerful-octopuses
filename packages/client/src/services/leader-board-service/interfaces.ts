@@ -5,12 +5,9 @@ export interface PostGameData {
 
 export interface PostLeaderboardData {
   data: PostGameData
-  ratingFieldName: string
-  teamName: string
 }
 
 export interface GetLeaderboardRequest {
-  ratingFieldName: string
   cursor: number
   limit: number
 }

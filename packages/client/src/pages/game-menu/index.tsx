@@ -37,8 +37,6 @@ export function GameMenu() {
         points: scoreValue,
         name: user?.email || 'Неизвестный игрок',
       },
-      ratingFieldName: 'points',
-      teamName: 'powerfulOctopuses',
     })
 
     setIsGameOver(true)

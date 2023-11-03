@@ -15,7 +15,6 @@ export const LeaderBoard = () => {
 
   useEffect(() => {
     getTeamLeaderboard({
-      ratingFieldName: 'points',
       cursor: 0,
       limit: 10,
     })
