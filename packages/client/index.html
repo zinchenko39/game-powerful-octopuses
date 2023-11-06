@@ -4,10 +4,26 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{TODO: Set title :) }</title>
+    <title>server</title>
+    <script>
+      try {
+        window.__PRELOADED_STATE__ = JSON.parse(`<!--store-data-->`);
+      }
+      catch(exp) { 
+        console.error("without __PRELOADED_STATE__");
+      }
+    
+      try {
+        window._FIAR_ENV_ = `<!--fiar-env-->`;
+      }
+      catch(exp) { 
+        console.error("without _FIAR_ENV_");
+      }
+
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--ssr-outlet--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

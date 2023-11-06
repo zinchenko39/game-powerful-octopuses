@@ -15,11 +15,9 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <BrowserRouter>
-          <ErrorBoundary>
-            <Router />
-          </ErrorBoundary>
-        </BrowserRouter>
+        <ErrorBoundary>
+          <Router />
+        </ErrorBoundary>
       </div>
     </ThemeProvider>
   )
