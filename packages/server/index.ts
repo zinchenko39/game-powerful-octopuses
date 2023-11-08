@@ -9,6 +9,7 @@ import express from 'express'
 import { createClientAndConnect } from './db'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
+import jsesc from 'jsesc'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 const CLIENT_PATH = path.resolve(__dirname + '/../client')
@@ -60,7 +61,7 @@ async function startServer() {
 }
 
 interface SSRModule {
-  render: (url: string) => Promise<[string]>
+  render: (url: string) => Promise<[Record<string, unknown>, string]>
 }
 
 async function getSSRIndexHTML(
@@ -87,9 +88,16 @@ async function getSSRIndexHTML(
     ssrModule = await import(CLIENT_DIST_SSR_PATH)
   }
 
-  const [appHtml] = await ssrModule.render(url)
+  const [initialState, appHtml] = await ssrModule.render(url)
 
-  const html = template.replace(`<!--ssr-outlet-->`, appHtml)
+  const initStateSerialized = jsesc(JSON.stringify(initialState), {
+    json: true,
+    isScriptContext: true,
+  })
+
+  const html = template
+    .replace(`<!--ssr-outlet-->`, appHtml)
+    .replace('`<!--store-data-->`', initStateSerialized)
 
   return html
 }

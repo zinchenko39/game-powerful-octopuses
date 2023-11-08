@@ -25,7 +25,6 @@ export const TopicDetails: React.FC = () => {
     values: NewCommentProps,
     { resetForm }: FormikHelpers<NewCommentProps>
   ) => {
-    console.log(values)
     resetForm()
   }
 

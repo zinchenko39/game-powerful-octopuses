@@ -6,6 +6,8 @@ import { StaticRouter } from 'react-router-dom/server'
 import { store } from './src/store'
 
 async function render(url: string) {
+  const preloadedState = store.getState()
+
   const renderResult = renderToString(
     <React.StrictMode>
       <Provider store={store}>
@@ -15,7 +17,7 @@ async function render(url: string) {
       </Provider>
     </React.StrictMode>
   )
-  return [renderResult]
+  return [preloadedState, renderResult]
 }
 
 export { render }

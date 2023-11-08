@@ -24,7 +24,7 @@ export class AuthService {
       `${this.url}/signup`,
       { ...args }
     )
-    console.log(data)
+
     if ('id' in data) {
       return data
     } else {
