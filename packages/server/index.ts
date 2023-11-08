@@ -88,9 +88,7 @@ async function getSSRIndexHTML(
     ssrModule = await import(CLIENT_DIST_SSR_PATH)
   }
 
-  const answer = await ssrModule.render(url)
-
-  const [initialState, appHtml] = answer
+  const [initialState, appHtml] = await ssrModule.render(url)
 
   const initStateSerialized = jsesc(JSON.stringify(initialState), {
     json: true,
