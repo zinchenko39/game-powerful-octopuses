@@ -11,6 +11,5 @@ export const gameListSelector = (state: RootState): GameStateListType =>
 
 export const gameSelector = (state: RootState, id: string): GameStateType => {
   const games = gameListSelector(state)
-  console.log(games, ' games')
   return games[id]
 }

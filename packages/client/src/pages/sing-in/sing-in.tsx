@@ -17,8 +17,6 @@ export const SingIn = () => {
 
   const [fetch] = useLazyGetUserQuery()
 
-  const searchParams = new URLSearchParams(window.location.search)
-
   const handleSignIn = async (values: SignInProps) => {
     try {
       await signIn(values)
@@ -36,6 +34,8 @@ export const SingIn = () => {
   const handleBlur = () => setAnimation(true)
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search)
+
     const signInOauth = async () => {
       const code = searchParams.get('code')
 
