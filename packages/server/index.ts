@@ -101,8 +101,6 @@ async function getSSRIndexHTML(
     .replace(`<!--ssr-outlet-->`, appHtml)
     .replace('`<!--store-data-->`', initStateSerialized)
 
-  console.log(html, ' html')
-
   return html
 }
 
