@@ -1,13 +1,14 @@
+import styles from './sing-in.module.css'
+import { useEffect, useState } from 'react'
 import { Formik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button, Typography, Container } from '@mui/material'
+import { Button, Typography, Container, Divider } from '@mui/material'
 import { CustomTextField } from '../../components/custom-text-field'
 import { singInInitialValues } from '../../constants/initial-values'
 import { singInValidationSchema } from '../../constants/validation-schema'
-import { SignInProps } from '../../services'
-import styles from './sing-in.module.css'
-import { useState } from 'react'
+import { OAuthService, SignInProps } from '../../services'
 import { useLazyGetUserQuery, useSignInMutation } from '../../store/api'
+import { OAuth } from '../../components'
 
 export const SingIn = () => {
   const navigation = useNavigate()
@@ -31,6 +32,20 @@ export const SingIn = () => {
   const handleFocus = () => setAnimation(false)
 
   const handleBlur = () => setAnimation(true)
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search)
+
+    const signInOauth = async () => {
+      const code = searchParams.get('code')
+
+      if (code) {
+        await OAuthService.signInOauth({ code })
+        fetch()
+      }
+    }
+    signInOauth()
+  }, [])
 
   return (
     <Formik
@@ -65,9 +80,11 @@ export const SingIn = () => {
                     className={styles.submitButton}>
                     Войти
                   </Button>
+                  <Divider textAlign="center">или</Divider>
                   <Link to="/sign-up">Еще нет аккаунта?</Link>
                 </div>
               </form>
+              <OAuth />
             </div>
           </Container>
         </div>

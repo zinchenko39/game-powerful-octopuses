@@ -12,7 +12,7 @@ const theme = createTheme({
   },
 })
 
-function App() {
+export const App = () => {
   useEffect(() => {
     Notification.requestPermission().then(permission => {
       console.log(permission)
@@ -22,14 +22,12 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <BrowserRouter>
-          <ErrorBoundary>
-            <Router />
-          </ErrorBoundary>
-        </BrowserRouter>
+        <ErrorBoundary>
+          <Router />
+        </ErrorBoundary>
       </div>
     </ThemeProvider>
   )
 }
 
-export default App
+//export default App
