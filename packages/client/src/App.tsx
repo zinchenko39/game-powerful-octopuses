@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react'
 import './App.css'
 import { BrowserRouter } from 'react-router-dom'
 import { Router } from './router'
@@ -12,6 +13,12 @@ const theme = createTheme({
 })
 
 function App() {
+  useEffect(() => {
+    Notification.requestPermission().then(permission => {
+      console.log(permission)
+    })
+  }, [])
+
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
