@@ -18,7 +18,6 @@ export const gameBoardsReducer = createSlice({
   initialState,
   reducers: {
     addGameBoard: (state, action: PayloadAction<{ boardId: string }>) => {
-      console.log(action.payload, ' action.payload')
       const boardId = action.payload.boardId
 
       if (state[boardId]) return

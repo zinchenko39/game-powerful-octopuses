@@ -3,7 +3,7 @@ import { moveCar } from './move-car'
 import { GameInfoType } from './types'
 import { cloneMap } from '../utils/clone-map'
 
-let currentFreezeSteps = 0;
+let currentFreezeSteps = 0
 
 export const moveMap = (gameInfo: GameInfoType, playerIds: (1 | 2)[]) => {
   const mapLink = gameInfo.map
@@ -12,7 +12,7 @@ export const moveMap = (gameInfo: GameInfoType, playerIds: (1 | 2)[]) => {
   currentFreezeSteps += 1
 
   if (currentFreezeSteps >= freezeSteps) {
-    currentFreezeSteps = 0;
+    currentFreezeSteps = 0
 
     gameInfo.step += 1
 

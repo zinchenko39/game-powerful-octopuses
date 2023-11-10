@@ -76,3 +76,5 @@
 `docker compose up {sevice_name}`, например `docker compose up server`
 
 [Документация](docs/README.md)
+
+8 спринт
