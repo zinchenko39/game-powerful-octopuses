@@ -6,10 +6,11 @@ import * as path from 'path'
 dotenv.config()
 
 import express from 'express'
-import { createClientAndConnect } from './db'
+import { sequelize } from './db'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
 import jsesc from 'jsesc'
+import router from './routes/router'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 const CLIENT_PATH = path.resolve(__dirname + '/../client')
@@ -18,12 +19,19 @@ const CLIENT_DIST_SSR_PATH = path.resolve(
   __dirname + '/../client/dist-ssr/client.cjs'
 )
 
-createClientAndConnect()
-
 async function startServer() {
   const app = express()
   app.use(cors())
+  app.use(express.json())
+
   const port = Number(process.env.SERVER_PORT) || 3001
+
+  if (sequelize) {
+    await sequelize.authenticate()
+    await sequelize.sync()
+  }
+
+  app.use('/api/v2', router)
 
   let viteServer: ViteDevServer
 
