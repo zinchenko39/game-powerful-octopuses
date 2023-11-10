@@ -26,10 +26,8 @@ async function startServer() {
 
   const port = Number(process.env.SERVER_PORT) || 3001
 
-  if (sequelize) {
-    await sequelize.authenticate()
-    await sequelize.sync()
-  }
+  await sequelize.authenticate()
+  await sequelize.sync()
 
   app.use('/api/v2', router)
 
