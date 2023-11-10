@@ -42,7 +42,6 @@ export function GameMenu() {
       console.log(1)
       new Notification('Поздравляем!', {
         body: `Вы набрали ${scoreValue} очков, так держать!`,
-        // icon: '/path/to/icon.png', // опционально: путь к иконке уведомления
       })
     }
     setIsGameOver(true)
