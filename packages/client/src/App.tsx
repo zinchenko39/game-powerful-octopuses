@@ -6,21 +6,19 @@ import ErrorBoundary from './services/error-boundary'
 import { CssBaseline } from '@mui/material'
 import { useThemeContext } from './theme'
 
-function App() {
+export const App = () => {
   const { theme } = useThemeContext()
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="App">
-        <BrowserRouter>
-          <ErrorBoundary>
-            <Router />
-          </ErrorBoundary>
-        </BrowserRouter>
+        <ErrorBoundary>
+          <Router />
+        </ErrorBoundary>
       </div>
     </ThemeProvider>
   )
 }
 
-export default App
+//export default App

@@ -4,6 +4,6 @@ import { fakeBaseQuery } from '../../utils'
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fakeBaseQuery(),
-  tagTypes: ['USER'],
+  tagTypes: ['USER', 'LEADERBOARD'],
   endpoints: () => ({}),
 })

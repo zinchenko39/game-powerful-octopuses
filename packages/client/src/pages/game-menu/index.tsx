@@ -8,13 +8,19 @@ import { RouterName } from '../../router/types'
 import { useDispatch } from 'react-redux'
 import { updateResultScore } from '../../store/result-score'
 import { useFullScreen } from '../../hooks/use-full-screen'
+import { usePostScoreMutation } from '../../store/api/leader-board-api/leader-board-api'
+import { useUser } from '../../hooks'
 
 const boardId = 'boardId'
 
 export function GameMenu() {
   const dispatch = useDispatch()
+
   const [showCountdown, setShowCountdown] = useState(true)
   const [isGameOver, setIsGameOver] = useState(false)
+
+  const user = useUser()
+  const [postScore] = usePostScoreMutation()
 
   const navigate = useNavigate()
   const [changeFullScreen, textContent] = useFullScreen()
@@ -25,6 +31,13 @@ export function GameMenu() {
 
   const handleEndGame = (scoreValue: number) => {
     dispatch(updateResultScore(scoreValue))
+
+    postScore({
+      data: {
+        points: scoreValue,
+        name: user?.email || 'Неизвестный игрок',
+      },
+    })
 
     setIsGameOver(true)
   }

@@ -13,7 +13,6 @@ export const resultScoreSlice = createSlice({
   initialState,
   reducers: {
     updateResultScore: (state, action: PayloadAction<number>) => {
-      console.log(action.payload, ' action.payload')
       state.score = action.payload
     },
     resetResultScore: state => {

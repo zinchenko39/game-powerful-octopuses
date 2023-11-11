@@ -20,31 +20,6 @@ type RunDrawGameMapProps = {
 //     [null, null, null],
 // ]
 
-const imgCar = new Image()
-imgCar.width = 200
-imgCar.height = 200
-imgCar.src = car
-
-const imgCar2 = new Image()
-imgCar2.width = 200
-imgCar2.height = 200
-imgCar2.src = car2
-
-const imgCar1and2 = new Image()
-imgCar1and2.width = 200
-imgCar1and2.height = 200
-imgCar1and2.src = car1and2
-
-const imgBarrier = new Image()
-imgBarrier.width = 100
-imgBarrier.height = 100
-imgBarrier.src = barrier
-
-const imgBonus = new Image()
-imgBonus.width = 100
-imgBonus.height = 100
-imgBonus.src = bonus
-
 export const drawGameMap = ({
   contextLink,
   animationTime,
@@ -52,6 +27,31 @@ export const drawGameMap = ({
 }: RunDrawGameMapProps) => {
   const { map, step: points, isMistake } = infoLink
   if (!map) return
+
+  const imgCar = new Image()
+  imgCar.width = 200
+  imgCar.height = 200
+  imgCar.src = car
+
+  const imgCar2 = new Image()
+  imgCar2.width = 200
+  imgCar2.height = 200
+  imgCar2.src = car2
+
+  const imgCar1and2 = new Image()
+  imgCar1and2.width = 200
+  imgCar1and2.height = 200
+  imgCar1and2.src = car1and2
+
+  const imgBarrier = new Image()
+  imgBarrier.width = 100
+  imgBarrier.height = 100
+  imgBarrier.src = barrier
+
+  const imgBonus = new Image()
+  imgBonus.width = 100
+  imgBonus.height = 100
+  imgBonus.src = bonus
 
   map.forEach((row, coordinateY) => {
     row.forEach((cell, coordinateX) => {
