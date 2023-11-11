@@ -1,7 +1,12 @@
 import { Sequelize } from 'sequelize'
 
-const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } =
-  process.env
+const {
+  POSTGRES_USER,
+  POSTGRES_PASSWORD,
+  POSTGRES_DB,
+  POSTGRES_PORT,
+  POSTGRES_HOST,
+} = process.env
 
 export const sequelize = new Sequelize(
   POSTGRES_DB || '', //Название базы данных
@@ -9,7 +14,7 @@ export const sequelize = new Sequelize(
   POSTGRES_PASSWORD || '', //Пароль
   {
     dialect: 'postgres',
-    host: 'localhost',
+    host: POSTGRES_HOST,
     port: Number(POSTGRES_PORT) || 0,
   }
 )
