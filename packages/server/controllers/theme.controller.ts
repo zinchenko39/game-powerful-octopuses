@@ -6,16 +6,22 @@ export class ThemeController {
     try {
       const currentUser = res.locals.user
 
-      Theme.findOne({ where: { userId: currentUser?.id } }).then(
-        async function (obj) {
-          let theme
-          if (obj) theme = obj
-          else {
-            theme = await Theme.create({ userId: currentUser?.id })
-          }
-          res.status(200).send(theme)
-        }
-      )
+      // Theme.findOne({ where: { userId: currentUser?.id } }).then(
+      //   async function (obj) {
+      //     let theme
+      //     if (obj) theme = obj
+      //     else {
+      //       theme = await Theme.create({ userId: currentUser?.id })
+      //     }
+      //     res.status(200).send(theme)
+      //   }
+      // )
+
+      const [record] = await Theme.upsert({
+        userId: currentUser?.id,
+      })
+
+      res.status(200).send(record)
     } catch (e) {
       console.error(e)
       res.status(500).send('Внутренняя ошибка сервера')
