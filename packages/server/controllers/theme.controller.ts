@@ -28,19 +28,12 @@ export class ThemeController {
 
       const { body } = req
 
-      Theme.findOne({ where: { userId: currentUser?.id } }).then(
-        async function (obj) {
-          let theme
-          if (obj) theme = await obj.update({ theme: body.theme })
-          else {
-            theme = await Theme.create({
-              userId: currentUser?.id,
-              theme: body.theme,
-            })
-          }
-          res.status(200).send(theme)
-        }
-      )
+      const [record] = await Theme.upsert({
+        userId: currentUser.id,
+        theme: body.theme,
+      })
+
+      res.status(200).send(record)
     } catch (e) {
       console.error(e)
       res.status(500).send('Внутренняя ошибка сервера')
