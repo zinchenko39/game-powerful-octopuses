@@ -19,10 +19,6 @@ export interface LeaderboardItem {
 
 export type LeaderboardServerResponse = LeaderboardServerResponseItem[]
 
-export interface RequestError {
-  reason: string
-}
-
 export interface LeaderboardServerResponseItem {
   data: LeaderboardItem
 }
