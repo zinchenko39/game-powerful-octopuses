@@ -7,12 +7,10 @@
     <title>{TODO: Set title :) }</title>
     <script>
       try {
-        window.__PRELOADED_STATE__ = JSON.parse(`<!--store-data-->`);
+        window.__PRELOADED_STATE__ = JSON.parse(`<!--store-data-->`)
+      } catch (exp) {
+        console.error('without __PRELOADED_STATE__')
       }
-      catch(exp) { 
-        console.error("without __PRELOADED_STATE__");
-      }
-
     </script>
   </head>
   <body>
