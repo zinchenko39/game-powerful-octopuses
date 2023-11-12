@@ -9,27 +9,33 @@ export const theme = {
   },
 }
 
-export const useColorTheme = async () => {
+const THEME_KEY = 'theme'
+
+export const useColorTheme = () => {
   const user = useUser()
 
   const [mode, setMode] = useState<PaletteMode>('light')
 
   useEffect(() => {
     const fetchTheme = async () => {
-      if (user) {
-        const themeFromBackend = await ThemeService.getTheme(user.id)
-        setMode(themeFromBackend)
-      }
+      const themeFromBackend = await ThemeService.getTheme()
       if (typeof window !== 'undefined') {
-        setMode(localStorage.getItem('theme') === 'dark' ? 'dark' : 'light')
+        const isValidTheme =
+          typeof themeFromBackend === 'string' &&
+          ['light', 'dark'].includes(themeFromBackend)
+        if (isValidTheme) {
+          setMode(themeFromBackend)
+        } else {
+          setMode(localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light')
+        }
       }
     }
     fetchTheme()
-  }, [user])
+  }, [])
 
   const toggleColorMode = () => {
     const newMode = mode === 'light' ? 'dark' : 'light'
-    window.localStorage.setItem('theme', newMode)
+    window.localStorage.setItem(THEME_KEY, newMode)
     setMode(newMode)
     if (user) {
       ThemeService.saveTheme(user.id, newMode)

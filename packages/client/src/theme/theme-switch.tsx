@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { FC, PropsWithChildren, createContext, useContext } from 'react'
 import { PaletteMode, Theme, createTheme } from '@mui/material'
 import { useColorTheme } from './use-theme'
@@ -12,6 +11,7 @@ type ThemeContextType = {
 export const ThemeContext = createContext<ThemeContextType>({
   mode: 'dark',
   theme: createTheme(),
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   toggleColorMode: () => {},
 })
 
