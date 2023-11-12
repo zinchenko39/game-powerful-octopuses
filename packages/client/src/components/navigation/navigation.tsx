@@ -1,5 +1,6 @@
 import { List, ListItemButton, ListItemText } from '@mui/material'
 import { Link } from 'react-router-dom'
+import { ToggleLight } from '../toggle-light'
 
 export const Navigation = () => {
   return (
@@ -27,6 +28,9 @@ export const Navigation = () => {
       </ListItemButton>
       <ListItemButton component={Link} to="/about">
         <ListItemText primary="Как играть?" />
+      </ListItemButton>
+      <ListItemButton>
+        <ToggleLight />
       </ListItemButton>
     </List>
   )

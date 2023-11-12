@@ -5,6 +5,7 @@ import { App } from './App'
 import './index.css'
 import { store, type RootState } from './store'
 import { BrowserRouter } from 'react-router-dom'
+import { ThemeContextProvider } from './theme'
 
 declare const window: Window &
   typeof globalThis & {
@@ -18,7 +19,9 @@ ReactDOM.hydrateRoot(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <ThemeContextProvider>
+          <App />
+        </ThemeContextProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
