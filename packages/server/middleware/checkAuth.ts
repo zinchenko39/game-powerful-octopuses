@@ -46,16 +46,20 @@ export default async (
   res: express.Response,
   next: any
 ) => {
-  const { uuid, authCookie } = req.cookies as YA_COOKIES
-  let user
+  try {
+    const { uuid, authCookie } = req.cookies as YA_COOKIES
+    let user
 
-  if (uuid && authCookie) {
-    user = await getCurrentUser(req.headers['cookie'])
+    if (uuid && authCookie) {
+      user = await getCurrentUser(req.headers['cookie'])
+    }
+
+    res.locals.user_id = user?.id
+    res.locals.user = user
+
+    next()
+  } catch {
+    res.status(401).send('Not authorized')
   }
-
-  res.locals.user_id = user?.id
-  res.locals.user = user
-
-  next()
   // return
 }
