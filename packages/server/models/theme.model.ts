@@ -8,7 +8,8 @@ export const Theme = sequelize.define('Theme', {
     primaryKey: true,
   },
   userId: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
+    unique: true,
     allowNull: false,
   },
   theme: {

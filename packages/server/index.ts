@@ -2,6 +2,8 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import * as fs from 'fs'
 import * as path from 'path'
+import cookieParser, { CookieParseOptions } from 'cookie-parser'
+import { createProxyMiddleware } from 'http-proxy-middleware'
 
 dotenv.config()
 
@@ -11,6 +13,8 @@ import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
 import jsesc from 'jsesc'
 import router from './routes/router'
+import checkAuth from './middleware/checkAuth'
+import { YANDEX_API_PATH, YANDEX_URL } from './constants'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 const CLIENT_PATH = path.resolve(__dirname + '/../client')
@@ -21,6 +25,19 @@ const CLIENT_DIST_SSR_PATH = path.resolve(
 
 async function startServer() {
   const app = express()
+
+  app.use(cookieParser() as (options: CookieParseOptions) => void)
+
+  app.use(
+    YANDEX_API_PATH,
+    createProxyMiddleware({
+      changeOrigin: true,
+      cookieDomainRewrite: {
+        '*': '',
+      },
+      target: YANDEX_URL,
+    })
+  )
   app.use(cors())
   app.use(express.json())
 
@@ -29,7 +46,14 @@ async function startServer() {
   await sequelize.authenticate()
   await sequelize.sync()
 
-  app.use('/api/v2', router)
+  app.use('/api/v1', async (req, res, next) => {
+    await checkAuth(req, res, next)
+    if (!res.locals.user) {
+      res.status(401).send('Not authorized')
+    }
+  })
+
+  app.use('/api/v1', router)
 
   let viteServer: ViteDevServer
 
