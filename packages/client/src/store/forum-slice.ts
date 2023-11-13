@@ -1,19 +1,31 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-// import {
-//   ITopic,
-//   QueryComment,
-//   QueryTopic,
-//   QueryUpdateComment,
-// } from '../../types/ForumTypes'
 
-const BASE_URL = 'http://localhost:3000/forum/v1/'
+const BASE_URL = 'http://localhost:3001/forum/v1/'
 const DEFAULT_ERROR = 'Произошла ошибка отправки данных'
+
+export interface ITopic {
+  topic_id: number
+  name: string
+  author_id: number
+  createdAt: string
+  updatedAt: string
+  comment: IComment[]
+}
+
+export interface IComment {
+  comment_id: number
+  author_id: number
+  topic_id: number
+  text: string
+  createdAt: string
+  updatedAt: string
+}
 
 export interface IForumInitialState {
   status: string
   error: string | undefined
-  topics: any
+  topics: ITopic[]
   topic: any | null
 }
 
@@ -41,6 +53,24 @@ export const getTopic = createAsyncThunk<any, number, { rejectValue: string }>(
     }
   }
 )
+
+export const getAllTopics = createAsyncThunk<
+  ITopic[],
+  undefined,
+  { rejectValue: string }
+>('forum/getAllTopics', async (_, { rejectWithValue }) => {
+  try {
+    const response = await axios.get(`${BASE_URL}topics`, {
+      withCredentials: true,
+    })
+    if (!response.request.status) {
+      return rejectWithValue(DEFAULT_ERROR)
+    }
+    return response.data
+  } catch (e) {
+    return rejectWithValue(DEFAULT_ERROR)
+  }
+})
 
 // export const setTopic = createAsyncThunk<
 //   boolean,

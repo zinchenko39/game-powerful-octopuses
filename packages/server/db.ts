@@ -1,5 +1,4 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript'
-import { Client } from 'pg'
 
 const {
   POSTGRES_USER,

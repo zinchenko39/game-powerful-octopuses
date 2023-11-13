@@ -2,10 +2,14 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import * as fs from 'fs'
 import * as path from 'path'
+import bodyParser from 'body-parser'
+import { FORUM_PATH } from './constants'
+import { dbConnect } from './db'
 
 dotenv.config()
 
 import express from 'express'
+import TopicRoute from './routes/v1/topic'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
 import jsesc from 'jsesc'
@@ -18,12 +22,19 @@ const CLIENT_DIST_SSR_PATH = path.resolve(
 )
 import initModels from './init/initModels'
 
+const PATHS = {
+  FORUM: FORUM_PATH,
+}
+
 async function startServer() {
   const app = express()
   app.use(cors())
   const port = Number(process.env.SERVER_PORT) || 3001
 
   let viteServer: ViteDevServer
+
+  app.use(PATHS.FORUM, bodyParser.json())
+  app.use(TopicRoute)
 
   if (!isDev()) {
     app.use('/assets', express.static(path.resolve(CLIENT_DIST_PATH, 'assets')))
@@ -52,6 +63,8 @@ async function startServer() {
       express.static(CLIENT_DIST_PATH, { fallthrough: true, index: false })
     )
   }
+
+  await dbConnect()
 
   app.listen(port, () => {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`)

@@ -13,4 +13,5 @@ export const store = configureStore({
     getDefaultMiddleware().concat(apiSlice.middleware),
 })
 
+export type AppDispatch = ReturnType<typeof configureStore>['dispatch']
 export type RootState = ReturnType<typeof store.getState>

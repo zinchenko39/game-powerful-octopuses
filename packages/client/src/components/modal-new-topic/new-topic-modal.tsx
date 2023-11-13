@@ -6,7 +6,7 @@ import { newTopicValidationSchema } from '../../constants'
 import { CustomTextField } from '../custom-text-field'
 import { TopicDetailsProps } from '../../constants'
 import { useDispatch } from 'react-redux'
-import { setTopic } from '../../store/forum-slice'
+import { getAllTopics } from '../../store/forum-slice'
 
 type NewTopicModalProps = {
   isOpen: boolean
@@ -28,14 +28,6 @@ export const NewTopicModal: React.FC<NewTopicModalProps> = ({
     //будет добавлена логика создания новой темы
 
     console.log(values, ' values')
-
-    dispatch(
-      setTopic({
-        name,
-        author_id: user.id,
-        author_name: user.login,
-      })
-    )
   }
   const handleClose = () => {
     onClose()

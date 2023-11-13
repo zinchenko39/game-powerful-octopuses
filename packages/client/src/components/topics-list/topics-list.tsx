@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import {
   Typography,
@@ -7,13 +9,25 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   Box,
+  Button,
 } from '@mui/material'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import CommentIcon from '@mui/icons-material/Comment'
 import { topics } from '../../pages/forum-page/dataFake'
+import { getAllTopics } from '../../store/forum-slice'
+import { get } from 'lodash'
+import { AppDispatch } from '../../store'
+import { ForumService } from '../../services/forum-service/forum-service'
+
+export const useAppDispatch = () => useDispatch<AppDispatch>()
 
 export const TopicsList: React.FC = () => {
-  // тут будет получение всех тем из api, пока тут dummy
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    ForumService.getAllTopics()
+  }, [])
+  return <Button onClick={() => getAllTopics()}>Test</Button>
+
   return (
     <List sx={{ m: 3, px: 3, py: 2 }}>
       {topics.length === 0 ? (
