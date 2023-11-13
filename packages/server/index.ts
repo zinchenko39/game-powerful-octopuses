@@ -6,7 +6,6 @@ import * as path from 'path'
 dotenv.config()
 
 import express from 'express'
-import { createClientAndConnect } from './db'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
 import jsesc from 'jsesc'
@@ -17,8 +16,7 @@ const CLIENT_DIST_PATH = path.join(CLIENT_PATH, 'dist')
 const CLIENT_DIST_SSR_PATH = path.resolve(
   __dirname + '/../client/dist-ssr/client.cjs'
 )
-
-createClientAndConnect()
+import initModels from './init/initModels'
 
 async function startServer() {
   const app = express()
@@ -113,3 +111,4 @@ async function createViteDevServer(srcPath: string) {
 }
 
 startServer()
+initModels.init()

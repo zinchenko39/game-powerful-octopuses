@@ -5,6 +5,8 @@ import { newTopicInitialValues } from '../../constants'
 import { newTopicValidationSchema } from '../../constants'
 import { CustomTextField } from '../custom-text-field'
 import { TopicDetailsProps } from '../../constants'
+import { useDispatch } from 'react-redux'
+import { setTopic } from '../../store/forum-slice'
 
 type NewTopicModalProps = {
   isOpen: boolean
@@ -15,17 +17,30 @@ export const NewTopicModal: React.FC<NewTopicModalProps> = ({
   isOpen,
   onClose,
 }: NewTopicModalProps) => {
+  const dispatch = useDispatch()
+
   const handleCreateTopic = (
     values: TopicDetailsProps,
     { resetForm }: FormikHelpers<TopicDetailsProps>
   ) => {
-    resetForm()
-    onClose()
+    // resetForm()
+    // onClose()
     //будет добавлена логика создания новой темы
+
+    console.log(values, ' values')
+
+    dispatch(
+      setTopic({
+        name,
+        author_id: user.id,
+        author_name: user.login,
+      })
+    )
   }
   const handleClose = () => {
     onClose()
   }
+
   return (
     <Modal open={isOpen} onClose={handleClose}>
       <Box
