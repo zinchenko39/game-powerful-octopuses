@@ -53,7 +53,7 @@ export const LeaderBoard = () => {
                 <LeaderList
                   list={leaderboardData.map(item => ({
                     name: item.data.name || 'Неизвестный игрок',
-                    points: item.data?.powerfulOctopuses,
+                    points: item.data.points,
                   }))}
                 />
               )}
