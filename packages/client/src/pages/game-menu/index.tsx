@@ -38,7 +38,12 @@ export function GameMenu() {
         name: user?.email || 'Неизвестный игрок',
       },
     })
-
+    if (Notification.permission === 'granted') {
+      console.log(1)
+      new Notification('Поздравляем!', {
+        body: `Вы набрали ${scoreValue} очков, так держать!`,
+      })
+    }
     setIsGameOver(true)
   }
 
