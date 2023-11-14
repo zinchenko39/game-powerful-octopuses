@@ -3,7 +3,7 @@ import { sequelize } from '../db'
 
 export const Theme = sequelize.define('Theme', {
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
