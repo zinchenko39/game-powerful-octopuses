@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { Theme } from '../models/theme.model'
 
 export class ThemeController {
-  static async getTheme(req: Request, res: Response, next: NextFunction) {
+  static async getTheme(req: Request, res: Response) {
     try {
       const currentUser = res.locals.user
 
@@ -14,12 +14,10 @@ export class ThemeController {
     } catch (e) {
       console.error(e)
       res.status(500).send('Внутренняя ошибка сервера')
-    } finally {
-      next()
     }
   }
 
-  static async saveTheme(req: Request, res: Response, next: NextFunction) {
+  static async saveTheme(req: Request, res: Response) {
     try {
       const currentUser = res.locals.user
 
@@ -34,8 +32,6 @@ export class ThemeController {
     } catch (e) {
       console.error(e)
       res.status(500).send('Внутренняя ошибка сервера')
-    } finally {
-      next()
     }
   }
 }
