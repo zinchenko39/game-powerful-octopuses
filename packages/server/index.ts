@@ -26,6 +26,13 @@ const CLIENT_DIST_SSR_PATH = path.resolve(
 async function startServer() {
   const app = express()
 
+  app.use(
+    cors({
+      credentials: true,
+      origin: true,
+    })
+  )
+
   app.use(cookieParser() as (options: CookieParseOptions) => void)
 
   app.use(
@@ -38,7 +45,7 @@ async function startServer() {
       target: YANDEX_URL,
     })
   )
-  app.use(cors())
+
   app.use(express.json())
 
   const port = Number(process.env.SERVER_PORT) || 3001
@@ -48,9 +55,6 @@ async function startServer() {
 
   app.use('/api/v1', async (req, res, next) => {
     await checkAuth(req, res, next)
-    if (!res.locals.user) {
-      res.status(401).send('Not authorized')
-    }
   })
 
   app.use('/api/v1', router)
