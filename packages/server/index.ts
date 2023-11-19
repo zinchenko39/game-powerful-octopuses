@@ -75,6 +75,8 @@ async function startServer() {
 
     if (req.originalUrl.includes('/api/v1')) return
 
+    await checkAuth(req, res, next)
+
     try {
       const html = await getSSRIndexHTML(req, res, viteServer)
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
@@ -123,6 +125,8 @@ async function getSSRIndexHTML(
   } else {
     ssrModule = await import(CLIENT_DIST_SSR_PATH)
   }
+
+  console.log(res.locals)
 
   const [initialState, appHtml] = await ssrModule.render(url)
 
