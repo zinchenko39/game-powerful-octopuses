@@ -10,10 +10,25 @@ import {
 } from '@mui/material'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import CommentIcon from '@mui/icons-material/Comment'
-import { topics } from '../../pages/forum-page/dataFake'
+import { TopicService, TopicType } from '../../services/topic-service'
+import { useEffect, useState } from 'react'
 
 export const TopicsList: React.FC = () => {
-  // тут будет получение всех тем из api, пока тут dummy
+  const [topics, setTopics] = useState<TopicType[]>([])
+
+  useEffect(() => {
+    ;async () => {
+      const topics = await TopicService.getTopics()
+
+      if (Array.isArray(topics)) {
+        setTopics(topics)
+        return
+      }
+
+      console.error('Ошибка получения топиков: ', topics)
+    }
+  }, [])
+
   return (
     <List sx={{ m: 3, px: 3, py: 2 }}>
       {topics.length === 0 ? (
@@ -35,7 +50,7 @@ export const TopicsList: React.FC = () => {
             <ListItemIcon>
               <AccountBoxIcon />
             </ListItemIcon>
-            <ListItemText primary={topic.title} secondary={topic.autor} />
+            <ListItemText primary={topic.title} secondary={topic.userId} />
             <ListItemSecondaryAction>
               <ListItemIcon>
                 <CommentIcon />
@@ -46,7 +61,7 @@ export const TopicsList: React.FC = () => {
                 align="center"
                 color="text.secondary"
                 sx={{ width: '50%' }}>
-                {topic.comment}
+                {topic.title}
               </Typography>
             </ListItemSecondaryAction>
           </ListItemButton>
