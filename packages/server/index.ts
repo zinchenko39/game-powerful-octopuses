@@ -28,8 +28,8 @@ async function startServer() {
 
   app.use(
     cors({
-      credentials: true,
       origin: true,
+      credentials: true,
     })
   )
 
@@ -72,6 +72,8 @@ async function startServer() {
     if (req.originalUrl.indexOf('.') !== -1) {
       return
     }
+
+    if (req.originalUrl.includes('/api/v1')) return
 
     try {
       const html = await getSSRIndexHTML(req, res, viteServer)

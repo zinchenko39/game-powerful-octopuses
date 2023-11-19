@@ -50,8 +50,6 @@ export default async (
     const { uuid, authCookie } = req.cookies as YA_COOKIES
     let user
 
-    console.log(req.headers)
-
     if (uuid && authCookie) {
       user = await getCurrentUser(req.headers['cookie'])
     }

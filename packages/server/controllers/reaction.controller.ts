@@ -11,12 +11,16 @@ export class ReactionController {
         where: { userId: currentUser.id, commentId: body.commentId },
       }).then(async function (obj) {
         let reaction
-        if (obj)
+        if (obj) {
           reaction = await Reaction.update(
             { reaction: body.reaction },
-            { where: { userId: currentUser.id, commentId: body.commentId } }
+            {
+              where: { userId: currentUser.id, commentId: body.commentId },
+              returning: true,
+            }
           )
-        else {
+          reaction = reaction[1]
+        } else {
           reaction = await Reaction.create({
             userId: currentUser.id,
             commentId: body.commentId,

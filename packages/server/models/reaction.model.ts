@@ -10,7 +10,6 @@ export const Reaction = sequelize.define('Reaction', {
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    unique: true,
   },
   commentId: {
     type: DataTypes.INTEGER,
