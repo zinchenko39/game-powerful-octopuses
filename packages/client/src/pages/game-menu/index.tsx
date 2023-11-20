@@ -25,6 +25,8 @@ export function GameMenu() {
   const navigate = useNavigate()
   const [changeFullScreen, textContent] = useFullScreen()
 
+  const [playerIds, setPlayerIds] = useState<[1] | [1, 2]>([1])
+
   const handleEndCountdown = () => {
     setShowCountdown(false)
   }
@@ -55,9 +57,13 @@ export function GameMenu() {
   const handleGoToMainMenu = () => {
     navigate(RouterName.about)
   }
+  const handleChange = (value: React.ChangeEvent<HTMLInputElement>) => {
+    const valueInput = parseInt((value.target as HTMLInputElement).value)
+    setPlayerIds(valueInput === 1 ? [1] : [1, 2])
+  }
 
   if (showCountdown) {
-    return <Countdown onEnd={handleEndCountdown} />
+    return <Countdown onEnd={handleEndCountdown} handleChange={handleChange} />
   }
 
   return (
@@ -66,7 +72,7 @@ export function GameMenu() {
       <Game
         boardId={boardId}
         callbackEndGame={handleEndGame}
-        playerIds={[1, 2]}
+        playerIds={playerIds}
       />
       {isGameOver ? (
         <GameEnd
