@@ -10,6 +10,7 @@ import { updateResultScore } from '../../store/result-score'
 import { useFullScreen } from '../../hooks/use-full-screen'
 import { usePostScoreMutation } from '../../store/api/leader-board-api/leader-board-api'
 import { useUser } from '../../hooks'
+import { SelectPlayer } from '../../components/select-player/select-player'
 
 const boardId = 'boardId'
 
@@ -26,6 +27,7 @@ export function GameMenu() {
   const [changeFullScreen, textContent] = useFullScreen()
 
   const [playerIds, setPlayerIds] = useState<[1] | [1, 2]>([1])
+  const [showChoosePlayer, setShowChoosePlayer] = useState(true)
 
   const handleEndCountdown = () => {
     setShowCountdown(false)
@@ -52,18 +54,22 @@ export function GameMenu() {
   const handleRestartGame = () => {
     setIsGameOver(false)
 
-    setShowCountdown(true)
+    setShowChoosePlayer(true)
   }
   const handleGoToMainMenu = () => {
     navigate(RouterName.about)
   }
-  const handleChange = (value: React.ChangeEvent<HTMLInputElement>) => {
-    const valueInput = parseInt((value.target as HTMLInputElement).value)
-    setPlayerIds(valueInput === 1 ? [1] : [1, 2])
+  const handleSelectPlayer = (value: React.MouseEvent<HTMLButtonElement>) => {
+    const valueInput = value.currentTarget.value
+    setPlayerIds(valueInput === '1' ? [1] : [1, 2])
+    setShowChoosePlayer(false)
+    setShowCountdown(true)
   }
-
+  if (showChoosePlayer) {
+    return <SelectPlayer handleClick={handleSelectPlayer} />
+  }
   if (showCountdown) {
-    return <Countdown onEnd={handleEndCountdown} handleChange={handleChange} />
+    return <Countdown onEnd={handleEndCountdown} />
   }
 
   return (

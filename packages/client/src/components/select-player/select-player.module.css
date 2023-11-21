@@ -1,0 +1,29 @@
+.selectPlayer {
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+      45deg,
+      rgba(254, 107, 139, 0.5),
+      rgba(255, 142, 83, 0.5),
+      rgba(156, 39, 176, 0.5)
+    ),
+    linear-gradient(
+      135deg,
+      rgba(33, 150, 243, 0.5),
+      rgba(0, 230, 118, 0.5),
+      rgba(255, 23, 68, 0.5)
+    ),
+    linear-gradient(
+      225deg,
+      rgba(0, 230, 118, 0.5),
+      rgba(255, 23, 68, 0.5),
+      rgba(33, 150, 243, 0.5)
+    );
+}
+
+.button {
+  padding: 10px 20px;
+}
