@@ -26,8 +26,7 @@ export function GameMenu() {
   const navigate = useNavigate()
   const [changeFullScreen, textContent] = useFullScreen()
 
-  const [playerIds, setPlayerIds] = useState<[1] | [1, 2]>([1])
-  const [showChoosePlayer, setShowChoosePlayer] = useState(true)
+  const [playerIds, setPlayerIds] = useState<[1] | [1, 2] | null>(null)
 
   const handleEndCountdown = () => {
     setShowCountdown(false)
@@ -54,19 +53,20 @@ export function GameMenu() {
   const handleRestartGame = () => {
     setIsGameOver(false)
 
-    setShowChoosePlayer(true)
+    setPlayerIds(null)
   }
   const handleGoToMainMenu = () => {
     navigate(RouterName.about)
   }
   const handleSelectPlayer = (value: number) => {
     setPlayerIds(value === 1 ? [1] : [1, 2])
-    setShowChoosePlayer(false)
     setShowCountdown(true)
   }
-  if (showChoosePlayer) {
+
+  if (playerIds === null) {
     return <SelectPlayer handleClick={handleSelectPlayer} />
   }
+
   if (showCountdown) {
     return <Countdown onEnd={handleEndCountdown} />
   }
