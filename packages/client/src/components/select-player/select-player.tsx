@@ -3,7 +3,7 @@ import styles from './select-player.module.css'
 import React from 'react'
 
 type SelectPlayerProps = {
-  handleClick: (value: React.MouseEvent<HTMLButtonElement>) => void
+  handleClick: (value: number) => void
 }
 
 export const SelectPlayer: React.FC<SelectPlayerProps> = ({
@@ -14,16 +14,14 @@ export const SelectPlayer: React.FC<SelectPlayerProps> = ({
       <Button
         variant="contained"
         className={styles.button}
-        value={1}
-        onClick={event => handleClick(event)}>
+        onClick={() => handleClick(1)}>
         Один игрок
       </Button>
       <Button
         variant="contained"
         color="secondary"
         className={styles.button}
-        value={2}
-        onClick={event => handleClick(event)}>
+        onClick={() => handleClick(2)}>
         Два игрока
       </Button>
     </div>

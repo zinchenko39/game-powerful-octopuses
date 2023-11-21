@@ -59,9 +59,8 @@ export function GameMenu() {
   const handleGoToMainMenu = () => {
     navigate(RouterName.about)
   }
-  const handleSelectPlayer = (value: React.MouseEvent<HTMLButtonElement>) => {
-    const valueInput = value.currentTarget.value
-    setPlayerIds(valueInput === '1' ? [1] : [1, 2])
+  const handleSelectPlayer = (value: number) => {
+    setPlayerIds(value === 1 ? [1] : [1, 2])
     setShowChoosePlayer(false)
     setShowCountdown(true)
   }
