@@ -4,6 +4,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import cookieParser, { CookieParseOptions } from 'cookie-parser'
 import { createProxyMiddleware } from 'http-proxy-middleware'
+import helmet from 'helmet'
 
 dotenv.config()
 
@@ -27,6 +28,20 @@ async function startServer() {
   const app = express()
 
   app.use(cookieParser() as (options: CookieParseOptions) => void)
+
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          'https://cdn.jsdelivr.net/npm/@mui/material@5.2.5/dist/',
+        ],
+      },
+    })
+  )
 
   app.use(
     YANDEX_API_PATH,
