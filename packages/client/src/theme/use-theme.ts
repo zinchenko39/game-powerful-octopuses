@@ -11,6 +11,20 @@ export const theme = {
 
 const THEME_KEY = 'theme'
 
+const fetchTheme = async () => {
+  const themeFromBackend = await ThemeService.getTheme()
+
+  if (themeFromBackend === 'light' || themeFromBackend === 'dark') {
+    return themeFromBackend
+  }
+
+  const storageTheme = localStorage.getItem(THEME_KEY)
+
+  localStorage.getItem(THEME_KEY)
+
+  return storageTheme || 'light'
+}
+
 export const useColorTheme = () => {
   const user = useUser()
 
@@ -18,30 +32,35 @@ export const useColorTheme = () => {
     localStorage.getItem(THEME_KEY) || 'light'
   )
 
-  useEffect(() => {
-    const fetchTheme = async () => {
-      const themeFromBackend = await ThemeService.getTheme()
-      if (typeof window !== 'undefined') {
-        const isValidTheme =
-          typeof themeFromBackend === 'string' &&
-          ['light', 'dark'].includes(themeFromBackend)
-        if (isValidTheme) {
-          setMode(themeFromBackend)
-        } else {
-          setMode(localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light')
-        }
-      }
-    }
-    fetchTheme()
-  }, [])
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const toggleColorMode = () => {
+  useEffect(() => {
+    if (!user) return
+
+    setLoading(true)
+
+    ;(async () => {
+      const newMode = await fetchTheme()
+
+      if (mode !== newMode) setMode(newMode)
+
+      setLoading(false)
+    })()
+  }, [user])
+
+  const toggleColorMode = async () => {
+    setLoading(true)
+
     const newMode = mode === 'light' ? 'dark' : 'light'
+
     window.localStorage.setItem(THEME_KEY, newMode)
-    setMode(newMode)
+
     if (user) {
-      ThemeService.saveTheme(user.id, newMode)
+      await ThemeService.saveTheme(user.id, newMode)
     }
+
+    setMode(newMode)
+    setLoading(false)
   }
 
   const modifiedTheme = useMemo(
@@ -59,5 +78,6 @@ export const useColorTheme = () => {
     theme: modifiedTheme,
     toggleColorMode,
     mode,
+    loading,
   }
 }
