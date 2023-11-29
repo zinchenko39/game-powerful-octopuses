@@ -18,7 +18,7 @@ services:
       - ./tmp/pgdata:/var/lib/postgresql/data
   client:
     container_name: prakticum-client
-    image: prakticum-client
+    image: ghcr.io/zinchenko39/game_powerful_octopuses/game:client
     build:
       context: .
       dockerfile: Dockerfile.client
@@ -36,7 +36,7 @@ services:
     container_name: prakticum-server
     env_file:
       - .env
-    image: prackicum-server
+    image: ghcr.io/zinchenko39/game_powerful_octopuses/game:server
     build:
       context: .
       dockerfile: Dockerfile.server
