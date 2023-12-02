@@ -43,13 +43,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-push
+    environment: prod
     steps:
       - name: Pull and run
         uses: D3rHase/ssh-command-action@v0.2.2
         with:
-          host: ${{ secrets.prod.SSH_HOST }}
-          user: ${{ secrets.prod.SSH_USER }}
-          private_key: ${{ secrets.prod.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          user: ${{ secrets.SSH_USER }}
+          private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
             docker pull ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/server:${{ github.sha }}
             docker pull ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/client:${{ github.sha }}
