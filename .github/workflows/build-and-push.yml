@@ -52,3 +52,6 @@ jobs:
           private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
             docker pull ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/server:${{ github.sha }}
+            docker pull ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/client:${{ github.sha }}
+            docker run game_powerful_octopuses/client
+            docker run game_powerful_octopuses/server
