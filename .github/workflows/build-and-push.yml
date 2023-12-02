@@ -5,7 +5,6 @@ on:
     branches:
       - develop
 
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -40,3 +39,16 @@ jobs:
           file: Dockerfile.server
           push: true
           tags: ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/server:${{ github.sha }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    steps:
+      - name: Pull and run
+        uses: D3rHase/ssh-command-action@v0.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          user: ${{ secrets.SSH_USER }}
+          private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command: |
+            docker pull ghcr.io/${{ env.OWNER_LC }}/${{ github.event.repository.name }}/server:${{ github.sha }}
