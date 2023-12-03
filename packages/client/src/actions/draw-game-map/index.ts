@@ -20,6 +20,27 @@ type RunDrawGameMapProps = {
 //     [null, null, null],
 // ]
 
+let images: null | { [key: string]: HTMLImageElement } = null
+
+const getImage = (src: string, size?: number) => {
+  const img = new Image()
+  img.width = size || 200
+  img.height = size || 200
+  img.src = src
+
+  return img
+}
+
+const init = () => {
+  images = {
+    imgCar: getImage(car),
+    imgCar2: getImage(car2),
+    imgCar1and2: getImage(car1and2),
+    imgBarrier: getImage(barrier, 100),
+    imgBonus: getImage(bonus, 100),
+  }
+}
+
 export const drawGameMap = ({
   contextLink,
   animationTime,
@@ -28,30 +49,7 @@ export const drawGameMap = ({
   const { map, step: points, isMistake } = infoLink
   if (!map) return
 
-  const imgCar = new Image()
-  imgCar.width = 200
-  imgCar.height = 200
-  imgCar.src = car
-
-  const imgCar2 = new Image()
-  imgCar2.width = 200
-  imgCar2.height = 200
-  imgCar2.src = car2
-
-  const imgCar1and2 = new Image()
-  imgCar1and2.width = 200
-  imgCar1and2.height = 200
-  imgCar1and2.src = car1and2
-
-  const imgBarrier = new Image()
-  imgBarrier.width = 100
-  imgBarrier.height = 100
-  imgBarrier.src = barrier
-
-  const imgBonus = new Image()
-  imgBonus.width = 100
-  imgBonus.height = 100
-  imgBonus.src = bonus
+  if (!images) init()
 
   map.forEach((row, coordinateY) => {
     row.forEach((cell, coordinateX) => {
@@ -62,17 +60,17 @@ export const drawGameMap = ({
         const { type } = cell
 
         if (type === EntityTypes.barrier) {
-          currentImage = imgBarrier
+          currentImage = images?.imgBarrier
         } else if (type === EntityTypes.car) {
           const { playerIds } = cell
 
-          let currentImg = playerIds[0] === 1 ? imgCar : imgCar2
+          let currentImg = playerIds[0] === 1 ? images?.imgCar : images?.imgCar2
 
-          if (playerIds.length === 2) currentImg = imgCar1and2
+          if (playerIds.length === 2) currentImg = images?.imgCar1and2
 
           currentImage = currentImg
         } else if (type === EntityTypes.bonus) {
-          currentImage = imgBonus
+          currentImage = images?.imgBonus
         }
       } else if (isMistake) {
         color = 'Red'

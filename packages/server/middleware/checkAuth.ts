@@ -23,14 +23,11 @@ export const getCurrentUser = async (
   let user: IUser | undefined
 
   try {
-    const response = await axios.get(
-      `https://ya-praktikum.tech/api/v2/auth/user`,
-      {
-        headers: {
-          cookie: _cookieHeader,
-        },
-      }
-    )
+    const response = await axios.get(`http://localhost:3001/api/v2/auth/user`, {
+      headers: {
+        cookie: _cookieHeader,
+      },
+    })
     user = response.data
   } catch (exp) {
     const noAuth = exp instanceof AxiosError && exp.response?.status === 401
@@ -44,18 +41,26 @@ export const getCurrentUser = async (
 export default async (
   req: express.Request,
   res: express.Response,
-  next: any
+  next: express.NextFunction
 ) => {
-  const { uuid, authCookie } = req.cookies as YA_COOKIES
-  let user
+  try {
+    const { uuid, authCookie } = req.cookies as YA_COOKIES
+    let user
 
-  if (uuid && authCookie) {
-    user = await getCurrentUser(req.headers['cookie'])
+    if (uuid && authCookie) {
+      user = await getCurrentUser(req.headers['cookie'])
+    }
+
+    if (!uuid || !authCookie) {
+      throw new Error('')
+    }
+
+    res.locals.user_id = user?.id
+    res.locals.user = user
+
+    next()
+  } catch {
+    res.status(401).send('Not authorized')
   }
-
-  res.locals.user_id = user?.id
-  res.locals.user = user
-
-  next()
   // return
 }

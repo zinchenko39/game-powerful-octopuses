@@ -1,7 +1,25 @@
-import { Container, Paper, Typography } from '@mui/material'
+import { useEffect } from 'react'
+import {
+  Box,
+  Container,
+  Paper,
+  Typography,
+  CircularProgress,
+} from '@mui/material'
+import { useGetTeamLeaderboardMutation } from '../../store/api/leader-board-api/leader-board-api'
 import { LeaderList, Navigation } from '../../components'
 
 export const LeaderBoard = () => {
+  const [getTeamLeaderboard, { data: leaderboardData, isLoading }] =
+    useGetTeamLeaderboardMutation()
+
+  useEffect(() => {
+    getTeamLeaderboard({
+      cursor: 0,
+      limit: 10,
+    })
+  }, [])
+
   return (
     <>
       <Typography variant="h1" component="h3" align="center">
@@ -25,13 +43,22 @@ export const LeaderBoard = () => {
           <Typography variant="h4" component="h4" align="center">
             Таблица лидеров
           </Typography>
-          <LeaderList
-            list={[
-              { name: 'Игрок 1', points: 1920 },
-              { name: 'Игрок 2', points: 190 },
-              { name: 'Игрок 3', points: 20 },
-            ]}
-          />
+          {isLoading ? (
+            <Box display="flex" justifyContent="center" marginTop="50px">
+              <CircularProgress color="inherit" />
+            </Box>
+          ) : (
+            <>
+              {leaderboardData && (
+                <LeaderList
+                  list={leaderboardData.map(item => ({
+                    name: item.data.name || 'Неизвестный игрок',
+                    points: item.data.points,
+                  }))}
+                />
+              )}
+            </>
+          )}
         </Paper>
       </Container>
     </>

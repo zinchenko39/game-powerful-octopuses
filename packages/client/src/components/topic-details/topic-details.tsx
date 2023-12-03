@@ -11,15 +11,17 @@ import {
   Button,
 } from '@mui/material'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
-import { topics, comments } from '../../pages/forum-page/dataFake'
+import { comments } from '../../pages/forum-page/dataFake'
 import { newCommentInitialValues } from '../../constants'
 import { newCommentValidationSchema } from '../../constants'
 import { NewCommentProps } from '../../constants'
 import { CustomTextField } from '../custom-text-field'
+import { useEffect, useState } from 'react'
+import { TopicService, TopicType } from '../../services/topic-service'
 
 export const TopicDetails: React.FC = () => {
   const { topicId } = useParams()
-  const topic = topics.find(({ id }) => String(id) === topicId)
+  const [topic, setTopic] = useState<TopicType | null>(null)
 
   const handleAddComment = (
     values: NewCommentProps,
@@ -27,6 +29,41 @@ export const TopicDetails: React.FC = () => {
   ) => {
     resetForm()
   }
+
+  useEffect(() => {
+    ;async () => {
+      if (!topicId) return
+
+      const currentTopic = await TopicService.getTopic({ topicId })
+
+      if ('id' in currentTopic) {
+        setTopic(currentTopic)
+        return
+      }
+
+      console.error('Ошибка получения топиков: ', currentTopic)
+    }
+  }, [topicId])
+
+  const content = topic ? (
+    <Grid container spacing={0} sx={{ my: 2, height: 'max-content' }}>
+      <Grid item xs={1} sx={{ padding: 1 }}>
+        <Avatar>
+          <AccountBoxIcon />
+        </Avatar>
+        <Typography variant="subtitle2" color="text.secondary">
+          {topic?.userId}
+        </Typography>
+      </Grid>
+      <Grid item xs={11}>
+        <Typography variant="h6" color="initial" component="h1">
+          {topic?.title}
+        </Typography>
+      </Grid>
+    </Grid>
+  ) : (
+    <>нет данных о топике</>
+  )
 
   return (
     <main>
@@ -39,24 +76,7 @@ export const TopicDetails: React.FC = () => {
         </Box>
         <Typography color="text.primary">{topic?.title}</Typography>
       </Breadcrumbs>
-      <Grid container spacing={0} sx={{ my: 2, height: 'max-content' }}>
-        <Grid item xs={1} sx={{ padding: 1 }}>
-          <Avatar>
-            <AccountBoxIcon />
-          </Avatar>
-          <Typography variant="subtitle2" color="text.secondary">
-            {topic?.autor}
-          </Typography>
-        </Grid>
-        <Grid item xs={11}>
-          <Typography variant="h6" color="initial" component="h1">
-            {topic?.title}
-          </Typography>
-          <Typography variant="body1" color="initial">
-            {topic?.description}
-          </Typography>
-        </Grid>
-      </Grid>
+      {content}
       <Divider textAlign="left">Комментарии:</Divider>
       <Box sx={{ margin: 2, display: 'flex', flexDirection: 'row' }}>
         <Formik

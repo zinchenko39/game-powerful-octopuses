@@ -1,19 +1,24 @@
+import React, { useEffect } from 'react'
 import './App.css'
 import { BrowserRouter } from 'react-router-dom'
 import { Router } from './router'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-
+import { ThemeProvider } from '@mui/material/styles'
 import ErrorBoundary from './services/error-boundary'
-
-const theme = createTheme({
-  typography: {
-    fontFamily: '"Comic-Sans-MS-Pixel", sans-serif',
-  },
-})
+import { CssBaseline } from '@mui/material'
+import { useThemeContext } from './theme'
 
 export const App = () => {
+  useEffect(() => {
+    Notification.requestPermission().then(permission => {
+      console.log(permission)
+    })
+  }, [])
+
+  const { theme } = useThemeContext()
+
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <div className="App">
         <ErrorBoundary>
           <Router />
@@ -22,5 +27,3 @@ export const App = () => {
     </ThemeProvider>
   )
 }
-
-//export default App

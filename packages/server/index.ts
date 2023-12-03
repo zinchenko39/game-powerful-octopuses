@@ -2,14 +2,20 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import * as fs from 'fs'
 import * as path from 'path'
+import cookieParser, { CookieParseOptions } from 'cookie-parser'
+import { createProxyMiddleware } from 'http-proxy-middleware'
+import helmet from 'helmet'
 
 dotenv.config()
 
 import express from 'express'
-import { createClientAndConnect } from './db'
+import { sequelize } from './db'
 import { createServer as createViteServer } from 'vite'
 import type { ViteDevServer } from 'vite'
 import jsesc from 'jsesc'
+import router from './routes/router'
+import checkAuth from './middleware/checkAuth'
+import { YANDEX_API_PATH, YANDEX_URL } from './constants'
 
 const isDev = () => process.env.NODE_ENV === 'development'
 const CLIENT_PATH = path.resolve(__dirname + '/../client')
@@ -18,12 +24,55 @@ const CLIENT_DIST_SSR_PATH = path.resolve(
   __dirname + '/../client/dist-ssr/client.cjs'
 )
 
-createClientAndConnect()
-
 async function startServer() {
   const app = express()
-  app.use(cors())
+
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    })
+  )
+
+  app.use(cookieParser() as (options: CookieParseOptions) => void)
+
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          'https://cdn.jsdelivr.net/npm/@mui/material@5.2.5/dist/',
+        ],
+      },
+    })
+  )
+
+  app.use(
+    YANDEX_API_PATH,
+    createProxyMiddleware({
+      changeOrigin: true,
+      cookieDomainRewrite: {
+        '*': '',
+      },
+      target: YANDEX_URL,
+    })
+  )
+
+  app.use(express.json())
+
   const port = Number(process.env.SERVER_PORT) || 3001
+
+  await sequelize.authenticate()
+  await sequelize.sync()
+
+  app.use('/api/v1', async (req, res, next) => {
+    await checkAuth(req, res, next)
+  })
+
+  app.use('/api/v1', router)
 
   let viteServer: ViteDevServer
 
@@ -38,6 +87,10 @@ async function startServer() {
     if (req.originalUrl.indexOf('.') !== -1) {
       return
     }
+
+    if (req.originalUrl.includes('/api/v1')) return
+
+    await checkAuth(req, res, next)
 
     try {
       const html = await getSSRIndexHTML(req, res, viteServer)
@@ -87,6 +140,8 @@ async function getSSRIndexHTML(
   } else {
     ssrModule = await import(CLIENT_DIST_SSR_PATH)
   }
+
+  console.log(res.locals)
 
   const [initialState, appHtml] = await ssrModule.render(url)
 
