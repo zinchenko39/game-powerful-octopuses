@@ -27,6 +27,13 @@ const CLIENT_DIST_SSR_PATH = path.resolve(
 async function startServer() {
   const app = express()
 
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    })
+  )
+
   app.use(cookieParser() as (options: CookieParseOptions) => void)
 
   app.use(
@@ -53,7 +60,7 @@ async function startServer() {
       target: YANDEX_URL,
     })
   )
-  app.use(cors())
+
   app.use(express.json())
 
   const port = Number(process.env.SERVER_PORT) || 3001
@@ -63,9 +70,6 @@ async function startServer() {
 
   app.use('/api/v1', async (req, res, next) => {
     await checkAuth(req, res, next)
-    if (!res.locals.user) {
-      res.status(401).send('Not authorized')
-    }
   })
 
   app.use('/api/v1', router)
@@ -83,6 +87,10 @@ async function startServer() {
     if (req.originalUrl.indexOf('.') !== -1) {
       return
     }
+
+    if (req.originalUrl.includes('/api/v1')) return
+
+    await checkAuth(req, res, next)
 
     try {
       const html = await getSSRIndexHTML(req, res, viteServer)
@@ -132,6 +140,8 @@ async function getSSRIndexHTML(
   } else {
     ssrModule = await import(CLIENT_DIST_SSR_PATH)
   }
+
+  console.log(res.locals)
 
   const [initialState, appHtml] = await ssrModule.render(url)
 
