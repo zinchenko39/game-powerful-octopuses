@@ -5,8 +5,8 @@ import { newTopicInitialValues } from '../../constants'
 import { newTopicValidationSchema } from '../../constants'
 import { CustomTextField } from '../custom-text-field'
 import { TopicDetailsProps } from '../../constants'
-import { useDispatch } from 'react-redux'
-import { getAllTopics } from '../../store/forum-slice'
+import { TopicService } from '../../services/topic-service'
+import { useUser } from '../../hooks'
 
 type NewTopicModalProps = {
   isOpen: boolean
@@ -17,17 +17,23 @@ export const NewTopicModal: React.FC<NewTopicModalProps> = ({
   isOpen,
   onClose,
 }: NewTopicModalProps) => {
-  const dispatch = useDispatch()
+  const user = useUser()
 
-  const handleCreateTopic = (
+  const handleCreateTopic = async (
     values: TopicDetailsProps,
     { resetForm }: FormikHelpers<TopicDetailsProps>
   ) => {
-    // resetForm()
-    // onClose()
-    //будет добавлена логика создания новой темы
+    if (!user?.id) return
 
-    console.log(values, ' values')
+    const data = await TopicService.createTopic({
+      userId: user.id,
+      title: values.title,
+    })
+
+    if ('topicId' in data) {
+      resetForm()
+      onClose()
+    }
   }
   const handleClose = () => {
     onClose()

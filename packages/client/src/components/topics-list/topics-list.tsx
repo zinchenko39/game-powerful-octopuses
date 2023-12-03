@@ -9,24 +9,30 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   Box,
-  Button,
 } from '@mui/material'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import CommentIcon from '@mui/icons-material/Comment'
-import { topics } from '../../pages/forum-page/dataFake'
-import { getAllTopics } from '../../store/forum-slice'
-import { get } from 'lodash'
 import { AppDispatch } from '../../store'
-import { ForumService } from '../../services/forum-service/forum-service'
+
+import { TopicService, TopicType } from '../../services/topic-service'
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 
 export const TopicsList: React.FC = () => {
-  const dispatch = useAppDispatch()
+  const [topics, setTopics] = useState<TopicType[]>([])
+
   useEffect(() => {
-    ForumService.getAllTopics()
+    ;async () => {
+      const topics = await TopicService.getTopics()
+
+      if (Array.isArray(topics)) {
+        setTopics(topics)
+        return
+      }
+
+      console.error('Ошибка получения топиков: ', topics)
+    }
   }, [])
-  return <Button onClick={() => getAllTopics()}>Test</Button>
 
   return (
     <List sx={{ m: 3, px: 3, py: 2 }}>
@@ -49,7 +55,7 @@ export const TopicsList: React.FC = () => {
             <ListItemIcon>
               <AccountBoxIcon />
             </ListItemIcon>
-            <ListItemText primary={topic.title} secondary={topic.autor} />
+            <ListItemText primary={topic.title} secondary={topic.userId} />
             <ListItemSecondaryAction>
               <ListItemIcon>
                 <CommentIcon />
@@ -60,7 +66,7 @@ export const TopicsList: React.FC = () => {
                 align="center"
                 color="text.secondary"
                 sx={{ width: '50%' }}>
-                {topic.comment}
+                {topic.title}
               </Typography>
             </ListItemSecondaryAction>
           </ListItemButton>

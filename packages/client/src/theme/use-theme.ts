@@ -14,7 +14,9 @@ const THEME_KEY = 'theme'
 export const useColorTheme = () => {
   const user = useUser()
 
-  const [mode, setMode] = useState<PaletteMode>('light')
+  const [mode, setMode] = useState<string>(
+    localStorage.getItem(THEME_KEY) || 'light'
+  )
 
   useEffect(() => {
     const fetchTheme = async () => {
@@ -47,7 +49,7 @@ export const useColorTheme = () => {
       createTheme({
         ...theme,
         palette: {
-          mode: mode,
+          mode: mode as PaletteMode,
         },
       }),
     [mode]

@@ -14,7 +14,7 @@ export interface GetLeaderboardRequest {
 
 export interface LeaderboardItem {
   name: string
-  powerfulOctopuses: number
+  points: number
 }
 
 export type LeaderboardServerResponse = LeaderboardServerResponseItem[]
