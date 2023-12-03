@@ -3,7 +3,7 @@ import { sequelize } from '../db'
 
 export const Topic = sequelize.define('Topic', {
   id: {
-    type: DataTypes.INTEGER.UNSIGNED,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
