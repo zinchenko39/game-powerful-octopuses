@@ -11,10 +11,6 @@ export const Topic = sequelize.define('Topic', {
     type: DataTypes.STRING,
     unique: false,
   },
-  description: {
-    type: DataTypes.STRING,
-    unique: false,
-  },
   authorId: {
     type: DataTypes.INTEGER,
     allowNull: false,
