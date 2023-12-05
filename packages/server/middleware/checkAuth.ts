@@ -51,16 +51,16 @@ export default async (
       user = await getCurrentUser(req.headers['cookie'])
     }
 
-    if (!uuid || !authCookie) {
-      throw new Error('')
-    }
+    // if (!uuid || !authCookie) {
+    //   throw new Error('')
+    // }
 
     res.locals.user_id = user?.id
     res.locals.user = user
 
     next()
   } catch {
-    res.status(401).send('Not authorized')
+    res.status(401).send('Not authorized МАГАДАН')
   }
   // return
 }
