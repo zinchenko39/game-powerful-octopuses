@@ -13,6 +13,8 @@ import { NewTopicModal } from '../../components'
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined'
 
 export const TopicScreen: React.FC = () => {
+  const [key, setKey] = useState(0)
+
   const [isSpeedDialOpen, setIsSpeedDialOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const speedDialActions = [
@@ -38,7 +40,7 @@ export const TopicScreen: React.FC = () => {
         <Typography variant="h4" align="center">
           форум
         </Typography>
-        <TopicsList />
+        <TopicsList key={key} />
         <SpeedDial
           ariaLabel="SpeedDial"
           icon={<SpeedDialIcon />}
@@ -60,7 +62,11 @@ export const TopicScreen: React.FC = () => {
           ))}
         </SpeedDial>
       </Box>
-      <NewTopicModal isOpen={isModalOpen} onClose={toggleModal} />
+      <NewTopicModal
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+        callback={() => setKey(value => value + 1)}
+      />
     </Box>
   )
 }

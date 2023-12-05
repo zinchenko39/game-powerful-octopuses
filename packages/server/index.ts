@@ -74,39 +74,57 @@ async function startServer() {
 
   app.use('/api/v1', router)
 
-  let viteServer: ViteDevServer
+  // let viteServer: ViteDevServer
 
-  if (!isDev()) {
-    app.use('/assets', express.static(path.resolve(CLIENT_DIST_PATH, 'assets')))
-  } else {
-    viteServer = await createViteDevServer(CLIENT_PATH)
-    app.use(viteServer.middlewares)
-  }
+  // if (!isDev()) {
+  //   app.use('/assets', express.static(path.resolve(CLIENT_DIST_PATH, 'assets')))
+  // } else {
+  //   viteServer = await createViteDevServer(CLIENT_PATH)
+  //   app.use(viteServer.middlewares)
+  // }
 
-  app.use('*', async (req, res, next) => {
-    if (req.originalUrl.indexOf('.') !== -1) {
-      return
-    }
+  // app.use('*', async (req, res, next) => {
+  //   if (req.originalUrl.indexOf('.') !== -1) {
+  //     return
+  //   }
 
-    if (req.originalUrl.includes('/api/v1')) return
+  //   if (req.originalUrl.includes('/api/v1')) return
 
-    await checkAuth(req, res, next)
+  //   const isAuth = false;
 
-    try {
-      const html = await getSSRIndexHTML(req, res, viteServer)
-      res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
-    } catch (e) {
-      if (viteServer) viteServer.ssrFixStacktrace(e as Error)
-      next(e)
-    }
-  })
+  //   if (!isAuth) {
+  //     const url = req.originalUrl;
 
-  if (!isDev()) {
-    app.use(
-      '/',
-      express.static(CLIENT_DIST_PATH, { fallthrough: true, index: false })
-    )
-  }
+  //     console.log(url, ' urlaaaaaaaaaaa?')
+
+  //     if (url !== '/') {
+  //       res.redirect('/');
+  //     }
+  //   }
+
+  //   // await checkAuth(req, res, next)
+
+  //   try {
+  //     console.log(1)
+  //     const html = await getSSRIndexHTML(req, res, viteServer)
+
+  //     res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
+  //   } catch (e) {
+  //     console.log(2)
+  //     if (viteServer) viteServer.ssrFixStacktrace(e as Error)
+  //     next(e)
+  //   }
+  // })
+
+  // console.log(3)
+
+  // if (!isDev()) {
+  //   console.log(4)
+  //   app.use(
+  //     '/',
+  //     express.static(CLIENT_DIST_PATH, { fallthrough: true, index: false })
+  //   )
+  // }
 
   app.listen(port, () => {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`)
@@ -140,8 +158,6 @@ async function getSSRIndexHTML(
   } else {
     ssrModule = await import(CLIENT_DIST_SSR_PATH)
   }
-
-  console.log(res.locals)
 
   const [initialState, appHtml] = await ssrModule.render(url)
 

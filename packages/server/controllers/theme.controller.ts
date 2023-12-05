@@ -6,11 +6,15 @@ export class ThemeController {
     try {
       const currentUser = res.locals.user
 
-      const [record] = await Theme.upsert({
-        userId: currentUser?.id,
-      })
+      let options
 
-      res.status(200).send(record)
+      if (currentUser && currentUser.id) {
+        options = { where: { userId: currentUser } }
+      }
+
+      const userTheme = await Theme.findOne(options)
+
+      res.status(200).json(userTheme)
     } catch (e) {
       console.error(e)
       res.status(500).send('Внутренняя ошибка сервера')
@@ -19,16 +23,26 @@ export class ThemeController {
 
   static async saveTheme(req: Request, res: Response) {
     try {
-      const currentUser = res.locals.user
-
       const { body } = req
 
+      const currentUser = res.locals.user
+
+      let userId
+
+      if (currentUser && currentUser.id) {
+        userId = currentUser.id
+      } else {
+        const user = await Theme.findOne()
+
+        userId = user?.get('userId')
+      }
+
       const [record] = await Theme.upsert({
-        userId: currentUser.id,
+        userId: userId || body.userId,
         theme: body.theme,
       })
 
-      res.status(200).send(record)
+      res.status(200).json(record)
     } catch (e) {
       console.error(e)
       res.status(500).send('Внутренняя ошибка сервера')

@@ -27,7 +27,7 @@ export class ReactionController {
             reaction: body.reaction,
           })
         }
-        res.status(200).send(reaction)
+        res.status(200).json(reaction)
       })
     } catch (e) {
       console.error(e)
@@ -53,7 +53,7 @@ export class ReactionController {
         where: { commentId: params.commentId },
       })
 
-      res.status(200).send(reactions)
+      res.status(200).json(reactions)
     } catch (e) {
       console.error(e)
       res.status(500).send('Внутренняя ошибка сервера')
