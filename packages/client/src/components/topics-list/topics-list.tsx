@@ -7,31 +7,56 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   Box,
+  Button,
 } from '@mui/material'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 import CommentIcon from '@mui/icons-material/Comment'
 import { TopicService, TopicType } from '../../services/topic-service'
 import { useEffect, useState } from 'react'
 
+const TopicButton = ({ topic }: { topic: TopicType }) => (
+  <ListItemButton key={topic.id} component={Link} to={`/forum/${topic.id}`}>
+    <ListItemIcon>
+      <AccountBoxIcon />
+    </ListItemIcon>
+    <ListItemText primary={topic.title} secondary={topic.userId} />
+    <ListItemSecondaryAction>
+      <ListItemIcon>
+        <CommentIcon />
+      </ListItemIcon>
+      <Typography
+        component="div"
+        variant="body2"
+        align="center"
+        color="text.secondary"
+        sx={{ width: '50%' }}>
+        {topic.title}
+      </Typography>
+    </ListItemSecondaryAction>
+  </ListItemButton>
+)
+
 export const TopicsList: React.FC = () => {
   const [topics, setTopics] = useState<TopicType[]>([])
 
-  useEffect(() => {
-    ;async () => {
-      const topics = await TopicService.getTopics()
+  const fetchTopics = async () => {
+    const topics = await TopicService.getTopics()
 
-      if (Array.isArray(topics)) {
-        setTopics(topics)
-        return
-      }
-
-      console.error('Ошибка получения топиков: ', topics)
+    if (Array.isArray(topics)) {
+      setTopics(topics)
+      return
     }
+
+    console.error('Ошибка получения топиков: ', topics)
+  }
+
+  useEffect(() => {
+    fetchTopics()
   }, [])
 
-  return (
-    <List sx={{ m: 3, px: 3, py: 2 }}>
-      {topics.length === 0 ? (
+  if (!topics.length) {
+    return (
+      <List sx={{ m: 3, px: 3, py: 2 }}>
         <Box>
           <Typography
             variant="h4"
@@ -40,33 +65,17 @@ export const TopicsList: React.FC = () => {
             color={'text.secondary'}>
             тем нет, создайте новую...
           </Typography>
+          <Button onClick={fetchTopics}>обновить</Button>
         </Box>
-      ) : (
-        topics.map(topic => (
-          <ListItemButton
-            key={topic.id}
-            component={Link}
-            to={`/forum/${topic.id}`}>
-            <ListItemIcon>
-              <AccountBoxIcon />
-            </ListItemIcon>
-            <ListItemText primary={topic.title} secondary={topic.userId} />
-            <ListItemSecondaryAction>
-              <ListItemIcon>
-                <CommentIcon />
-              </ListItemIcon>
-              <Typography
-                component="div"
-                variant="body2"
-                align="center"
-                color="text.secondary"
-                sx={{ width: '50%' }}>
-                {topic.title}
-              </Typography>
-            </ListItemSecondaryAction>
-          </ListItemButton>
-        ))
-      )}
+      </List>
+    )
+  }
+
+  return (
+    <List sx={{ m: 3, px: 3, py: 2 }}>
+      {topics.map(topic => (
+        <TopicButton key={topic.id} topic={topic} />
+      ))}
     </List>
   )
 }

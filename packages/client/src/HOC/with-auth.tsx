@@ -19,21 +19,11 @@ export const withAuth = <T,>(
 
     const user = useUser()
 
-    const { isLoading, isUninitialized, status } = info
+    const { isUninitialized } = info
 
     useEffect(() => {
       if (!user || !isUninitialized) fetch()
     }, [])
-
-    if (isLoading || status !== 'fulfilled') {
-      return (
-        <div className={styles.loading}>
-          <Typography variant="h1" component="h3" align="center">
-            Loading...
-          </Typography>
-        </div>
-      )
-    }
 
     return <WrappedComponent {...props} isAuth={!!user} user={user} />
   }

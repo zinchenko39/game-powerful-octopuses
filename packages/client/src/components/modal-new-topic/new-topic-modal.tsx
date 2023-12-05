@@ -11,11 +11,13 @@ import { useUser } from '../../hooks'
 type NewTopicModalProps = {
   isOpen: boolean
   onClose: () => void
+  callback: () => void
 }
 
 export const NewTopicModal: React.FC<NewTopicModalProps> = ({
   isOpen,
   onClose,
+  callback,
 }: NewTopicModalProps) => {
   const user = useUser()
 
@@ -28,16 +30,22 @@ export const NewTopicModal: React.FC<NewTopicModalProps> = ({
     const data = await TopicService.createTopic({
       userId: user.id,
       title: values.title,
+      description: values.description,
     })
 
-    if ('topicId' in data) {
+    if ('id' in data) {
+      if (callback) callback()
+
       resetForm()
+
       onClose()
     }
   }
+
   const handleClose = () => {
     onClose()
   }
+
   return (
     <Modal open={isOpen} onClose={handleClose}>
       <Box
