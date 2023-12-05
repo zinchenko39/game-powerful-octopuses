@@ -31,7 +31,6 @@ export class TopicController {
       const topic = await Topic.create({
         authorId: req.body.userId,
         title: req.body.title,
-        description: req.body.description,
       })
 
       res.status(200).json(topic)
