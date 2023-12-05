@@ -9,7 +9,7 @@ export type TopicType = {
 }
 
 export class TopicService {
-  static url = `${BASE_API_URL}/topics`
+  static url = `${BASE_API_URL}/topic`
 
   static async getTopics(): Promise<TopicType[] | RequestError> {
     const { data } = await network.get<TopicType[] | RequestError>(
@@ -34,13 +34,15 @@ export class TopicService {
   static async createTopic({
     title,
     userId,
+    description,
   }: {
     title: string
     userId: number
+    description: string
   }): Promise<TopicType | RequestError> {
     const { data } = await network.post<TopicType | RequestError>(
       `${this.url}/create`,
-      { title, userId }
+      { title, userId, description }
     )
 
     return data
